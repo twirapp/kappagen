@@ -1,0 +1,15 @@
+{
+  "name": "kappagen",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "format": "prettier --write \"**/*.{js,ts,tsx,json}\""
+  },
+  "devDependencies": {
+    "typescript": "5.2.2",
+    "vite": "4.5.0"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "emotes": [
+    {
+      "svc": "t",
+      "url": "https://static-cdn.jtvnw.net/emoticons/v2/25/default/dark/3.0",
+      "str": "Kappa",
+      "pos": 10,
+      "scope": "g",
+      "width": 75,
+      "height": 84
+    },
+    {
+      "svc": "7",
+      "url": "https://cdn.7tv.app/emote/62c5c34724fb1819d9f08b4d/4x.webp",
+      "str": "vahui",
+      "pos": 10,
+      "scope": "c",
+      "width": 128,
+      "height": 128
+    },
+    {
+      "svc": "f",
+      "url": "https://cdn.frankerfacez.com/emote/666795/4",
+      "str": "Kloun2",
+      "pos": 10,
+      "scope": "c",
+      "width": 28,
+      "height": 28
+    }
+  ],
+  "animations": [
+    {
+      "style": "TheCube",
+      "prefs": {
+        "size": 0.8,
+        "center": true,
+        "rotations": 5,
+        "faces": false
+      },
+      "count": 150
+    },
+    {
+      "style": "Confetti",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Spiral",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Stampede",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Burst",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Crazy",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Speed",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Rise",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Fountain",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "SmallPyramid",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Pyramid",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Text",
+      "prefs": {
+        "message": [
+          "HYPE!"
+        ],
+        "time": 3
+      },
+      "count": 150
+    },
+    {
+      "style": "Fireworks",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "Conga",
+      "prefs": {},
+      "count": 150
+    },
+    {
+      "style": "StraightLine",
+      "prefs": {},
+      "count": 150
+    }
+  ]
+}
