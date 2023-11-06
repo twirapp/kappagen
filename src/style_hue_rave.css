@@ -1,0 +1,95 @@
+html {
+    animation: rave 3s linear infinite;
+}
+
+@keyframes rave {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    10% {
+        filter: hue-rotate(36deg);
+    }
+
+    20% {
+        filter: hue-rotate(72deg);
+    }
+
+    30% {
+        filter: hue-rotate(108deg);
+    }
+
+    40% {
+        filter: hue-rotate(144deg);
+    }
+
+    50% {
+        filter: hue-rotate(180deg);
+    }
+
+    60% {
+        filter: hue-rotate(216deg);
+    }
+
+    70% {
+        filter: hue-rotate(252deg);
+    }
+
+    80% {
+        filter: hue-rotate(288deg);
+    }
+
+    90% {
+        filter: hue-rotate(324deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+@keyframes antirave {
+    0% {
+        filter: hue-rotate(360deg);
+    }
+
+    10% {
+        filter: hue-rotate(324deg);
+    }
+
+    20% {
+        filter: hue-rotate(288deg);
+    }
+
+    30% {
+        filter: hue-rotate(252deg);
+    }
+
+    40% {
+        filter: hue-rotate(216deg);
+    }
+
+    50% {
+        filter: hue-rotate(180deg);
+    }
+
+    60% {
+        filter: hue-rotate(144deg);
+    }
+
+    70% {
+        filter: hue-rotate(108deg);
+    }
+
+    80% {
+        filter: hue-rotate(72deg);
+    }
+
+    90% {
+        filter: hue-rotate(36deg);
+    }
+
+    100% {
+        filter: hue-rotate(0deg);
+    }
+}
