@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "format": "prettier --write \"**/*.{js,ts,tsx,json}\""
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "typescript": "5.2.2",
