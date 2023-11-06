@@ -3,10 +3,6 @@ import "./style.css";
 
 interface Emote {
   url: string;
-  str: string;
-  pos: number;
-  width: number;
-  height: number;
 }
 
 interface AnimationParams {
@@ -31,10 +27,6 @@ declare global {
 
 const emote = {
   url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
-  str: "twir",
-  pos: 10,
-  width: 112,
-  height: 112,
 };
 
 const buttonKappagen = document.createElement("button");
