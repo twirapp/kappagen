@@ -10,6 +10,14 @@ export const kappagenAnimations = [
     count: 150,
   },
   {
+    style: "Text",
+    prefs: {
+      message: ["Twir"],
+      time: 3,
+    },
+    count: 150,
+  },
+  {
     style: "Confetti",
     prefs: {},
     count: 150,
@@ -30,21 +38,6 @@ export const kappagenAnimations = [
     count: 150,
   },
   {
-    style: "Crazy",
-    prefs: {},
-    count: 150,
-  },
-  {
-    style: "Speed",
-    prefs: {},
-    count: 150,
-  },
-  {
-    style: "Rise",
-    prefs: {},
-    count: 150,
-  },
-  {
     style: "Fountain",
     prefs: {},
     count: 150,
@@ -60,25 +53,12 @@ export const kappagenAnimations = [
     count: 150,
   },
   {
-    style: "Text",
-    prefs: {
-      message: ["Twir"],
-      time: 3,
-    },
-    count: 150,
-  },
-  {
     style: "Fireworks",
     prefs: {},
     count: 150,
   },
   {
     style: "Conga",
-    prefs: {},
-    count: 150,
-  },
-  {
-    style: "StraightLine",
     prefs: {},
     count: 150,
   },

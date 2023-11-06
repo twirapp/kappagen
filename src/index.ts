@@ -40,7 +40,6 @@ const emote = {
 const buttonKappagen = document.createElement("button");
 buttonKappagen.textContent = "Kappagen";
 buttonKappagen.addEventListener("click", () => {
-  window.emote.showEmotes();
   window.kappagen.show(
     [emote],
     kappagenAnimations[window.rnd(kappagenAnimations.length)]
