@@ -4,376 +4,14 @@
 <head>
   <meta charset="utf-8" />
   <title>Kappagen</title>
+  <link rel="stylesheet" type="text/css" href="src/style.css" />
   <style>
-    :root
-    {
-     --height: 0px;
-     --width: 0px;
-     --emote-height: 0px;
-     --emote-width: 0px;
-     --zoom-height: var(--emote-height);
-     --zoom-width: var(--emote-width);
-    }
-    body
-    {
-     margin: 0;
-     overflow: hidden;
-    }
-    img
-    {
-     box-sizing: border-box;
-     height: var(--emote-height);
-     width: var(--emote-width);
-    }
-    img.emote
-    {
-     position: fixed;
-     border: 0;
-     margin: 0;
-     padding: 0;
-     offset-rotate: 0deg;
-    }
-
-    div.scene
-    {
-     position: fixed;
-     border: 0;
-     margin: 0;
-     padding: 0;
-    }
-    div.scene.cube
-    {
-     height: var(--emote-height);
-     width: var(--emote-width);
-    }
-    div.scene div.cube
-    {
-     width: 100%;
-     height: 100%;
-     position: relative;
-     transform-style: preserve-3d;
-    }
-    div.scene div.cube div[data-face]
-    {
-     height: var(--emote-height);
-     width: var(--emote-width);
-    }
-    div.scene div.cube div[data-face] img
-    {
-     position: absolute;
-     transform: translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face]
-    {
-     position: absolute;
-     background-color: rgba(255, 255, 255, 0.2);
-    }
-    div.scene div.cube [data-face="front"]
-    {
-     transform: translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face="back"]
-    {
-     transform: rotateY(90deg) translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face="right"]
-    {
-     transform: rotateY(180deg) translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face="left"]
-    {
-     transform: rotateY(-90deg) translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face="top"]
-    {
-     transform: rotateX(90deg) translateZ(var(--cube-depth));
-    }
-    div.scene div.cube [data-face="bottom"]
-    {
-     transform: rotateX(-90deg) translateZ(var(--cube-depth));
-    }
-
-    div.scene img.dancer
-    {
-     text-align: center;
-     position: relative;
-     animation: dance 4s linear infinite;
-    }
-
-    @keyframes dance
-    {
-     0%
-     {
-      transform: translate(80%, 40%) rotate(30deg);
-     }
-     6%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     13%
-     {
-      transform: translate(20%, 40%) rotate(-30deg);
-     }
-     19%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     25%
-     {
-      transform: translate(80%, 40%) rotate(30deg);
-     }
-     31%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     38%
-     {
-      transform: translate(20%, 40%) rotate(-30deg);
-     }
-     44%
-     {
-      transform: translate(20%, 10%) rotate(-30deg);
-     }
-     50%
-     {
-      transform: translate(20%, 40%) rotate(-30deg);
-     }
-     56%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     63%
-     {
-      transform: translate(80%, 40%) rotate(30deg);
-     }
-     69%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     75%
-     {
-      transform: translate(20%, 40%) rotate(-30deg);
-     }
-     81%
-     {
-      transform: translate(50%, 10%) rotate(0deg);
-     }
-     88%
-     {
-      transform: translate(80%, 40%) rotate(30deg);
-     }
-     94%
-     {
-      transform: translate(80%, 10%) rotate(30deg);
-     }
-     100%
-     {
-      transform: translate(80%, 40%) rotate(30deg);
-     }
-    }
-
-    @keyframes wiggleL
-    {
-     33%
-     {
-      transform: translateX(-50%);
-     }
-     66%
-     {
-      transform: translateX(50%);
-     }
-    }
-    @keyframes wiggleR
-    {
-     33%
-     {
-      transform: translateX(50%);
-     }
-     66%
-     {
-      transform: translateX(-50%);
-     }
-    }
-
-    @keyframes speedL
-    {
-     0%
-     {
-      transform: scale(1, 1);
-     }
-     10%
-     {
-      transform: scale(0.6, 1);
-     }
-     15%
-     {
-      transform: scale(0.6, 1);
-     }
-     20%
-     {
-      transform: scale(1, 0.4);
-     }
-     100%
-     {
-      transform: scale(1, 0.4) translate(calc(-1 * var(--width) * 4), 0);
-     }
-    }
-    @keyframes speedR
-    {
-     0%
-     {
-      transform: scale(1, 1);
-     }
-     10%
-     {
-      transform: scale(0.6, 1);
-     }
-     15%
-     {
-      transform: scale(0.6, 1);
-     }
-     20%
-     {
-      transform: scale(1, 0.4);
-     }
-     100%
-     {
-      transform: scale(1, 0.4) translate(calc(var(--width) * 4), 0);
-     }
-    }
-
-    @keyframes dropL
-    {
-     0%
-     {
-      transform: translateY(-100%);
-     }
-     10%
-     {
-      transform: translateY(0%);
-     }
-     20%
-     {
-      transform: translateY(0%);
-     }
-     25%
-     {
-      transform: translateY(0%) rotate(45deg);
-     }
-     27%
-     {
-      transform: translateY(0%) rotate(35deg);
-     }
-     30%
-     {
-      transform: translateY(0%) rotate(45deg);
-     }
-     100%
-     {
-      transform: translateY(var(--height)) rotate(350deg);
-     }
-    }
-    @keyframes dropR
-    {
-     0%
-     {
-      transform: translateY(-100%);
-     }
-     10%
-     {
-      transform: translateY(0%);
-     }
-     20%
-     {
-      transform: translateY(0%);
-     }
-     25%
-     {
-      transform: translateY(0%) rotate(-45deg);
-     }
-     27%
-     {
-      transform: translateY(0%) rotate(-35deg);
-     }
-     30%
-     {
-      transform: translateY(0%) rotate(-45deg);
-     }
-     100%
-     {
-      transform: translateY(var(--height)) rotate(-350deg);
-     }
-    }
-
-    @keyframes confettiA
-    {
-     0%
-     {
-      transform: translateY(-100%) rotate3d(0.25, 0.5, 0, 0deg);
-     }
-     100%
-     {
-      transform: translateY(var(--height)) rotate3d(0.25, 0.5, 0, -4500deg);
-     }
-    }
-
-    @keyframes confettiB
-    {
-     0%
-     {
-      transform: translateY(-100%) rotate3d(0.25, 0.5, 0, 0deg);
-     }
-     100%
-     {
-      transform: translateY(var(--height)) rotate3d(0.25, 0, 0, -4500deg);
-     }
-    }
-
-    @keyframes confettiC
-    {
-     0%
-     {
-      transform: translateY(-100%) rotate3d(0.25, 0.5, 0, 0deg);
-     }
-     100%
-     {
-      transform: translateY(var(--height)) rotate3d(0.25, -0.5, 0, -4500deg);
-     }
-    }
-
-    @keyframes offsetPath
-    {
-     0%
-     {
-      offset-distance: 0%;
-     }
-     100%
-     {
-      offset-distance: 100%;
-     }
-    }
-
-    .eSize-1_000
-    {
-     --zoom-height: var(--emote-height);
-     --zoom-width: var(--emote-width);
-    }
-    .eSize-0_500
-    {
-     --zoom-height: calc(var(--emote-height) / 2);
-     --zoom-width: calc(var(--emote-width) / 2);
-    }
-    .eSize-2_000
-    {
-     --zoom-height: calc(var(--emote-height) * 2);
-     --zoom-width: calc(var(--emote-width) * 2);
-    }
-
+    /* WARNING: formatting this code or moving it to a file breaks some animations */
     [data-squash="no"]
     {
      transform: scale(1, 1);
     }
-
+ 
     [data-origin="center"]
     {
      transform-origin: center center;
@@ -401,396 +39,6 @@
     [data-origin="right"]
     {
      transform-origin: right center;
-    }
-
-    @keyframes fadeIn
-    {
-     0%
-     {
-      opacity: 0;
-     }
-     100% /* 8% */
-     {
-      opacity: 1;
-     }
-    }
-
-    @keyframes fadeOut
-    {
-     0% /* 95% */
-     {
-      opacity: 1;
-     }
-     100%
-     {
-      opacity: 0;
-     }
-    }
-
-    @keyframes noFadeOut
-    {
-     99%
-     {
-      opacity: 1;
-     }
-     100%
-     {
-      opacity: 0;
-     }
-    }
-
-    @keyframes zoomIn
-    {
-     0%
-     {
-      padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;
-     }
-     24% /* 4% */
-     {
-      padding: 0;
-     }
-     47% /* 8% */
-     {
-      padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;
-     }
-     71% /* 12% */
-     {
-      padding: 0;
-     }
-     88% /* 15% */
-     {
-      padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;
-     }
-     100% /* 17% */
-     {
-      padding: 0;
-     }
-    }
-
-    @keyframes zoomOut
-    {
-     0% /* 95% */
-     {
-      padding: 0;
-     }
-     100%
-     {
-      padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;
-     }
-    }
-
-    #notices
-    {
-     position: absolute;
-     top: 8px;
-     left: 8px;
-     width: 35em;
-    }
-    #notices #badge
-    {
-     position: fixed;
-     font-family: sans-serif;
-     font-size: 14px;
-     left: 8px;
-     width: 16px;
-     height: 16px;
-     display: inline-block;
-     border: 1.5px solid #000000;
-     border-radius: 8px;
-     text-align: center;
-     background-color: #E0E0E0;
-     color: #000000;
-     opacity: 0.75;
-     transition: opacity 1s ease-in;
-     cursor: default;
-    }
-    #notices #badge[data-alerts="0"]
-    {
-     opacity: 0;
-    }
-    #notices #badge.fader
-    {
-     transition: all 300ms ease-out;
-    }
-    #notices #badge.fade
-    {
-     opacity: 0;
-    }
-    #notices .noticeLine
-    {
-     position: relative;
-     font-family: sans-serif;
-     font-size: 14px;
-     border: 1.5px solid #000000;
-     border-radius: 8px;
-     padding-left: 24px;
-     padding-right: 8px;
-     margin-left: 24px;
-     margin-bottom: 4px;
-     white-space: nowrap;
-     max-width: fit-content;
-     width: 100%;
-     transition: all 300ms ease-out;
-     opacity: 0.75;
-     cursor: default;
-    }
-    #notices .noticeLine:hover
-    {
-     opacity: 1;
-    }
-    #notices .noticeLine.hide
-    {
-     width: 0%;
-     overflow: hidden;
-    }
-    #notices .noticeLine.fader
-    {
-     transition: opacity 0.5s;
-     opacity: 0.75;
-    }
-    #notices .noticeLine.fader:hover
-    {
-     opacity: 1;
-    }
-    #notices .noticeLine.fader.fade
-    {
-     opacity: 0;
-    }
-    #notices .noticeLine.fader.faded
-    {
-     height: 0;
-     margin: 0;
-     padding: 0;
-     border: 0;
-    }
-    #notices .noticeInfo
-    {
-     background-image: linear-gradient(to right, transparent 0, transparent 20px, #E0E0E0 24px);
-    }
-    #notices .noticeWarning
-    {
-     background-image: linear-gradient(to right, transparent 0, transparent 20px, #FFFF00 24px);
-    }
-    #notices .noticeError
-    {
-     color: #FFFFFF;
-     background-image: linear-gradient(to right, transparent 0, transparent 20px, #FF0000 24px);
-    }
-    #notices .noticeError a
-    {
-     color: #FFFF00;
-     text-decoration: none;
-    }
-    #notices .noticeError a:hover
-    {
-     color: #FFFFC0;
-    }
-    #notices .global
-    {
-     background-color: #FFFFFF;
-    }
-    #notices .sTwitch
-    {
-     background-color: #7D5BBE;
-    }
-    #notices .sTwitch:after
-    {
-     position: absolute;
-     top: 0;
-     left: 7px;
-     content: 'T';
-     color: #FFFFFF;
-     font-size: 14px;
-    }
-    #notices .sYouTube
-    {
-     background-color: #E93223;
-    }
-    #notices .sYouTube:after
-    {
-     position: absolute;
-     top: 0;
-     left: 2px;
-     content: 'YT';
-     color: #FFFFFF;
-     font-size: 14px;
-    }
-    #notices .sKick
-    {
-     background-color: #53FC18;
-    }
-    #notices .sKick:after
-    {
-     position: absolute;
-     top: 0;
-     left: 7px;
-     content: 'K';
-     color: #000000;
-     font-size: 14px;
-    }
-    #notices .tStreamElements
-    {
-     background-color: #0000FF;
-    }
-    #notices .tStreamElements:after
-    {
-     position: absolute;
-     top: 0;
-     left: 2px;
-     content: 'SE';
-     color: #FFFFFF;
-     font-size: 14px;
-    }
-    #notices .tStreamlabs
-    {
-     background-color: #80F5D2;
-    }
-    #notices .tStreamlabs:after
-    {
-     position: absolute;
-     top: 0;
-     left: 3px;
-     content: 'SL';
-     color: #000000;
-     font-size: 14px;
-    }
-    #notices .eBTTV
-    {
-     background-color: #FF0000;
-    }
-    #notices .eBTTV:after
-    {
-     position: absolute;
-     top: 0;
-     left: 7px;
-     content: 'B';
-     color: #FFFFFF;
-     font-size: 14px;
-    }
-    #notices .e7TV
-    {
-     background-color: #00FFFF;
-    }
-    #notices .e7TV:after
-    {
-     position: absolute;
-     top: 0;
-     left: 8px;
-     content: '7';
-     color: #000000;
-     font-size: 14px;
-    }
-
-    button
-    {
-     transition: background 0.12s ease-in, color 0.12s ease-in;
-     white-space: nowrap;
-     cursor: pointer;
-     color: #FFFFFF;
-     border-radius: 4px;
-     border: none;
-     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-     z-index: 1000;
-     opacity: 1;
-     position: absolute;
-    }
-    button.hidden
-    {
-     opacity: 0;
-    }
-    button:focus
-    {
-     outline: none;
-    }
-
-    button.twitch
-    {
-     background-color: #7D5BBE;
-    }
-    button.twitch:focus, button.twitch:hover
-    {
-     background-color: #772CE8;
-    }
-    button.twitch:active
-    {
-     background-color: #5C16C5;
-    }
-
-    button.kick
-    {
-     background-color: #00FF00;
-     color: #000000;
-    }
-    button.kick:focus, button.kick:hover
-    {
-     background-color: #00D000;
-    }
-    button.kick:active
-    {
-     background-color: #60FF60;
-    }
-
-    button.youtube
-    {
-     background-color: #E93223;
-    }
-    button.youtube:focus, button.youtube:hover
-    {
-     background-color: #D00000;
-    }
-    button.youtube:active
-    {
-     background-color: #FF0000;
-    }
-
-    button.login
-    {
-     transition: opacity 0.5s;
-     left: calc(50% - 6.5em);
-     width: 13em;
-     font-size: 6vmin;
-     padding: 0.5em;
-    }
-    button.login span
-    {
-     font-size: 40%;
-     padding: 0;
-     position: absolute;
-     bottom: 0.25em;
-     right: 0.5em;
-    }
-    button.login.twitch
-    {
-     top: calc(50% - 1em - 2.5em);
-    }
-    button.login.kick
-    {
-     top: calc(50% - 1em);
-    }
-    button.login.youtube
-    {
-     top: calc(50% - 1em + 2.5em);
-    }
-
-    button.logout
-    {
-     transition: opacity 0.5s;
-     right: 1em;
-     width: 5em;
-     font-size: 2vmin;
-     padding: 0.5em;
-    }
-    button.logout.twitch
-    {
-     top: 1em;
-    }
-    button.logout.kick
-    {
-     top: 4em;
-    }
-    button.logout.youtube
-    {
-     top: 7em;
     }
    </style>
   <script>
@@ -4635,7 +3883,209 @@
     const startup = function () {
       async function $c_startup() {
         shared.mspf.init();
+        if (cfg.display.hasOwnProperty('hue') && cfg.display.hue === 'rave' && !_hasRaveToggle())
+          document.documentElement.classList.add('rave');
+        _css();
       }
+
+      function _css()
+    {
+     const css = document.getElementsByTagName('STYLE')[0];
+     let h = css.innerHTML;
+     if (cfg.display.hasOwnProperty('hue') && cfg.display.hue !== false)
+     {
+      if (cfg.display.hue === 'rave')
+      {
+       let r = '   html.rave\n';
+       r += '   {\n';
+       r += '    animation: rave 3s linear infinite;\n';
+       r += '   }\n';
+       r += '   @keyframes rave\n';
+       r += '   {\n';
+       for (let i = 0; i <= 100; i += 10)
+       {
+        r += '    ' + i + '%\n';
+        r += '    {\n';
+        r += '     filter: hue-rotate(' + i * 3.6 + 'deg);\n';
+        r += '    }\n';
+       }
+       r += '   }\n';
+       r += '   html.rave button, html.rave div#notices\n';
+       r += '   {\n';
+       r += '    animation: antirave 3s linear infinite;\n';
+       r += '   }\n';
+       r += '   @keyframes antirave\n';
+       r += '   {\n';
+       for (let i = 0; i <= 100; i += 10)
+       {
+        r += '    ' + i + '%\n';
+        r += '    {\n';
+        r += '     filter: hue-rotate(' + (360 - i * 3.6) + 'deg);\n';
+        r += '    }\n';
+       }
+       r += '   }\n';
+       h = r + h;
+      }
+      else if (!isNaN(cfg.display.hue))
+      {
+       const iHue = parseInt(cfg.display.hue, 10);
+       if (iHue > 0 && iHue < 360)
+        h = '   html\n   {\n    filter: hue-rotate(' + iHue + 'deg);\n   }\n   button, div#notices\n   {\n    filter: hue-rotate(' + (360 - iHue) + 'deg);\n   }' + h;
+      }
+     }
+     let a = '   [data-squash="vertical"]\n';
+     a += '   {\n';
+     a += '    transform: scale(' + timing.display.Crazy.squash.width + ', ' + timing.display.Crazy.squash.height + ');\n';
+     a += '   }\n';
+     a += '   [data-squash="horizontal"]\n';
+     a += '   {\n';
+     a += '    transform: scale(' + timing.display.Crazy.squash.height + ', ' + timing.display.Crazy.squash.width + ');\n';
+     a += '   }\n';
+     h = h.replace('   [data-squash="no"]\n', a + '   [data-squash="no"]\n');
+     if (cfg.display.extended.useZWE && cfg.display.extended.hasOwnProperty('fillZWE') && cfg.display.extended.fillZWE)
+     {
+      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.8)) / 2);');
+      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.95)) / 2);');
+      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+      let z = '   img.fit,\n';
+      z += '   .fit img\n';
+      z += '   {\n';
+      z += '    object-fit: contain;\n';
+      z += '    object-position: 50% 50%;\n';
+      z += '   }\n';
+      h = h.replace('   img\n   {\n', z + '   img\n   {\n');
+     }
+     else
+     {
+      let z = '   img\n';
+      z += '   {\n';
+      z += '    object-fit: contain;\n';
+      z += '    object-position: 50% 50%;\n';
+      h = h.replace('   img\n   {\n', z);
+     }
+     let t = '   .etStraightLine\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time) + 'ms;\n';
+     t += '   }\n';
+     t += '   .etThrowTwist\n';
+     t += '   {\n';
+     t += '    transition: transform cubic-bezier(0.32, 0, 0.67, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.twist) + 'ms;\n';
+     t += '   }\n';
+     t += '   .etThrowDrop\n';
+     t += '   {\n';
+     t += '    transition: transform cubic-bezier(0.5, 0, 0.75, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.drop) + 'ms;\n';
+     t += '   }\n';
+     t += '   .etFountain\n';
+     t += '   {\n';
+     t += '    transition: transform cubic-bezier(0, 0, 0.58, 1) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time) + 'ms;\n';
+     t += '   }\n';
+     t += '   div.scene.cube:not(.kappa),\n';
+     t += '   div.scene.cube:not(.kappa) div.cube\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktFireworkRocket\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time * timing.kappa.Fireworks.speed.rocket) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktFireworkSparkler\n';
+     t += '   {\n';
+     t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktSpiral\n';
+     t += '   {\n';
+     t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktPyramid\n';
+     t += '   {\n';
+     let ctP = 0;
+     const lP = pyramidDist.length;
+     for (let i = 0; i < lP; i++)
+     {
+      ctP += pyramidDist[i];
+     }
+     const tP = Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.show.total);
+     const tPerB = Math.max(Math.floor(tP / ctP), timing.kappa.Pyramid.show.min);
+     t += '    transition: transform ease-in ' + tPerB + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktPyramidDrop\n';
+     t += '   {\n';
+     t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.hide) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktSmallPyramid\n';
+     t += '   {\n';
+     const tSP = Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.show.total);
+     const tPerSB = Math.max(Math.floor(tSP / ctP), timing.kappa.SmallPyramid.show.min);
+     t += '    transition: transform ease-in ' + tPerSB + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktSmallPyramidDrop\n';
+     t += '   {\n';
+     t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.hide) + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktStampede\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time * timing.kappa.Stampede.speed) + 'ms;\n';
+     t += '   }\n';
+     const congaShowMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.show);
+     const congaHideMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.hide);
+     t += '   .ktCongaIn\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + congaShowMS + 'ms;\n';
+     t += '   }\n';
+     t += '   .ktCongaOut\n';
+     t += '   {\n';
+     t += '    transition: transform ease-in ' + congaHideMS + 'ms;\n';
+     t += '   }\n';
+     t += '   div.scene.cube.kappa,\n';
+     t += '   div.scene.cube.kappa div.cube\n';
+     t += '   {\n';
+     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.TheCube.time) + 'ms;\n';
+     t += '   }\n';
+     h = h.replace('   [data-squash="vertical"]\n', t + '\n   [data-squash="vertical"]\n');
+     if (cfg.display.hasOwnProperty('statuses') && cfg.display.statuses === false)
+      h = h.replace('#notices\n   {\n', '#notices\n   {\n    display: none;\n');
+     if (cfg.hasOwnProperty('twitch') && cfg.twitch.hasOwnProperty('oauth_refresh') && cfg.twitch.oauth_refresh === null)
+      h = h.replace('button.twitch\n   {\n', 'button.twitch\n   {\n    display: none;\n');
+     if (cfg.hasOwnProperty('youtube') && cfg.youtube.hasOwnProperty('oauth_refresh') && cfg.youtube.oauth_refresh === null)
+      h = h.replace('button.youtube\n   {\n', 'button.youtube\n   {\n    display: none;\n');
+     if (cfg.hasOwnProperty('kick') && cfg.kick.hasOwnProperty('channel') && cfg.kick.channel === null)
+      h = h.replace('button.kick\n   {\n', 'button.kick\n   {\n    display: none;\n');
+     if (cfg.emote.size.variation !== false && typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range))
+     {
+      let v = '   .eSize-1_000\n';
+      v += '   {\n';
+      v += '    --zoom-height: var(--emote-height);\n';
+      v += '    --zoom-width: var(--emote-width);\n';
+      v += '   }\n';
+      v += '   .eSize-0_500\n';
+      v += '   {\n';
+      v += '    --zoom-height: calc(var(--emote-height) / 2);\n';
+      v += '    --zoom-width: calc(var(--emote-width) / 2);\n';
+      v += '   }\n';
+      v += '   .eSize-2_000\n';
+      v += '   {\n';
+      v += '    --zoom-height: calc(var(--emote-height) * 2);\n';
+      v += '    --zoom-width: calc(var(--emote-width) * 2);\n';
+      v += '   }\n';
+      let v2 = '   .eSize-1_000\n';
+      v2 += '   {\n';
+      v2 += '    --zoom-height: var(--emote-height);\n';
+      v2 += '    --zoom-width: var(--emote-width);\n';
+      v2 += '   }\n';
+      for (let i = 0, l = cfg.emote.size.variation.range.length; i < l; i++)
+      {
+       const rV = cfg.emote.size.variation.range[i].toFixed(3);
+       v2 += '   .eSize-' + rV.replace('.', '_') + '\n';
+       v2 += '   {\n';
+       v2 += '    --zoom-height: calc(var(--emote-height) * ' + rV + ');\n';
+       v2 += '    --zoom-width: calc(var(--emote-width) * ' + rV + ');\n';
+       v2 += '   }\n';
+      }
+      h = h.replace(v, v2);
+     }
+     css.innerHTML = h;
+    }
 
       function _hasRaveToggle() {
         for (const k of cfg.commands) {
