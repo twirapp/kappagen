@@ -3238,8 +3238,6 @@
         img.onload = function () {
           img.onerror = null;
           img.onload = null;
-          if (img.naturalWidth !== img.naturalHeight)
-            shared.ec.save(url, img.naturalWidth, img.naturalHeight);
         };
         img.onerror = function () {
           img.onerror = null;
@@ -3398,7 +3396,7 @@
       return {
         rnd: $rnd,
         doNextFrame: $doNextFrame,
-        mspf: $mspf,
+        mspf: $mspf
       };
     }();
 
