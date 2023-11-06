@@ -21,7 +21,7 @@ declare global {
     kappagen: {
       show: (emotes: Emote[], params: AnimationParams) => Promise<void>;
     };
-    rnd: (num: number) => number;
+    random: (num: number) => number;
   }
 }
 
@@ -34,14 +34,14 @@ buttonKappagen.textContent = "Kappagen";
 buttonKappagen.addEventListener("click", () => {
   window.kappagen.show(
     [emote],
-    kappagenAnimations[window.rnd(kappagenAnimations.length)]
+    kappagenAnimations[window.random(kappagenAnimations.length)]
   );
 });
 
 const buttonSpawn = document.createElement("button");
 buttonSpawn.textContent = "Spawn";
 buttonSpawn.addEventListener("click", () => {
-  const randomCountEmotes = window.rnd(15) + 1;
+  const randomCountEmotes = window.random(15) + 1;
   const emotes = new Array(randomCountEmotes).fill(emote);
   window.emote.addToShowList(emotes);
   window.emote.showEmotes();
