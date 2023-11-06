@@ -7,86 +7,40 @@
   <link rel="stylesheet" type="text/css" href="src/style.css" />
   <style>
     /* WARNING: formatting this code or moving it to a file breaks some animations */
-    [data-squash="no"]
-    {
-     transform: scale(1, 1);
+    [data-squash="no"] {
+      transform: scale(1, 1);
     }
- 
-    [data-origin="center"]
-    {
-     transform-origin: center center;
+
+    [data-origin="center"] {
+      transform-origin: center center;
     }
-    [data-origin="topleft"]
-    {
-     transform-origin: left top;
+
+    [data-origin="topleft"] {
+      transform-origin: left top;
     }
-    [data-origin="topright"]
-    {
-     transform-origin: right top;
+
+    [data-origin="topright"] {
+      transform-origin: right top;
     }
-    [data-origin="top"]
-    {
-     transform-origin: center top;
+
+    [data-origin="top"] {
+      transform-origin: center top;
     }
-    [data-origin="bottom"]
-    {
-     transform-origin: center bottom;
+
+    [data-origin="bottom"] {
+      transform-origin: center bottom;
     }
-    [data-origin="left"]
-    {
-     transform-origin: left center;
+
+    [data-origin="left"] {
+      transform-origin: left center;
     }
-    [data-origin="right"]
-    {
-     transform-origin: right center;
+
+    [data-origin="right"] {
+      transform-origin: right center;
     }
-   </style>
+  </style>
   <script>
     var cfg = {
-      twitch: {
-        oauth_refresh: 'OAUTH_REFRESH',
-        share: false
-      },
-      youtube: {
-        oauth_refresh: 'OAUTH_REFRESH',
-        connect_to: {
-          title: false,
-          list: [
-            'liveStarting',
-            'live',
-            'testStarting',
-            'testing'
-          ],
-          max: 1,
-          sort: {
-            'actualStartTime': 'desc',
-            'publishedAt': 'desc'
-          },
-          recheck: false
-        },
-        share: false,
-        feedback: false /* help improve support for monetized YouTube events, such as memberships, superchat, and gifts */
-      },
-      kick: {
-        channel: 'CHANNEL_NAME'
-      },
-      streamlabs: {
-        token: 'SOCKET_TOKEN', //Requires socket.token
-        curMul: 100,
-        dispMul: 1,
-        dispDec: 2,
-        dispPre: '$',
-        dispSuf: false
-      },
-      streamelements: {
-        oauth_refresh: 'OAUTH_REFRESH', //Requires tips:read
-        token: 'JWT_TOKEN',
-        curMul: 100,
-        dispMul: 1,
-        dispDec: 2,
-        dispPre: '$',
-        dispSuf: false
-      },
       display: {
         styles: [
           //'Still',        // No movement
@@ -100,17 +54,6 @@
           'Throw',        // Toss at the middle and tumble down   (no fade/zoom in, only out)
           'TheCube'       // Rotate a 3D cube of an emote         (no zoom, only fade)
         ],
-        access: 0x800 | 0x400 | 0x200 | 0x100 | 0x080 | 0x040 | 0x020 | 0x010 | 0x008 | 0x004 | 0x002 | 0x001,
-        duplicates: true,
-        useEmoji: true,
-        extended: {
-          useFFZ: true,
-          useBTTV: true,
-          use7TV: true,
-          useZWE: true,
-          fillZWE: false
-        },
-        hue: false,
         kappa: {
           count: 150,
           styles: {
@@ -137,19 +80,20 @@
               time: 3
             }
           },
-          access: 0x800 | 0x400 | 0x200 | 0x100 | 0x080 | 0x040 | 0x020 | 0x010 | 0x008 | 0x004 | 0x002,
-          aliases: [      // !kappagen command aliases (must be lower-case)
-            '!kappagen',
-            '-kappagen'
-          ],
-          cooldown: 0,
           conga: {
             contagious: false,
             time: 5,
             avoidMiddle: false
           }
         },
-        statuses: true
+        statuses: true,
+        extended: {
+          useFFZ: true,
+          useBTTV: true,
+          use7TV: true,
+          useZWE: true,
+          fillZWE: false
+        },
       },
       emote: {
         time: 5,
@@ -176,166 +120,9 @@
           zoom: true /* Layout Shifts - Requires independent scale directive */
         }
       },
-      event: {
-        twitch: {
-          clear: true,
-          raid: {
-            raiders: 2,
-            originEmotes: true,
-            originExtendedEmotes: false
-          },
-          follow: true,
-          shoutout: {
-            create: {
-              styles: false,
-              targetEmotes: true,
-              targetExtendedEmotes: false
-            },
-            receive: {
-              styles: false,
-              originEmotes: true,
-              originExtendedEmotes: false
-            }
-          },
-          tag: {
-            styles: true,
-            access: -1,
-            targetEmotes: true,
-            targetExtendedEmotes: false
-          },
-          sub: {
-            useMsg: true,
-            t1: {
-              first: true,
-              resub: true,
-              upgrade: {
-                gift: false,
-                prime: false
-              },
-              gift: {
-                first: true,
-                resub: true,
-                bomb: 1
-              }
-            },
-            t2: {
-              first: true,
-              resub: true,
-              upgrade: {
-                gift: false,
-                prime: false
-              },
-              gift: {
-                first: true,
-                resub: true,
-                bomb: 1
-              }
-            },
-            t3: {
-              first: true,
-              resub: true,
-              upgrade: {
-                gift: false,
-                prime: false
-              },
-              gift: {
-                first: true,
-                resub: true,
-                bomb: 1
-              }
-            },
-            prime: {
-              first: true,
-              resub: true
-            }
-          },
-          cheer: {
-            useMsg: true,
-            bits: 50
-          },
-          hypechat: {
-            useMsg: true,
-            level: 1
-          },
-          badge: {
-            '1': false,
-            '100': true
-          },
-          hypetrain: {
-            begin: false,
-            success: false
-          },
-          poll: {
-            begin: false,
-            end: false
-          },
-          prediction: {
-            begin: false,
-            resolved: false
-          },
-          goal: {
-            begin: false,
-            achieved: false
-          },
-          charity: false,
-          timeout: false,
-          ban: false
-        },
-        youtube: {
-          sub: true,
-          member: {
-            useMsg: true,
-            first: true,
-            milestone: true,
-            giftbomb: 5
-          },
-          superchat: {
-            useMsg: true,
-            level: 1
-          },
-          supersticker: 1,
-          timeout: false,
-          ban: false
-        },
-        kick: {
-          clear: true,
-          raid: {
-            raiders: 2,
-            originEmotes: true,
-            originExtendedEmotes: false
-          },
-          follow: true,
-          sub: {
-            first: true,
-            resub: true,
-            gift: true,
-            giftbomb: 1
-          },
-          poll: {
-            begin: false,
-            end: false
-          },
-          timeout: false,
-          ban: false
-        },
-        tip: {
-          useProfileImage: false,
-          streamlabs: {
-            donation: false,
-            pledge: false
-          },
-          streamelements: false
-        }
-      },
-      commands: [],
-      ignore: {
-        users: false,
-        emotes: false
-      }
     };
 
     /* fractions (or decimal percentages) of the emote time configuration value */
-
     const timing = {
       display: {
         'Still': {
@@ -572,8 +359,8 @@
 
     // list of default images to use if your channel has no emotes
     const bareList = [
-      { url: 'data:image/png;base64,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' }
-    ];
+      { url: 'https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp' }
+    ]
 
     // distribution of emotes for Pyramid and SmallPyramid kappagen
     const pyramidDist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -1118,165 +905,9 @@
       ]
     };
 
-    // crew
-    const crewSVG = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><style type="text/css">') + '%CSS%' + encodeURIComponent('</style><ellipse cx="533.9" cy="929.8" rx="295.8" ry="39.4" class="st0"/><path d="M812 403c25-28 39-63 36-98-3-41-29-80-72-111l-16-11a193 193 0 0 0-77-105c-34-21-70-31-102-39-18-5-33-4-46-3h-24c-37-5-74 3-108 24-31 19-58 47-76 79-25 44-35 93-41 140l-25 1c-27 0-60 0-84 26-20 23-21 53-22 73-3 73-5 150-3 225 1 44 6 89 39 120 26 24 59 30 89 30l10-1 6 60c4 25 8 49 21 71a113 113 0 0 0 116 51c46-8 84-45 94-90 5-22 3-43 2-62l-1-24h33c-8 44 7 91 40 120a115 115 0 0 0 87 27c31-3 57-17 75-39 19-24 26-54 31-82 21-126 28-254 18-382z"/><path d="m760 495-1-52c-20 10-44 18-72 24-26 6-50 9-73 9a184 184 0 0 1-179-123c-14-42-12-91 7-133 20-45 69-58 99-66 46-13 94-13 140-3-9-10-19-20-29-25-26-17-57-26-85-33-9-2-17-1-28-1-11 1-22 2-37 0-53-8-103 33-126 75l-4 6c-25 50-31 109-35 165-9 156-4 313 15 468 3 19 5 37 13 50 11 18 36 28 58 24 23-4 44-24 49-47 4-14 2-29 1-46-1-19-3-40 2-62 3-12 13-21 26-22h2c23 0 135-1 190-5 0 0-28 52-74 59-9 28-2 62 19 80 11 10 28 15 45 13 15-1 28-8 36-18 11-14 15-34 19-56 16-93 24-187 22-281zm-482-99 3-60h-20c-22 0-36 1-43 8-6 8-7 25-7 37l-1 18c-2 68-4 137-3 204 1 32 5 63 22 80 14 12 34 15 56 15-8-101-10-201-7-302z" class="st1"/><path d="M792 322c-3 20-15 40-33 55-20 16-47 27-84 36-42 9-75 10-103 2-38-12-70-42-83-80-11-29-9-63 4-92l6-9c7-8 21-17 57-26a230 230 0 0 1 188 32c39 28 47 55 48 69v13z" class="st2"/><path d="M285 698c-22 0-42-3-56-15-17-17-21-48-21-80-2-67 0-136 2-204 20-8 45-7 68-3-3 101-1 201 7 302zm475-203c-15 58-56 109-111 133-73 32-165 11-215-49-32-39-45-90-54-140-15-87-18-177-8-266-25 50-31 109-35 165-9 156-4 313 15 468 3 19 5 37 13 50 11 18 36 28 58 24 23-4 44-24 49-47 4-14 2-29 1-46-1-19-3-40 2-62 3-12 13-21 26-22h2c23 0 135-1 190-5 0 0-28 52-74 59-9 28-2 62 19 80 11 10 28 15 45 13 15-1 28-8 36-18 11-14 15-34 19-56 16-93 24-187 22-281z" class="st3"/><path d="M792 322c-3 20-15 40-33 55-20 16-47 27-84 36-42 9-75 10-103 2-38-12-70-42-83-80-11-29-9-63 4-92l6-9c7 11 13 40 18 49 10 17 26 33 44 44 38 23 84 28 128 22 35-4 69-15 103-27z" class="st4"/><path d="M614 274c-7-3-13-9-13-17-1-11 11-18 21-22 30-10 63-8 91 3 9 4 17 9 18 18 1 10-9 18-19 19s-20-3-29-4c-23-4-45 11-69 3z" class="st5"/></svg>');
-    const crewColors = [['C51111', '300060'], ['132FD2', '00004A'], ['10802D', '021B2E'], ['ED53B9', '6B05A1'], ['EF7D0E', '730020'], ['F5F558', '8E1800'], ['3F484E', '000000'], ['D5E0EF', '2E4A8D'], ['6B30BC', '0E003C'], ['72491E', '4A040A'], ['39FEDB', '1054A1'], ['50EF3A', '006144'], ['938877', '14000A'], ['E27060', '983262'], ['F5E4A5', 'B89268'], ['F1C6D0', 'DA749C'], ['738593', '162638'], ['761E1C', '4A102C']];
-
     //////////////////////////////////////////////////////////////////////////////
     // don't mess with things below this line without knowing what you're doing //
     //////////////////////////////////////////////////////////////////////////////
-
-    let cList = [];
-    let cSafe = [];
-    const wWS = 5;
-    const oauthClient = {
-      t: '4umzcpmjkg6ar78b81s7302jlj33t8',
-      yt: '71876675824-aepsnb3onligbj62r1i2qakfjh9sr8kg.apps.googleusercontent.com'
-    };
-    const cURLs = {
-      ws: {
-        twitch: {
-          irc: 'wss://irc-ws.chat.twitch.tv',
-          eventSub: 'wss://eventsub.wss.twitch.tv/ws'
-        },
-        kick: 'wss://ws-us2.pusher.com/app/eb1d5f283081a78b932c?protocol=7&client=js&version=7.6.0&flash=false',
-        streamlabs: 'wss://sockets.streamlabs.com/socket.io/?transport=websocket&token=%TOKEN%',
-        streamelements: 'wss://realtime.streamelements.com/socket.io/?transport=websocket',
-        bttv: 'wss://sockets.betterttv.net/ws'
-      },
-      sse: {
-        '7tv': 'https://events.7tv.io/v3'
-      },
-      api: {
-        twitch: {
-          users: {
-            name: 'https://api.twitch.tv/helix/users?login=%USER%',
-            id: 'https://api.twitch.tv/helix/users?id=%USER_ID%',
-          },
-          bits: {
-            cheermotes: 'https://api.twitch.tv/helix/bits/cheermotes?broadcaster_id=%CHANNEL_ID%'
-          },
-          channels: {
-            root: 'https://api.twitch.tv/helix/channels?broadcaster_id=%CHANNEL_ID%',
-            followers: 'https://api.twitch.tv/helix/channels/followers?user_id=%USER_ID%&broadcaster_id=%CHANNEL_ID%'
-          },
-          chat: {
-            emotes: {
-              root: 'https://api.twitch.tv/helix/chat/emotes?broadcaster_id=%CHANNEL_ID%',
-              global: 'https://api.twitch.tv/helix/chat/emotes/global'
-            }
-          },
-          eventSub: {
-            get: 'https://api.twitch.tv/helix/eventsub/subscriptions',
-            delete: 'https://api.twitch.tv/helix/eventsub/subscriptions?id=%ID%'
-          },
-          validate: 'https://id.twitch.tv/oauth2/validate'
-        },
-        youtube: {
-          broadcasts: 'https://youtube.googleapis.com/youtube/v3/liveBroadcasts?part=snippet,status&broadcastStatus=all&broadcastType=all&maxResults=50',
-          livechat: {
-            messages: {
-              init: 'https://youtube.googleapis.com/youtube/v3/liveChat/messages?liveChatId=%CHAT_ID%&part=%PART%&maxResults=2000',
-              page: 'https://youtube.googleapis.com/youtube/v3/liveChat/messages?liveChatId=%CHAT_ID%&part=%PART%&pageToken=%PAGE%&maxResults=2000'
-            },
-            emojis: 'https://realityripple.com/Tools/Twitch/EmoteWall/yte.json',
-            superstickers: 'https://realityripple.com/Tools/Twitch/EmoteWall/ytss.json'
-          },
-          subscriptions: 'https://www.googleapis.com/youtube/v3/subscriptions?part=%PART%&myRecentSubscribers=true&maxResults=50',
-          tokeninfo: 'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=%OAUTH_TOKEN%'
-        },
-        kick: {
-          users: 'https://kick.com/api/v2/channels/%CHANNEL_NAME%/users/%USER%',
-          channels: 'https://kick.com/api/v2/channels/%CHANNEL_NAME%',
-          followers: 'https://kick.com/api/internal/v1/channels/%CHANNEL_NAME%/followers-count',
-          emotes: 'https://kick.com/emotes/%CHANNEL_NAME%'
-        },
-        ffz: {
-          set: {
-            global: 'https://api.frankerfacez.com/v1/set/global'
-          },
-          room: {
-            twitch: 'https://api.frankerfacez.com/v1/room/id/%CHANNEL_ID%',
-            youtube: 'https://api.frankerfacez.com/v1/room/yt/%CHANNEL_ID%'
-          }
-        },
-        streamelements: {
-          validate: 'https://api.streamelements.com/oauth2/validate'
-        },
-        bttv: {
-          emotes: {
-            global: 'https://api.betterttv.net/3/cached/emotes/global'
-          },
-          users: {
-            twitch: 'https://api.betterttv.net/3/cached/users/twitch/%CHANNEL_ID%',
-            youtube: 'https://api.betterttv.net/3/cached/users/youtube/%CHANNEL_ID%'
-          }
-        },
-        '7tv': {
-          emotes: {
-            global: 'https://7tv.io/v3/emote-sets/global'
-          },
-          users: {
-            twitch: 'https://7tv.io/v3/users/twitch/%CHANNEL_ID%',
-            youtube: 'https://7tv.io/v3/users/youtube/%CHANNEL_ID%',
-            kick: 'https://7tv.io/v3/users/kick/%CHANNEL_ID%'
-          }
-        },
-        rr: {
-          refresh: {
-            t: 'https://realityripple.com/Tools/Twitch/EmoteWall/oauth2t.php',
-            yt: 'https://realityripple.com/Tools/Twitch/EmoteWall/oauth2yt.php',
-            se: 'https://realityripple.com/Tools/Twitch/EmoteWall/oauth2se.php'
-          },
-          feedback: {
-            ytmonetized: 'https://realityripple.com/Tools/Twitch/EmoteWall/ytsurvey.php',
-            yterrors: 'https://realityripple.com/Tools/Twitch/EmoteWall/yterrors.php'
-          }
-        }
-      },
-      cdn: {
-        twitch: {
-          emote: 'https://static-cdn.jtvnw.net/emoticons/v2/%EMOTE_ID%/default/dark/3.0'
-        },
-        kick: {
-          emote: 'https://files.kick.com/emotes/%EMOTE_ID%/fullsize'
-        },
-        ffz: {
-          emoji: 'https://cdn.frankerfacez.com/static/emoji/images/%SET_ID%/'
-        },
-        bttv: {
-          emote: 'https://cdn.betterttv.net/emote/%EMOTE_ID%/3x'
-        }
-      },
-      html: {
-        rr: {
-          auth: {
-            t: 'https://realityripple.com/Tools/Twitch/EmoteWall/twitch.php',
-            yt: 'https://realityripple.com/Tools/Twitch/EmoteWall/youtube.php'
-          },
-          redir: 'https://realityripple.com/Tools/Twitch/tempRedir.php'
-        },
-        twitch: 'https://id.twitch.tv/oauth2/authorize?client_id=%CLIENT_ID%&redirect_uri=%URL%&response_type=code&scope=%SCOPE%&state=redirto_%ORIGIN%&force_verify=true',
-        youtube: 'https://accounts.google.com/o/oauth2/v2/auth?client_id=%CLIENT_ID%&redirect_uri=%URL%&response_type=code&access_type=offline&scope=%SCOPE%&state=redirto_%ORIGIN%&prompt=consent%20select_account&include_granted_scopes=false'
-      }
-    };
-    const cScopes = {
-      twitch: {
-        read: 'chat:read',
-        followers: 'moderator:read:followers',
-        shoutouts: 'moderator:read:shoutouts',
-        redemptions: 'channel:read:redemptions',
-        hypetrains: 'channel:read:hype_train',
-        polls: 'channel:read:polls',
-        predictions: 'channel:read:predictions',
-        goals: 'channel:read:goals',
-        charity: 'channel:read:charity'
-      },
-      youtube: {
-        readonly: 'https://www.googleapis.com/auth/youtube.readonly',
-        memberships: 'https://www.googleapis.com/auth/youtube.channel-memberships.creator'
-      }
-    };
 
     const display = function () {
       let _eActive = 0;
@@ -3246,8 +2877,6 @@
         }
 
         async function $show(kList, kStyle) {
-          console.log({ kList, kStyle })
-
           const sW = window.innerWidth;
           const sH = window.innerHeight;
           const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
@@ -3457,110 +3086,6 @@
           if (r > 1)
             return { f: Math.ceil(r), ct: 1 };
           return { f: 1, ct: Math.ceil(1 / r) };
-        }
-
-        const animations = [
-          {
-            "style": "TheCube",
-            "prefs": {
-              "size": 0.8,
-              "center": true,
-              "rotations": 5,
-              "faces": false
-            },
-            "count": 150
-          },
-          {
-            "style": "Confetti",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Spiral",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Stampede",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Burst",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Crazy",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Speed",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Rise",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Fountain",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "SmallPyramid",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Pyramid",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Text",
-            "prefs": {
-              "message": [
-                "FUKUSHINE"
-              ],
-              "time": 3
-            },
-            "count": 150
-          },
-          {
-            "style": "Fireworks",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "Conga",
-            "prefs": {},
-            "count": 150
-          },
-          {
-            "style": "StraightLine",
-            "prefs": {},
-            "count": 150
-          }
-        ]
-
-        window.show = () => {
-          const randomAnimationId = shared.rnd(animations.length);
-          const animation = animations[randomAnimationId];
-          $show([
-            {
-              "svc": "7",
-              "url": "https://cdn.7tv.app/emote/648634581d7be7346709d1bb/4x.webp",
-              "str": "vahui",
-              "pos": 10,
-              "scope": "c",
-              "width": 128,
-              "height": 128
-            }
-          ], animation);
         }
 
         return {
@@ -3809,6 +3334,7 @@
       }
 
       return {
+        gc: _gc,
         emote: $emote,
         kappa: $kappa,
         eraseAll: $eraseAll
@@ -3888,226 +3414,208 @@
         _css();
       }
 
-      function _css()
-    {
-     const css = document.getElementsByTagName('STYLE')[0];
-     let h = css.innerHTML;
-     if (cfg.display.hasOwnProperty('hue') && cfg.display.hue !== false)
-     {
-      if (cfg.display.hue === 'rave')
-      {
-       let r = '   html.rave\n';
-       r += '   {\n';
-       r += '    animation: rave 3s linear infinite;\n';
-       r += '   }\n';
-       r += '   @keyframes rave\n';
-       r += '   {\n';
-       for (let i = 0; i <= 100; i += 10)
-       {
-        r += '    ' + i + '%\n';
-        r += '    {\n';
-        r += '     filter: hue-rotate(' + i * 3.6 + 'deg);\n';
-        r += '    }\n';
-       }
-       r += '   }\n';
-       r += '   html.rave button, html.rave div#notices\n';
-       r += '   {\n';
-       r += '    animation: antirave 3s linear infinite;\n';
-       r += '   }\n';
-       r += '   @keyframes antirave\n';
-       r += '   {\n';
-       for (let i = 0; i <= 100; i += 10)
-       {
-        r += '    ' + i + '%\n';
-        r += '    {\n';
-        r += '     filter: hue-rotate(' + (360 - i * 3.6) + 'deg);\n';
-        r += '    }\n';
-       }
-       r += '   }\n';
-       h = r + h;
-      }
-      else if (!isNaN(cfg.display.hue))
-      {
-       const iHue = parseInt(cfg.display.hue, 10);
-       if (iHue > 0 && iHue < 360)
-        h = '   html\n   {\n    filter: hue-rotate(' + iHue + 'deg);\n   }\n   button, div#notices\n   {\n    filter: hue-rotate(' + (360 - iHue) + 'deg);\n   }' + h;
-      }
-     }
-     let a = '   [data-squash="vertical"]\n';
-     a += '   {\n';
-     a += '    transform: scale(' + timing.display.Crazy.squash.width + ', ' + timing.display.Crazy.squash.height + ');\n';
-     a += '   }\n';
-     a += '   [data-squash="horizontal"]\n';
-     a += '   {\n';
-     a += '    transform: scale(' + timing.display.Crazy.squash.height + ', ' + timing.display.Crazy.squash.width + ');\n';
-     a += '   }\n';
-     h = h.replace('   [data-squash="no"]\n', a + '   [data-squash="no"]\n');
-     if (cfg.display.extended.useZWE && cfg.display.extended.hasOwnProperty('fillZWE') && cfg.display.extended.fillZWE)
-     {
-      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
-      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.8)) / 2);');
-      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.95)) / 2);');
-      h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
-      let z = '   img.fit,\n';
-      z += '   .fit img\n';
-      z += '   {\n';
-      z += '    object-fit: contain;\n';
-      z += '    object-position: 50% 50%;\n';
-      z += '   }\n';
-      h = h.replace('   img\n   {\n', z + '   img\n   {\n');
-     }
-     else
-     {
-      let z = '   img\n';
-      z += '   {\n';
-      z += '    object-fit: contain;\n';
-      z += '    object-position: 50% 50%;\n';
-      h = h.replace('   img\n   {\n', z);
-     }
-     let t = '   .etStraightLine\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time) + 'ms;\n';
-     t += '   }\n';
-     t += '   .etThrowTwist\n';
-     t += '   {\n';
-     t += '    transition: transform cubic-bezier(0.32, 0, 0.67, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.twist) + 'ms;\n';
-     t += '   }\n';
-     t += '   .etThrowDrop\n';
-     t += '   {\n';
-     t += '    transition: transform cubic-bezier(0.5, 0, 0.75, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.drop) + 'ms;\n';
-     t += '   }\n';
-     t += '   .etFountain\n';
-     t += '   {\n';
-     t += '    transition: transform cubic-bezier(0, 0, 0.58, 1) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time) + 'ms;\n';
-     t += '   }\n';
-     t += '   div.scene.cube:not(.kappa),\n';
-     t += '   div.scene.cube:not(.kappa) div.cube\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktFireworkRocket\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time * timing.kappa.Fireworks.speed.rocket) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktFireworkSparkler\n';
-     t += '   {\n';
-     t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktSpiral\n';
-     t += '   {\n';
-     t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktPyramid\n';
-     t += '   {\n';
-     let ctP = 0;
-     const lP = pyramidDist.length;
-     for (let i = 0; i < lP; i++)
-     {
-      ctP += pyramidDist[i];
-     }
-     const tP = Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.show.total);
-     const tPerB = Math.max(Math.floor(tP / ctP), timing.kappa.Pyramid.show.min);
-     t += '    transition: transform ease-in ' + tPerB + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktPyramidDrop\n';
-     t += '   {\n';
-     t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.hide) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktSmallPyramid\n';
-     t += '   {\n';
-     const tSP = Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.show.total);
-     const tPerSB = Math.max(Math.floor(tSP / ctP), timing.kappa.SmallPyramid.show.min);
-     t += '    transition: transform ease-in ' + tPerSB + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktSmallPyramidDrop\n';
-     t += '   {\n';
-     t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.hide) + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktStampede\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time * timing.kappa.Stampede.speed) + 'ms;\n';
-     t += '   }\n';
-     const congaShowMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.show);
-     const congaHideMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.hide);
-     t += '   .ktCongaIn\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + congaShowMS + 'ms;\n';
-     t += '   }\n';
-     t += '   .ktCongaOut\n';
-     t += '   {\n';
-     t += '    transition: transform ease-in ' + congaHideMS + 'ms;\n';
-     t += '   }\n';
-     t += '   div.scene.cube.kappa,\n';
-     t += '   div.scene.cube.kappa div.cube\n';
-     t += '   {\n';
-     t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.TheCube.time) + 'ms;\n';
-     t += '   }\n';
-     h = h.replace('   [data-squash="vertical"]\n', t + '\n   [data-squash="vertical"]\n');
-     if (cfg.display.hasOwnProperty('statuses') && cfg.display.statuses === false)
-      h = h.replace('#notices\n   {\n', '#notices\n   {\n    display: none;\n');
-     if (cfg.hasOwnProperty('twitch') && cfg.twitch.hasOwnProperty('oauth_refresh') && cfg.twitch.oauth_refresh === null)
-      h = h.replace('button.twitch\n   {\n', 'button.twitch\n   {\n    display: none;\n');
-     if (cfg.hasOwnProperty('youtube') && cfg.youtube.hasOwnProperty('oauth_refresh') && cfg.youtube.oauth_refresh === null)
-      h = h.replace('button.youtube\n   {\n', 'button.youtube\n   {\n    display: none;\n');
-     if (cfg.hasOwnProperty('kick') && cfg.kick.hasOwnProperty('channel') && cfg.kick.channel === null)
-      h = h.replace('button.kick\n   {\n', 'button.kick\n   {\n    display: none;\n');
-     if (cfg.emote.size.variation !== false && typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range))
-     {
-      let v = '   .eSize-1_000\n';
-      v += '   {\n';
-      v += '    --zoom-height: var(--emote-height);\n';
-      v += '    --zoom-width: var(--emote-width);\n';
-      v += '   }\n';
-      v += '   .eSize-0_500\n';
-      v += '   {\n';
-      v += '    --zoom-height: calc(var(--emote-height) / 2);\n';
-      v += '    --zoom-width: calc(var(--emote-width) / 2);\n';
-      v += '   }\n';
-      v += '   .eSize-2_000\n';
-      v += '   {\n';
-      v += '    --zoom-height: calc(var(--emote-height) * 2);\n';
-      v += '    --zoom-width: calc(var(--emote-width) * 2);\n';
-      v += '   }\n';
-      let v2 = '   .eSize-1_000\n';
-      v2 += '   {\n';
-      v2 += '    --zoom-height: var(--emote-height);\n';
-      v2 += '    --zoom-width: var(--emote-width);\n';
-      v2 += '   }\n';
-      for (let i = 0, l = cfg.emote.size.variation.range.length; i < l; i++)
-      {
-       const rV = cfg.emote.size.variation.range[i].toFixed(3);
-       v2 += '   .eSize-' + rV.replace('.', '_') + '\n';
-       v2 += '   {\n';
-       v2 += '    --zoom-height: calc(var(--emote-height) * ' + rV + ');\n';
-       v2 += '    --zoom-width: calc(var(--emote-width) * ' + rV + ');\n';
-       v2 += '   }\n';
-      }
-      h = h.replace(v, v2);
-     }
-     css.innerHTML = h;
-    }
-
-      function _hasRaveToggle() {
-        for (const k of cfg.commands) {
-          if (k.hasOwnProperty('rave'))
-            return true;
-          if (k.hasOwnProperty('raveon'))
-            return true;
+      function _css() {
+        const css = document.getElementsByTagName('STYLE')[0];
+        let h = css.innerHTML;
+        if (cfg.display.hasOwnProperty('hue') && cfg.display.hue !== false) {
+          if (cfg.display.hue === 'rave') {
+            let r = '   html.rave\n';
+            r += '   {\n';
+            r += '    animation: rave 3s linear infinite;\n';
+            r += '   }\n';
+            r += '   @keyframes rave\n';
+            r += '   {\n';
+            for (let i = 0; i <= 100; i += 10) {
+              r += '    ' + i + '%\n';
+              r += '    {\n';
+              r += '     filter: hue-rotate(' + i * 3.6 + 'deg);\n';
+              r += '    }\n';
+            }
+            r += '   }\n';
+            r += '   html.rave button, html.rave div#notices\n';
+            r += '   {\n';
+            r += '    animation: antirave 3s linear infinite;\n';
+            r += '   }\n';
+            r += '   @keyframes antirave\n';
+            r += '   {\n';
+            for (let i = 0; i <= 100; i += 10) {
+              r += '    ' + i + '%\n';
+              r += '    {\n';
+              r += '     filter: hue-rotate(' + (360 - i * 3.6) + 'deg);\n';
+              r += '    }\n';
+            }
+            r += '   }\n';
+            h = r + h;
+          }
+          else if (!isNaN(cfg.display.hue)) {
+            const iHue = parseInt(cfg.display.hue, 10);
+            if (iHue > 0 && iHue < 360)
+              h = '   html\n   {\n    filter: hue-rotate(' + iHue + 'deg);\n   }\n   button, div#notices\n   {\n    filter: hue-rotate(' + (360 - iHue) + 'deg);\n   }' + h;
+          }
         }
-        return false;
+        let a = '   [data-squash="vertical"]';
+        a += '   {\n';
+        a += '    transform: scale(' + timing.display.Crazy.squash.width + ', ' + timing.display.Crazy.squash.height + ');\n';
+        a += '   }\n';
+        a += '   [data-squash="horizontal"]';
+        a += '   {\n';
+        a += '    transform: scale(' + timing.display.Crazy.squash.height + ', ' + timing.display.Crazy.squash.width + ');\n';
+        a += '   }\n';
+        h = h.replace('   [data-squash="no"]', a + '   [data-squash="no"]');
+        if (cfg.display.extended.useZWE && cfg.display.extended.hasOwnProperty('fillZWE') && cfg.display.extended.fillZWE) {
+          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.8)) / 2);');
+          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.95)) / 2);');
+          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+          let z = '   img.fit,\n';
+          z += '   .fit img\n';
+          z += '   {\n';
+          z += '    object-fit: contain;\n';
+          z += '    object-position: 50% 50%;\n';
+          z += '   }\n';
+          h = h.replace('   img\n   {\n', z + '   img\n   {\n');
+        }
+        else {
+          let z = '   img\n';
+          z += '   {\n';
+          z += '    object-fit: contain;\n';
+          z += '    object-position: 50% 50%;\n';
+          h = h.replace('   img\n   {\n', z);
+        }
+        let t = '   .etStraightLine\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time) + 'ms;\n';
+        t += '   }\n';
+        t += '   .etThrowTwist\n';
+        t += '   {\n';
+        t += '    transition: transform cubic-bezier(0.32, 0, 0.67, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.twist) + 'ms;\n';
+        t += '   }\n';
+        t += '   .etThrowDrop\n';
+        t += '   {\n';
+        t += '    transition: transform cubic-bezier(0.5, 0, 0.75, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.drop) + 'ms;\n';
+        t += '   }\n';
+        t += '   .etFountain\n';
+        t += '   {\n';
+        t += '    transition: transform cubic-bezier(0, 0, 0.58, 1) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time) + 'ms;\n';
+        t += '   }\n';
+        t += '   div.scene.cube:not(.kappa),\n';
+        t += '   div.scene.cube:not(.kappa) div.cube\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktFireworkRocket\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time * timing.kappa.Fireworks.speed.rocket) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktFireworkSparkler\n';
+        t += '   {\n';
+        t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktSpiral\n';
+        t += '   {\n';
+        t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktPyramid\n';
+        t += '   {\n';
+        let ctP = 0;
+        const lP = pyramidDist.length;
+        for (let i = 0; i < lP; i++) {
+          ctP += pyramidDist[i];
+        }
+        const tP = Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.show.total);
+        const tPerB = Math.max(Math.floor(tP / ctP), timing.kappa.Pyramid.show.min);
+        t += '    transition: transform ease-in ' + tPerB + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktPyramidDrop\n';
+        t += '   {\n';
+        t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.hide) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktSmallPyramid\n';
+        t += '   {\n';
+        const tSP = Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.show.total);
+        const tPerSB = Math.max(Math.floor(tSP / ctP), timing.kappa.SmallPyramid.show.min);
+        t += '    transition: transform ease-in ' + tPerSB + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktSmallPyramidDrop\n';
+        t += '   {\n';
+        t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.hide) + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktStampede\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time * timing.kappa.Stampede.speed) + 'ms;\n';
+        t += '   }\n';
+        const congaShowMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.show);
+        const congaHideMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.hide);
+        t += '   .ktCongaIn\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + congaShowMS + 'ms;\n';
+        t += '   }\n';
+        t += '   .ktCongaOut\n';
+        t += '   {\n';
+        t += '    transition: transform ease-in ' + congaHideMS + 'ms;\n';
+        t += '   }\n';
+        t += '   div.scene.cube.kappa,\n';
+        t += '   div.scene.cube.kappa div.cube\n';
+        t += '   {\n';
+        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.TheCube.time) + 'ms;\n';
+        t += '   }\n';
+        h = h.replace('   [data-squash="vertical"]', t + '\n   [data-squash="vertical"]');
+        if (cfg.display.hasOwnProperty('statuses') && cfg.display.statuses === false)
+          h = h.replace('#notices\n   {\n', '#notices\n   {\n    display: none;\n');
+        if (cfg.hasOwnProperty('twitch') && cfg.twitch.hasOwnProperty('oauth_refresh') && cfg.twitch.oauth_refresh === null)
+          h = h.replace('button.twitch\n   {\n', 'button.twitch\n   {\n    display: none;\n');
+        if (cfg.hasOwnProperty('youtube') && cfg.youtube.hasOwnProperty('oauth_refresh') && cfg.youtube.oauth_refresh === null)
+          h = h.replace('button.youtube\n   {\n', 'button.youtube\n   {\n    display: none;\n');
+        if (cfg.hasOwnProperty('kick') && cfg.kick.hasOwnProperty('channel') && cfg.kick.channel === null)
+          h = h.replace('button.kick\n   {\n', 'button.kick\n   {\n    display: none;\n');
+        if (cfg.emote.size.variation !== false && typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
+          let v = '   .eSize-1_000\n';
+          v += '   {\n';
+          v += '    --zoom-height: var(--emote-height);\n';
+          v += '    --zoom-width: var(--emote-width);\n';
+          v += '   }\n';
+          v += '   .eSize-0_500\n';
+          v += '   {\n';
+          v += '    --zoom-height: calc(var(--emote-height) / 2);\n';
+          v += '    --zoom-width: calc(var(--emote-width) / 2);\n';
+          v += '   }\n';
+          v += '   .eSize-2_000\n';
+          v += '   {\n';
+          v += '    --zoom-height: calc(var(--emote-height) * 2);\n';
+          v += '    --zoom-width: calc(var(--emote-width) * 2);\n';
+          v += '   }\n';
+          let v2 = '   .eSize-1_000\n';
+          v2 += '   {\n';
+          v2 += '    --zoom-height: var(--emote-height);\n';
+          v2 += '    --zoom-width: var(--emote-width);\n';
+          v2 += '   }\n';
+          for (let i = 0, l = cfg.emote.size.variation.range.length; i < l; i++) {
+            const rV = cfg.emote.size.variation.range[i].toFixed(3);
+            v2 += '   .eSize-' + rV.replace('.', '_') + '\n';
+            v2 += '   {\n';
+            v2 += '    --zoom-height: calc(var(--emote-height) * ' + rV + ');\n';
+            v2 += '    --zoom-width: calc(var(--emote-width) * ' + rV + ');\n';
+            v2 += '   }\n';
+          }
+          h = h.replace(v, v2);
+        }
+        css.innerHTML = h;
       }
 
       return $c_startup;
     }();
 
-    window.addEventListener('load', startup);
+    window.startup = startup
+    window.emote = display.emote
+    window.kappagen = display.kappa
+    window.rnd = shared.rnd
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="referrer" content="no-referrer" />
 </head>
 
 <body>
-  <!-- <script type="module" src="src/index.ts"></script> -->
+  <script type="module" src="src/index.ts"></script>
 </body>
 
 </html>
