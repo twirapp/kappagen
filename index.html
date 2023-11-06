@@ -944,7 +944,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -952,15 +952,15 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
             let eW = eH;
             if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
               eW = eInf.width / eInf.height * eH;
-            const h = shared.rnd(sW - eW);
-            const v = shared.rnd(sH - eH);
+            const h = shared.random(sW - eW);
+            const v = shared.random(sH - eH);
             let s = 'top: ' + v + 'px;';
             s += ' left: ' + h + 'px;';
             s += ' --emote-height: ' + eH + 'px;';
@@ -989,7 +989,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -997,7 +997,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1008,17 +1008,17 @@
             const eWh = Math.ceil(eW / 2);
             let h = x;
             if (h === false)
-              h = shared.rnd(sW) - eWh;
+              h = shared.random(sW) - eWh;
             let v = y;
             if (v === false)
-              v = shared.rnd(sH) - eHh;
-            const r = Math.min(sW, sH) * (shared.rnd() + 1);
-            let th = shared.rnd() * _cRadius;
+              v = shared.random(sH) - eHh;
+            const r = Math.min(sW, sH) * (shared.random() + 1);
+            let th = shared.random() * _cRadius;
             if (!x && !y) {
               const nH = eH * -1;
               const nW = eW * -1;
               while (!_safePoints(h, v, th, r, nW, nH, sW, sH)) {
-                th = shared.rnd() * _cRadius;
+                th = shared.random() * _cRadius;
               }
             }
             const hD = Math.floor(h + r * Math.cos(th));
@@ -1050,7 +1050,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -1058,7 +1058,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1066,7 +1066,7 @@
             if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
               eW = eInf.width / eInf.height * eH;
             const eWh = Math.ceil(eW / 2);
-            const h = shared.rnd(sW) - eWh;
+            const h = shared.random(sW) - eWh;
             const v = Math.floor(sH * _rndFromRange(timing.display.Rise.origin));
             let s = 'left: ' + h + 'px;';
             s += ' --emote-height: ' + eH + 'px;';
@@ -1081,7 +1081,7 @@
             const aTimings = [];
             const aFills = [];
             const aIters = [];
-            if (shared.rnd(2) === 0)
+            if (shared.random(2) === 0)
               aNames.push('wiggleL');
             else
               aNames.push('wiggleR');
@@ -1123,7 +1123,7 @@
                   for (let i = 0; i < cfg.emote.size.variation; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
                 else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                   const chances = [];
@@ -1131,7 +1131,7 @@
                   for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
               }
               eH = Math.ceil(eH * variationSize);
@@ -1140,7 +1140,7 @@
                 eW = eInf.width / eInf.height * eH;
               const eWh = Math.ceil(eW / 2);
               const sWm = Math.ceil(sW / 2);
-              const h = Math.floor(shared.rnd(sW) - eWh);
+              const h = Math.floor(shared.random(sW) - eWh);
               const v = Math.floor(sH * _rndFromRange(timing.display.Bounce.origin));
               const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Bounce.time);
               const vMS = (tMS / 300 / (16 + 2 / 3));
@@ -1210,7 +1210,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -1218,7 +1218,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1227,7 +1227,7 @@
               eW = eInf.width / eInf.height * eH;
             const eWh = Math.ceil(eW / 2);
             const sWm = Math.ceil(sW / 2);
-            const h = shared.rnd(sW) - eWh;
+            const h = shared.random(sW) - eWh;
             const v = Math.floor(sH * _rndFromRange(timing.display.Speed.origin));
             let s = 'top: ' + v + 'px;';
             s += ' left: ' + h + 'px;';
@@ -1278,7 +1278,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -1286,7 +1286,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1294,7 +1294,7 @@
             if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
               eW = eInf.width / eInf.height * eH;
             const eWh = Math.ceil(eW / 2);
-            const h = shared.rnd(sW) - eWh;
+            const h = shared.random(sW) - eWh;
             let s = 'left: ' + h + 'px;';
             s += ' --emote-height: ' + eH + 'px;';
             s += ' --emote-width: ' + eW + 'px;';
@@ -1305,7 +1305,7 @@
             const aFills = [];
             const aIters = [];
             const dsO = {};
-            if (shared.rnd(2) === 0) {
+            if (shared.random(2) === 0) {
               dsO.origin = 'topleft';
               aNames.push('dropL');
             }
@@ -1350,7 +1350,7 @@
                   for (let i = 0; i < cfg.emote.size.variation; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
                 else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                   const chances = [];
@@ -1358,7 +1358,7 @@
                   for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
               }
               eH = Math.ceil(eH * variationSize);
@@ -1367,8 +1367,8 @@
                 eW = eInf.width / eInf.height * eH;
               const sR = sW - eW;
               const sB = sH - eH;
-              const h = shared.rnd(sR - 5) + 10;
-              const v = shared.rnd(sB - 5) + 10;
+              const h = shared.random(sR - 5) + 10;
+              const v = shared.random(sB - 5) + 10;
               let s = 'top: ' + v + 'px;';
               s += ' left: ' + h + 'px;';
               s += ' --emote-height: ' + eH + 'px;';
@@ -1378,8 +1378,8 @@
               const rate = Math.sqrt(timing.display.Crazy.distance ** 2 / 2) / tMS;
               const traj = { x: 0, y: 0 };
               while (traj.x === 0 && traj.y === 0) {
-                traj.x = shared.rnd() * (rate * 2) - rate;
-                traj.y = shared.rnd() * (rate * 2) - rate;
+                traj.x = shared.random() * (rate * 2) - rate;
+                traj.y = shared.random() * (rate * 2) - rate;
               }
               const pos = { x: h, y: v, t: 0 };
               let lastT = 0;
@@ -1502,7 +1502,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -1510,7 +1510,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1518,7 +1518,7 @@
             if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
               eW = eInf.width / eInf.height * eH;
             const eWh = Math.ceil(eW / 2);
-            const h = shared.rnd(sW) - eWh;
+            const h = shared.random(sW) - eWh;
             let s = 'left: ' + h + 'px;';
             s += ' --emote-height: ' + eH + 'px;';
             s += ' --emote-width: ' + eW + 'px;';
@@ -1528,7 +1528,7 @@
             const aTimings = [];
             const aFills = [];
             const aIters = [];
-            switch (shared.rnd(3)) {
+            switch (shared.random(3)) {
               case 0:
                 aNames.push('confettiA');
                 break;
@@ -1569,7 +1569,7 @@
                   for (let i = 0; i < cfg.emote.size.variation; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
                 else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                   const chances = [];
@@ -1577,7 +1577,7 @@
                   for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
               }
               eH = Math.ceil(eH * variationSize);
@@ -1586,11 +1586,11 @@
                 eW = eInf.width / eInf.height * eH;
               const sR = sW - eW;
               const sB = sH - eH;
-              const h = shared.rnd(2) === 0 ? eW * -1 : sW;
-              const v = shared.rnd(sH + eH) - eH;
+              const h = shared.random(2) === 0 ? eW * -1 : sW;
+              const v = shared.random(sH + eH) - eH;
               const hD = Math.floor(sR * _rndFromRange(timing.display.Throw.dest.h));
               const vD = Math.floor(sB * _rndFromRange(timing.display.Throw.dest.v));
-              const dH = shared.rnd() * eH;
+              const dH = shared.random() * eH;
               const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time);
               const t2 = Math.floor(tMS * timing.display.Throw.toss);
               const t3 = Math.floor(tMS * timing.display.Throw.drop);
@@ -1686,7 +1686,7 @@
                   for (let i = 0; i < cfg.emote.size.variation; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
                 else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                   const chances = [];
@@ -1694,7 +1694,7 @@
                   for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                     chances.push(1);
                   }
-                  variationSize = chances[shared.rnd(chances.length)];
+                  variationSize = chances[shared.random(chances.length)];
                 }
               }
               eH = Math.ceil(eH * variationSize);
@@ -1800,13 +1800,13 @@
                 cube.appendChild(cubeU);
               }
               scene.appendChild(cube);
-              const h = shared.rnd(sW) - eHh;
-              const v = shared.rnd(sH) - eHh;
-              const r = Math.min(sW, sH) * (shared.rnd() + 1);
-              let th = shared.rnd() * _cRadius;
+              const h = shared.random(sW) - eHh;
+              const v = shared.random(sH) - eHh;
+              const r = Math.min(sW, sH) * (shared.random() + 1);
+              let th = shared.random() * _cRadius;
               const nH = eH * -1;
               while (!_safePoints(h, v, th, r, nH, nH, sW, sH)) {
-                th = shared.rnd() * _cRadius;
+                th = shared.random() * _cRadius;
               }
               const hD = Math.floor(h + r * Math.cos(th));
               const vD = Math.floor(v + r * Math.sin(th));
@@ -1830,8 +1830,8 @@
               let rX = 0;
               let rY = 0;
               while (Math.abs(rX) + Math.abs(rY) < 45) {
-                rX = (360 - shared.rnd() * 720) * cfg.emote.cube.rotations;
-                rY = (360 - shared.rnd() * 720) * cfg.emote.cube.rotations;
+                rX = (360 - shared.random() * 720) * cfg.emote.cube.rotations;
+                rY = (360 - shared.random() * 720) * cfg.emote.cube.rotations;
               }
               cube.style.transform = 'translateZ(' + nHh + 'px) rotateX(' + rX + 'deg) rotateY(' + rY + 'deg)';
               scene.style.transform = 'translate(' + hD + 'px, ' + vD + 'px)';
@@ -1855,7 +1855,7 @@
                 for (let i = 0; i < cfg.emote.size.variation; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
               else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
                 const chances = [];
@@ -1863,7 +1863,7 @@
                 for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
                   chances.push(1);
                 }
-                variationSize = chances[shared.rnd(chances.length)];
+                variationSize = chances[shared.random(chances.length)];
               }
             }
             eH = Math.ceil(eH * variationSize);
@@ -1874,16 +1874,16 @@
             const sB = sH - eH;
             let h = fX;
             if (h === false)
-              h = Math.floor(shared.rnd() * (sR * 0.33) + sR * 0.33);
+              h = Math.floor(shared.random() * (sR * 0.33) + sR * 0.33);
             let hD;
-            if (shared.rnd(2) === 0)
-              hD = h - shared.rnd(sR * 0.2);
+            if (shared.random(2) === 0)
+              hD = h - shared.random(sR * 0.2);
             else
-              hD = h + shared.rnd(sR * 0.2);
+              hD = h + shared.random(sR * 0.2);
             let s = '--emote-height: ' + eH + 'px;';
             s += ' --emote-width: ' + eW + 'px;';
             s += ' transform: translateX(' + h + 'px);';
-            s += ' offset-path: path("M 0 ' + sH + ' L 0 ' + Math.floor(fY * sH + shared.rnd(sB / 2)) + ' L 0 ' + (sH + eH) + '");';
+            s += ' offset-path: path("M 0 ' + sH + ' L 0 ' + Math.floor(fY * sH + shared.random(sB / 2)) + ' L 0 ' + (sH + eH) + '");';
             const aNames = [];
             const aDelays = [];
             const aDurs = [];
@@ -1926,7 +1926,7 @@
           const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
           document.documentElement.style.setProperty('--height', sH + 'px');
           document.documentElement.style.setProperty('--width', sW + 'px');
-          const style = cfg.display.styles[shared.rnd(cfg.display.styles.length)];
+          const style = cfg.display.styles[shared.random(cfg.display.styles.length)];
           if (style === undefined)
             return;
           display.emote.list[style](e, sW, sH, eH);
@@ -1977,15 +1977,15 @@
               const tInit = new Date().getTime();
               if (_iTitanic > tInit)
                 return;
-              const oK = kList[shared.rnd(kList.length)];
+              const oK = kList[shared.random(kList.length)];
               let eW = eH;
               if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
                 eW = oK.width / oK.height * eH;
               const eWh = Math.ceil(eW / 2);
-              const oX = sW * timing.kappa.Fireworks.origin.x[shared.rnd(timing.kappa.Fireworks.origin.x.length)] - eWh;
-              const oY = sH * timing.kappa.Fireworks.origin.y[shared.rnd(timing.kappa.Fireworks.origin.y.length)];
-              const cX = sW * timing.kappa.Fireworks.dest.x[shared.rnd(timing.kappa.Fireworks.dest.x.length)];
-              const cY = sH * timing.kappa.Fireworks.dest.y[shared.rnd(timing.kappa.Fireworks.dest.y.length)];
+              const oX = sW * timing.kappa.Fireworks.origin.x[shared.random(timing.kappa.Fireworks.origin.x.length)] - eWh;
+              const oY = sH * timing.kappa.Fireworks.origin.y[shared.random(timing.kappa.Fireworks.origin.y.length)];
+              const cX = sW * timing.kappa.Fireworks.dest.x[shared.random(timing.kappa.Fireworks.dest.x.length)];
+              const cY = sH * timing.kappa.Fireworks.dest.y[shared.random(timing.kappa.Fireworks.dest.y.length)];
               const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time);
               const sendUp = Math.floor(tMS * timing.kappa.Fireworks.speed.rocket);
               let s = '--emote-height: ' + eH + 'px;';
@@ -2021,11 +2021,11 @@
               for (let v = 0; v < inner; v++) {
                 if (_iTitanic > tInit)
                   return;
-                const sK = kList[shared.rnd(lK)];
+                const sK = kList[shared.random(lK)];
                 let eW = eH;
                 if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
                   eW = sK.width / sK.height * eH;
-                const sA = shared.rnd();
+                const sA = shared.random();
                 _eActive--;
                 _sparkler(tInit, sK.url, cX, cY, eW, eH, sR, sA);
                 if (sK.hasOwnProperty('zwe')) {
@@ -2042,11 +2042,11 @@
               for (let v = 0; v < core; v++) {
                 if (_iTitanic > tInit)
                   return;
-                const sK = kList[shared.rnd(lK)];
+                const sK = kList[shared.random(lK)];
                 let eW = eH;
                 if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
                   eW = sK.width / sK.height * eH;
-                const sA = shared.rnd();
+                const sA = shared.random();
                 _eActive--;
                 _sparkler(tInit, sK.url, cX, cY, eW, eH, mR, sA);
                 if (sK.hasOwnProperty('zwe')) {
@@ -2062,11 +2062,11 @@
               for (let v = 0; v < outer; v++) {
                 if (_iTitanic > tInit)
                   return;
-                const sK = kList[shared.rnd(lK)];
+                const sK = kList[shared.random(lK)];
                 let eW = eH;
                 if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
                   eW = sK.width / sK.height * eH;
-                const sA = shared.rnd();
+                const sA = shared.random();
                 _eActive--;
                 _sparkler(tInit, sK.url, cX, cY, eW, eH, lR, sA);
                 if (sK.hasOwnProperty('zwe')) {
@@ -2103,8 +2103,8 @@
               const tInit = new Date().getTime();
               if (_iTitanic > tInit)
                 return;
-              const oX = shared.rnd() * sW;
-              const oY = shared.rnd(sH - eH);
+              const oX = shared.random() * sW;
+              const oY = shared.random(sH - eH);
               const r = Math.min(sW, sH);
               shared.doNextFrame(_init, tInit, kList, oX, oY, eH, r, iKC);
             }
@@ -2112,9 +2112,9 @@
             async function _init(tInit, kList, oX, oY, eH, r, iKC) {
               if (_iTitanic > tInit)
                 return;
-              const c = _cRadius / (_rndFromRange(timing.kappa.Spiral.vectors) + (shared.rnd() * 2));
-              let th = shared.rnd() * _cRadius;
-              const o = shared.rnd(2) === 0;
+              const c = _cRadius / (_rndFromRange(timing.kappa.Spiral.vectors) + (shared.random() * 2));
+              let th = shared.random() * _cRadius;
+              const o = shared.random(2) === 0;
               const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time);
               const sA = _kAcTime(iKC, tMS);
               if (sA.ct > timing.kappa.Spiral.bulk)
@@ -2132,7 +2132,7 @@
                   if (th >= _cRadius)
                     th -= _cRadius;
                 }
-                const oK = kList[shared.rnd(kList.length)];
+                const oK = kList[shared.random(kList.length)];
                 let eW = eH;
                 if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
                   eW = oK.width / oK.height * eH;
@@ -2189,9 +2189,9 @@
                   return;
                 let x;
                 do {
-                  x = shared.rnd(lP);
+                  x = shared.random(lP);
                 } while (drawn[x] >= pyramidDist[x]);
-                const oK = kList[shared.rnd(kList.length)];
+                const oK = kList[shared.random(kList.length)];
                 _block(tInit, oK.url, x, t, eH, sH, drawn[x] + 1, eT + dT);
                 if (oK.hasOwnProperty('zwe')) {
                   for (let j = 0, l = oK.zwe.length; j < l; j++) {
@@ -2261,16 +2261,16 @@
               const tPerB = Math.max(Math.floor(sT / ct), timing.kappa.SmallPyramid.show.min);
               const eT = tPerB * ct;
               const dT = Math.floor(tMS * timing.kappa.SmallPyramid.pause);
-              const oX = shared.rnd(sW - eH * lP);
+              const oX = shared.random(sW - eH * lP);
               let t = 0;
               for (let i = 0; i < ct; i++) {
                 if (_iTitanic > tInit)
                   return;
                 let x;
                 do {
-                  x = shared.rnd(lP);
+                  x = shared.random(lP);
                 } while (drawn[x] >= pyramidDist[x]);
-                const oK = kList[shared.rnd(kList.length)];
+                const oK = kList[shared.random(kList.length)];
                 _block(tInit, oK.url, oX, x, t, eH, sH, drawn[x] + 1, eT + dT);
                 if (oK.hasOwnProperty('zwe')) {
                   for (let j = 0, l = oK.zwe.length; j < l; j++) {
@@ -2328,10 +2328,10 @@
               if (_iTitanic > tInit)
                 return;
               const bandHeight = eH * timing.kappa.Stampede.height;
-              const d = shared.rnd(2) === 0;
-              const bandTop = shared.rnd(sH - bandHeight + (eH * timing.kappa.Stampede.top.min) + (eH * timing.kappa.Stampede.top.max)) + (eH * (-1 * timing.kappa.Stampede.top.min));
+              const d = shared.random(2) === 0;
+              const bandTop = shared.random(sH - bandHeight + (eH * timing.kappa.Stampede.top.min) + (eH * timing.kappa.Stampede.top.max)) + (eH * (-1 * timing.kappa.Stampede.top.min));
               const b1 = _rndFromRange(timing.kappa.Stampede.bunch[1]);
-              const b2 = shared.rnd(timing.kappa.Stampede.bunch[2] - b1) + b1;
+              const b2 = shared.random(timing.kappa.Stampede.bunch[2] - b1) + b1;
               const b4 = _rndFromRange(timing.kappa.Stampede.bunch[4]);
               _eActive += b1 + b2 + iKC + b4;
               const hasB4 = b4 > 0;
@@ -2370,11 +2370,11 @@
               for (let i = 0; i < ct; i++) {
                 if (_iTitanic > tInit)
                   return;
-                const oK = kList[shared.rnd(kList.length)];
+                const oK = kList[shared.random(kList.length)];
                 let eW = eH;
                 if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
                   eW = oK.width / oK.height * eH;
-                const y = bandTop + shared.rnd(bandHeight);
+                const y = bandTop + shared.random(bandHeight);
                 _eActive--;
                 imgs.push(_run(tInit, oK.url, y, d, sW, eW, eH, maxW));
                 if (oK.hasOwnProperty('zwe')) {
@@ -2388,9 +2388,9 @@
                   if (i % sA.ct === sA.ct - 1) {
                     let wF = sA.f;
                     if (wF === 1)
-                      wF = shared.rnd(3);
+                      wF = shared.random(3);
                     else
-                      wF *= (shared.rnd() * 3) / 2;
+                      wF *= (shared.random() * 3) / 2;
                     if (wF !== 0)
                       await _fPause(wF);
                   }
@@ -2467,9 +2467,9 @@
                 await _sleep(250);
               }
               while (!unique) {
-                v = shared.rnd(sht) * seg;
+                v = shared.random(sht) * seg;
                 if (nM) {
-                  v = shared.rnd(timing.kappa.Conga.avoidMiddle);
+                  v = shared.random(timing.kappa.Conga.avoidMiddle);
                   const hMid = Math.floor(timing.kappa.Conga.avoidMiddle / 2);
                   if (v >= hMid)
                     v = sht - 1 - (v - hMid);
@@ -2490,7 +2490,7 @@
               const zurls = [];
               const ct = Math.floor(sW / bS);
               for (let i = 0; i < ct; i++) {
-                const oK = kList[shared.rnd(kList.length)];
+                const oK = kList[shared.random(kList.length)];
                 urls.push(oK.url);
                 const oZ = [];
                 if (oK.hasOwnProperty('zwe')) {
@@ -2636,7 +2636,7 @@
               const sFaces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
               const eFaces = [];
               for (let i = 0; i < 6; i++) {
-                eFaces.push(kList[shared.rnd(kList.length)]);
+                eFaces.push(kList[shared.random(kList.length)]);
               }
               for (let i = 0; i < 6; i++) {
                 if (!eFaces[i].hasOwnProperty('zwe') || eFaces[i].zwe.length === 0) {
@@ -2660,8 +2660,8 @@
                 }
               }
               scene.appendChild(cube);
-              let h = shared.rnd(sW - eH);
-              let v = shared.rnd(sH - eH);
+              let h = shared.random(sW - eH);
+              let v = shared.random(sH - eH);
               if (bC) {
                 h = Math.floor(sWm - eHh);
                 v = Math.floor(sHm - eHh);
@@ -2685,8 +2685,8 @@
               let rX = 0;
               let rY = 0;
               while (Math.abs(rX) + Math.abs(rY) < 45) {
-                rX = (360 - shared.rnd() * 720) * iR;
-                rY = (360 - shared.rnd() * 720) * iR;
+                rX = (360 - shared.random() * 720) * iR;
+                rY = (360 - shared.random() * 720) * iR;
               }
               cube.style.transform = 'translateZ(' + nHh + 'px) rotateX(' + rX + 'deg) rotateY(' + rY + 'deg)';
             }
@@ -2722,18 +2722,18 @@
               const eT = tPerB * ctT;
               const lF = msgDist[0].length;
               const lFS = eH * lF;
-              const vH = shared.rnd(sH - lFS) + lFS;
-              const oX = shared.rnd(sW - eH * lM);
+              const vH = shared.random(sH - lFS) + lFS;
+              const oX = shared.random(sW - eH * lM);
               let t = 0;
               for (let i = 0; i < ct; i++) {
                 if (_iTitanic > tInit)
                   return;
                 let x;
                 do {
-                  x = shared.rnd(lM);
+                  x = shared.random(lM);
                 } while (drawn[x] >= msgDist[x].length);
                 if (msgDist[x][drawn[x]] !== 0) {
-                  const oK = kList[shared.rnd(kList.length)];
+                  const oK = kList[shared.random(kList.length)];
                   _block(tInit, oK.url, vH, oX, drawn[x] + 1, tPerB, eT, iTime, x, t, sH, eH);
                   if (oK.hasOwnProperty('zwe')) {
                     for (let j = 0, l = oK.zwe.length; j < l; j++) {
@@ -2935,9 +2935,9 @@
               _eActive -= waitFor;
               let sTM = 'HYPE!';
               if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('message'))
-                sTM = cfg.display.kappa.styles[kStyle.style].message[shared.rnd(cfg.display.kappa.styles[kStyle.style].message.length)];
+                sTM = cfg.display.kappa.styles[kStyle.style].message[shared.random(cfg.display.kappa.styles[kStyle.style].message.length)];
               if (kStyle.prefs.hasOwnProperty('message') && Array.isArray(kStyle.prefs.message) && kStyle.prefs.message.length > 0)
-                sTM = kStyle.prefs.message[shared.rnd(kStyle.prefs.message.length)];
+                sTM = kStyle.prefs.message[shared.random(kStyle.prefs.message.length)];
               let sTT = cfg.emote.time;
               if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('time'))
                 sTT = cfg.display.kappa.styles[kStyle.style].time;
@@ -2971,7 +2971,7 @@
               if (bF)
                 kUse = kList;
               else
-                kUse.push(kList[shared.rnd(lK)]);
+                kUse.push(kList[shared.random(lK)]);
               _list.TheCube(kUse, sW, sH, Math.floor(cS * sCS), sCC, sCR);
               break;
             case 'Burst':
@@ -2981,7 +2981,7 @@
               for (let i = 0; i < kStyle.count; i++) {
                 if (_iTitanic > tInit)
                   return;
-                const rB = shared.rnd(lK);
+                const rB = shared.random(lK);
                 _eActive--;
                 let eWb = eH;
                 if (kList[rB].hasOwnProperty('width') && kList[rB].hasOwnProperty('height'))
@@ -2999,7 +2999,7 @@
               for (let i = 0; i < kStyle.count; i++) {
                 if (_iTitanic > tInit)
                   return;
-                const rF = shared.rnd(lK);
+                const rF = shared.random(lK);
                 _eActive--;
                 display.emote.list.Fountain(kList[rF], sW, sH, eH, fX, fY, false, tInit);
                 if (i % fA.ct === fA.ct - 1)
@@ -3011,7 +3011,7 @@
               for (let i = 0; i < kStyle.count; i++) {
                 if (_iTitanic > tInit)
                   return;
-                const rN = shared.rnd(lK);
+                const rN = shared.random(lK);
                 _eActive--;
                 display.emote.list.Confetti(kList[rN], sW, sH, eHh, false, tInit);
                 if (i % cA.ct === cA.ct - 1)
@@ -3148,7 +3148,7 @@
       }();
 
       function _rndFromRange(range) {
-        return shared.rnd(range.max - range.min) + range.min;
+        return shared.random(range.max - range.min) + range.min;
       }
 
       function _safePoints(h, v, th, r, fL, fT, fR, fB) {
@@ -3242,7 +3242,7 @@
         img.onerror = function () {
           img.onerror = null;
           img.onload = null;
-          img.src = bareList[shared.rnd(bareList.length)].url;
+          img.src = bareList[shared.random(bareList.length)].url;
         };
         img.src = url;
       }
@@ -3336,7 +3336,7 @@
     }();
 
     const shared = function () {
-      function $rnd(m) {
+      function $random(m) {
         const r = new Uint32Array(1);
         window.crypto.getRandomValues(r);
         const f = r[0] / 4294967295;
@@ -3394,7 +3394,7 @@
       }();
 
       return {
-        rnd: $rnd,
+        random: $random,
         doNextFrame: $doNextFrame,
         mspf: $mspf
       };
@@ -3602,11 +3602,11 @@
     window.startup = startup
     window.emote = display.emote
     window.kappagen = display.kappa
-    window.rnd = shared.rnd
+    window.random = shared.random
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="referrer" content="no-referrer" />
-  <script type="module" crossorigin src="./assets/index-73473f8a.js"></script>
+  <script type="module" crossorigin src="./assets/index-b802ebac.js"></script>
   <link rel="stylesheet" href="./assets/index-80ce3f70.css">
 </head>
 
