@@ -1,13 +1,15 @@
-import { kappagenAnimations } from "./constants";
+import { kappagenAnimations } from "./animations";
 import "./style.css";
 
 interface Emote {
   url: string;
+  // zero width emote
+  zwe: Omit<Emote, "zwe">[];
 }
 
 interface AnimationParams {
   style: string;
-  prefs: any;
+  prefs: Record<string, any>;
   count: number;
 }
 
@@ -25,8 +27,13 @@ declare global {
   }
 }
 
-const emote = {
+const emote: Emote = {
   url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
+  zwe: [
+    {
+      url: "https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp",
+    },
+  ],
 };
 
 const buttonKappagen = document.createElement("button");
