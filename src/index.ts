@@ -24,7 +24,6 @@ declare global {
     };
     kappagen: {
       show: (emotes: Emote[], params: AnimationParams) => Promise<void>;
-      hide: () => void;
     };
     rnd: (num: number) => number;
   }
@@ -51,7 +50,7 @@ buttonKappagen.addEventListener("click", () => {
 const buttonSpawn = document.createElement("button");
 buttonSpawn.textContent = "Spawn";
 buttonSpawn.addEventListener("click", () => {
-  const randomCountEmotes = Math.floor(Math.random() * 10);
+  const randomCountEmotes = window.rnd(15) + 1;
   const emotes = new Array(randomCountEmotes).fill(emote);
   window.emote.addToShowList(emotes);
   window.emote.showEmotes();
