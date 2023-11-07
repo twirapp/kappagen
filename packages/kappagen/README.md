@@ -10,41 +10,56 @@ pnpm add kappagen
 
 ```vue
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
 import KappagenOverlay from 'kappagen'
+import type { Emote, KappagenEmoteConfig } from 'kappagen'
+import { ref, onMounted, reactive } from 'vue'
 import 'kappagen/style.css'
 
-import type { Emote } from 'kappagen'
-
+const rave = ref(false)
+const emoteConfig = reactive<KappagenEmoteConfig>({
+  max: 100,
+  cube: {
+    speed: 10
+  }
+})
 const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
-const emote: Emote = {
-  url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
-  zwe: [
-    {
-      url: "https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp",
-    },
-  ],
-};
+const emotes: Emote[] = [
+  {
+    url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
+    zwe: [
+      {
+        url: "https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp",
+      },
+    ],
+  }
+];
 
 onMounted(() => {
   kappagen.value!.init()
 })
 
-async function fireworks() {
-  await kappagen.value.kappagen!.run(
-    [emote],
+async function spawnKappagen() {
+  await kappagen.value!.kappagen.run(
+    emotes,
     {
-      style: 'Fireworks',
-      count: 100
+      style: "Fireworks",
+      count: 150
     }
   )
+}
+
+function spawnEmotes() {
+  kappagen.value!.emote.addEmotes(emotes)
+  kappagen.value!.emote.showEmotes()
+}
+
+function clearEmotes() {
+  kappagen!.clear()
 }
 </script>
 
 <template>
-  <button @click="fireworks">fireworks</button>
-  <kappagen-overlay ref="kappagen" />
+  <kappagen-overlay ref="kappagen" :is-rave="rave" :emote-config="emoteConfig" />
 </template>
 ```
