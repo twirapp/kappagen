@@ -1,6 +1,43 @@
 import { cfg } from "./config.js";
 
 export const shared = (function () {
+  const PROTECTED_KEYS = ["__proto__", "constructor", "prototype"];
+
+  function isObject(obj) {
+    if (typeof obj === "object" && obj !== null) {
+      if (typeof Object.getPrototypeOf === "function") {
+        const prototype = Object.getPrototypeOf(obj);
+        return prototype === Object.prototype || prototype === null;
+      }
+
+      return Object.prototype.toString.call(obj) === "[object Object]";
+    }
+
+    return false;
+  }
+
+  function deepMerge(...objects) {
+    return objects.reduce((result, current) => {
+      Object.keys(current).forEach((key) => {
+        if (PROTECTED_KEYS.includes(key)) {
+          return;
+        }
+
+        if (Array.isArray(result[key]) && Array.isArray(current[key])) {
+          result[key] = false
+            ? Array.from(new Set(result[key].concat(current[key])))
+            : current[key];
+        } else if (isObject(result[key]) && isObject(current[key])) {
+          result[key] = deepMerge(result[key], current[key]);
+        } else {
+          result[key] = current[key];
+        }
+      });
+
+      return result;
+    }, {});
+  }
+
   function framePause(frames = 1) {
     return new Promise(function (resolve) {
       if (frames < 1) {
@@ -250,6 +287,7 @@ export const shared = (function () {
   })();
 
   return {
+    deepMerge,
     framePause,
     countEstimatedTime,
     sleep,

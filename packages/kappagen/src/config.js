@@ -31,7 +31,7 @@ export const cfg = reactive({
           // Rotate a 3D cube of an emote (no zoom, only fade)
           size: 8 / 10,
           center: true,
-          rotations: 5,
+          speed: 5,
           faces: false,
         },
         // Show a message (no fade/zoom; specific-size emotes)
@@ -58,10 +58,9 @@ export const cfg = reactive({
       },
       min: 16,
       max: 256,
-      variation: false,
     },
     cube: {
-      rotations: 5,
+      speed: 5,
     },
     animation: {
       fade: {
@@ -75,11 +74,11 @@ export const cfg = reactive({
     },
     in: {
       fade: true,
-      zoom: true /* Layout Shifts - Requires independent scale directive */,
+      zoom: true,
     },
     out: {
       fade: true,
-      zoom: true /* Layout Shifts - Requires independent scale directive */,
+      zoom: true,
     },
   },
 });
@@ -131,7 +130,8 @@ export const timing = {
     },
     Speed: {
       origin: {
-        /* percentages of the screen height */ min: 0.3,
+        /* percentages of the screen height */
+        min: 0.3,
         max: 0.7,
       },
       time: 1,

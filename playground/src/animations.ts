@@ -6,7 +6,7 @@ export const kappagenAnimations: KappagenAnimations[] = [
     prefs: {
       size: 0.1,
       center: false,
-      rotations: 2,
+      speed: 6,
       faces: false,
     },
   },

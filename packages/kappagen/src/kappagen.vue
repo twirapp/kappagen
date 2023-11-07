@@ -2,6 +2,7 @@
 import { watchEffect } from 'vue';
 import { cfg, timing, letters, pyramidDistribution } from './config.js'
 import { shared } from './shared.js'
+import { toRefs, useVModel } from '@vueuse/core'
 
 const display = function () {
   let _eActive = 0;
@@ -71,32 +72,11 @@ const display = function () {
     let _tEmote = false;
 
     const list = function () {
-      function $Still(eInf, sW, sH, eH, canV = true, tInit = 0) {
+      function $Still(eInf, sW, sH, eH, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -108,40 +88,19 @@ const display = function () {
         s += ' --emote-width: ' + eW + 'px;';
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Still.time);
         s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        addEmoteToDocument(tInit, eInf.url, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
 
-      function $StraightLine(eInf, sW, sH, eH, x = false, y = false, canV = true, tInit = 0) {
+      function $StraightLine(eInf, sW, sH, eH, x = false, y = false, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -169,40 +128,19 @@ const display = function () {
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time);
         s += ' transform: translate(' + h + 'px, ' + v + 'px);';
         s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
+        addEmoteToDocument(tInit, eInf.url, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
           }
         }
       }
 
-      function $Rise(eInf, sW, sH, eH, canV = true, tInit = 0) {
+      function $Rise(eInf, sW, sH, eH, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -241,41 +179,20 @@ const display = function () {
         aFills.push('forwards');
         aIters.push('1');
         s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        addEmoteToDocument(tInit, eInf.url, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
 
       const $Bounce = function () {
-        function $c_Bounce(eInf, sW, sH, eH, canV = true, tInit = 0) {
+        function $c_Bounce(eInf, sW, sH, eH, tInit = 0) {
           if (tInit === 0)
             tInit = new Date().getTime();
           if (_iTitanic > tInit)
             return;
-          let variationSize = 1;
-          if (canV && cfg.emote.size.variation !== false) {
-            if (typeof cfg.emote.size.variation === 'number') {
-              const chances = [];
-              chances.push(0.5);
-              chances.push(2);
-              for (let i = 0; i < cfg.emote.size.variation; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-            else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-              const chances = [];
-              chances.push(...cfg.emote.size.variation.range);
-              for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-          }
-          eH = Math.ceil(eH * variationSize);
           let eW = eH;
           if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
             eW = eInf.width / eInf.height * eH;
@@ -296,10 +213,10 @@ const display = function () {
           const bX = h;
           const bY = v;
           const iArr = [];
-          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, { style: s }, true, { time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s }, true, { time: tMS }));
             }
           }
           requestAnimationFrame(function (ts) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, ts, ts); });
@@ -337,32 +254,11 @@ const display = function () {
         return $c_Bounce;
       }();
 
-      function $Speed(eInf, sW, sH, eH, canV = true, tInit = 0) {
+      function $Speed(eInf, sW, sH, eH, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -397,40 +293,19 @@ const display = function () {
         aFills.push('forwards');
         aIters.push('1');
         s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
+        addEmoteToDocument(tInit, eInf.url, { style: s, dataset: dsO }, false, { time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s, dataset: dsO }, false, { time: tMS });
           }
         }
       }
 
-      function $Drop(eInf, sW, sH, eH, canV = true, tInit = 0) {
+      function $Drop(eInf, sW, sH, eH, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -461,10 +336,10 @@ const display = function () {
         aFills.push('forwards');
         aIters.push('1');
         s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
+        addEmoteToDocument(tInit, eInf.url, { style: s, dataset: dsO }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s, dataset: dsO }, false, { space: false, time: tMS });
           }
         }
       }
@@ -477,32 +352,11 @@ const display = function () {
          * due to transform-origin changes during squash
          */
 
-        function $c_Crazy(eInf, sW, sH, eH, canV = true, tInit = 0) {
+        function $c_Crazy(eInf, sW, sH, eH, tInit = 0) {
           if (tInit === 0)
             tInit = new Date().getTime();
           if (_iTitanic > tInit)
             return;
-          let variationSize = 1;
-          if (canV && cfg.emote.size.variation !== false) {
-            if (typeof cfg.emote.size.variation === 'number') {
-              const chances = [];
-              chances.push(0.5);
-              chances.push(2);
-              for (let i = 0; i < cfg.emote.size.variation; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-            else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-              const chances = [];
-              chances.push(...cfg.emote.size.variation.range);
-              for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-          }
-          eH = Math.ceil(eH * variationSize);
           let eW = eH;
           if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
             eW = eInf.width / eInf.height * eH;
@@ -560,10 +414,10 @@ const display = function () {
           dests.push({ x: pos.x, y: pos.y, t: pos.t - lastT, w: 0 });
           s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
           const iArr = [];
-          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { space: false, time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, { style: s }, true, { space: false, time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { space: false, time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s }, true, { space: false, time: tMS }));
             }
           }
           const d = 0;
@@ -629,32 +483,11 @@ const display = function () {
         return $c_Crazy;
       }();
 
-      function $Confetti(eInf, sW, sH, eH, canV = true, tInit = 0) {
+      function $Confetti(eInf, sW, sH, eH, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -687,41 +520,20 @@ const display = function () {
         aFills.push('forwards');
         aIters.push('1');
         s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, false, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        addEmoteToDocument(tInit, eInf.url, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
 
       const $Throw = function () {
-        function $c_Throw(eInf, sW, sH, eH, canV = true, tInit = 0) {
+        function $c_Throw(eInf, sW, sH, eH, tInit = 0) {
           if (tInit === 0)
             tInit = new Date().getTime();
           if (_iTitanic > tInit)
             return;
-          let variationSize = 1;
-          if (canV && cfg.emote.size.variation !== false) {
-            if (typeof cfg.emote.size.variation === 'number') {
-              const chances = [];
-              chances.push(0.5);
-              chances.push(2);
-              for (let i = 0; i < cfg.emote.size.variation; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-            else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-              const chances = [];
-              chances.push(...cfg.emote.size.variation.range);
-              for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-          }
-          eH = Math.ceil(eH * variationSize);
           let eW = eH;
           if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
             eW = eInf.width / eInf.height * eH;
@@ -780,10 +592,10 @@ const display = function () {
           }
           s2 += shared.styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
           const iArr = [];
-          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
             }
           }
           shared.doNextFrame(_tMove, tInit, iArr, hD, vD);
@@ -811,34 +623,14 @@ const display = function () {
       }();
 
       const $TheCube = function () {
-        function $c_TheCube(eInf, sW, sH, eH, canV = true, tInit = 0) {
+        function $c_TheCube(eInf, sW, sH, eH, tInit = 0) {
           if (tInit === 0)
             tInit = new Date().getTime();
           if (_iTitanic > tInit)
             return;
           const scene = document.createElement('div');
           scene.setAttribute('class', 'scene fit cube');
-          let variationSize = 1;
-          if (canV && cfg.emote.size.variation !== false) {
-            if (typeof cfg.emote.size.variation === 'number') {
-              const chances = [];
-              chances.push(0.5);
-              chances.push(2);
-              for (let i = 0; i < cfg.emote.size.variation; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-            else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-              const chances = [];
-              chances.push(...cfg.emote.size.variation.range);
-              for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-                chances.push(1);
-              }
-              variationSize = chances[shared.random(chances.length)];
-            }
-          }
-          eH = Math.ceil(eH * variationSize);
+
           const eHh = Math.ceil(eH / 2);
           const nHh = eHh * -1;
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time);
@@ -971,8 +763,8 @@ const display = function () {
           let rX = 0;
           let rY = 0;
           while (Math.abs(rX) + Math.abs(rY) < 45) {
-            rX = (360 - shared.random() * 720) * cfg.emote.cube.rotations;
-            rY = (360 - shared.random() * 720) * cfg.emote.cube.rotations;
+            rX = (360 - shared.random() * 720) * cfg.emote.cube.speed;
+            rY = (360 - shared.random() * 720) * cfg.emote.cube.speed;
           }
           cube.style.transform = 'translateZ(' + nHh + 'px) rotateX(' + rX + 'deg) rotateY(' + rY + 'deg)';
           scene.style.transform = 'translate(' + hD + 'px, ' + vD + 'px)';
@@ -981,33 +773,12 @@ const display = function () {
         return $c_TheCube;
       }();
 
-      function $Fountain(eInf, sW, sH, eH, fX, fY, canV = true, tInit = 0) {
+      function $Fountain(eInf, sW, sH, eH, fX, fY, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
         if (_iTitanic > tInit)
           return;
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time);
-        let variationSize = 1;
-        if (canV && cfg.emote.size.variation !== false) {
-          if (typeof cfg.emote.size.variation === 'number') {
-            const chances = [];
-            chances.push(0.5);
-            chances.push(2);
-            for (let i = 0; i < cfg.emote.size.variation; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-          else if (typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('chance') && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-            const chances = [];
-            chances.push(...cfg.emote.size.variation.range);
-            for (let i = 0; i < cfg.emote.size.variation.chance; i++) {
-              chances.push(1);
-            }
-            variationSize = chances[shared.random(chances.length)];
-          }
-        }
-        eH = Math.ceil(eH * variationSize);
         let eW = eH;
         if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
           eW = eInf.width / eInf.height * eH;
@@ -1038,10 +809,10 @@ const display = function () {
         aFills.push('forwards');
         aIters.push('1');
         s += shared.styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
-        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
+        addEmoteToDocument(tInit, eInf.url, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
           }
         }
       }
@@ -1134,10 +905,10 @@ const display = function () {
           s += ' transform: translate(' + oX + 'px, ' + oY + 'px);';
           const iArr = [];
           _eActive--;
-          iArr.push(addEmoteToDocument(tInit, oK.url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
+          iArr.push(addEmoteToDocument(tInit, oK.url, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
           if (oK.hasOwnProperty('zwe')) {
             for (let i = 0, l = oK.zwe.length; i < l; i++) {
-              iArr.push(addEmoteToDocument(tInit, oK.zwe[i].url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
+              iArr.push(addEmoteToDocument(tInit, oK.zwe[i].url, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
             }
           }
           setTimeout(_explode, sendUp, tInit, kList, iArr, cX, cY, eH, sW, sH, iKC);
@@ -1233,7 +1004,7 @@ const display = function () {
           s += ' --emote-width: ' + eW + 'px;';
           s += ' transform: translate(' + eX + 'px, ' + cY + 'px);';
           s += shared.styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
-          addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktFireworkSparkler'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
+          addEmoteToDocument(tInit, url, { style: s, classes: ['ktFireworkSparkler'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
         }
 
         return $c_Fireworks;
@@ -1300,7 +1071,7 @@ const display = function () {
           s += ' --emote-width: ' + eW + 'px;';
           s += ' transform: translate(' + oX + 'px, ' + oY + 'px);';
           s += shared.styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
-          addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktSpiral'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
+          addEmoteToDocument(tInit, url, { style: s, classes: ['ktSpiral'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
         }
 
         return $c_Spiral;
@@ -1569,9 +1340,9 @@ const display = function () {
           s += shared.styleEmoteString([], [], [], [], [], []);
           let img;
           if (d)
-            img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: h, y: v });
+            img = addEmoteToDocument(tInit, url, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: h, y: v });
           else
-            img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: sW, y: v });
+            img = addEmoteToDocument(tInit, url, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: sW, y: v });
           setTimeout(_tMark, tSpeed, tInit, img);
           return img;
         }
@@ -1982,6 +1753,104 @@ const display = function () {
       return _eActive + tC < cM;
     }
 
+    function getNextKappa(k) {
+      const a = [];
+      a[k.style] = k.prefs;
+      return getNextKappaEx(a, k.params);
+    }
+
+    function getNextKappaEx(kS = false, kP = false) {
+      if (typeof kS !== 'object') {
+        if (cfg.display.kappa.styles.length < 1)
+          return false;
+        kS = cfg.display.kappa.styles;
+      }
+      let s, p;
+      const keys = Object.keys(kS);
+      if (cfg.display.kappa.conga.contagious && _conga.length > 0) {
+        s = 'Conga';
+        p = {};
+        if (keys.includes(s))
+          p = kS[s];
+        else {
+          const s2 = keys[shared.random(keys.length)];
+          if (kS[s2].hasOwnProperty('emotes'))
+            p.emotes = kS[s2].emotes;
+        }
+      }
+      else {
+        s = keys[shared.random(keys.length)];
+        p = kS[s];
+      }
+      if (s === undefined)
+        return false;
+      let iKC = cfg.display.kappa.count;
+      if (cfg.display.kappa.styles.hasOwnProperty(s) && cfg.display.kappa.styles[s].hasOwnProperty('count') && cfg.display.kappa.styles[s].count > 0)
+        iKC = cfg.display.kappa.styles[s].count;
+      if (p === undefined)
+        p = {};
+      let pMax = cfg.emote.max;
+      if (p.hasOwnProperty('count')) {
+        let tKC = 0;
+        if (Number.isInteger(p.count))
+          tKC = p.count;
+        else {
+          if (p.count.hasOwnProperty('maximum'))
+            pMax = p.count.maximum;
+          if (p.count.hasOwnProperty('default'))
+            tKC = p.count.default;
+          if (p.count.hasOwnProperty('dynamic') && p.count.dynamic !== false) {
+            if (p.hasOwnProperty('params') && p.params !== null) {
+              const pC = _getKappaCountParam(p.params);
+              if (pC !== false)
+                tKC = pC;
+            }
+          }
+        }
+        if (tKC === -1 && kP !== false && kP.hasOwnProperty('%AMOUNT%') && Math.ceil(kP['%AMOUNT%']) > 0)
+          tKC = Math.ceil(kP['%AMOUNT%']);
+        if (tKC > 0)
+          iKC = tKC;
+      }
+      if (pMax > 0 && iKC > pMax)
+        iKC = pMax;
+      return { style: s, prefs: p, count: iKC };
+    }
+
+    function showKappas() {
+      if (_tKappa !== false) {
+        window.clearTimeout(_tKappa);
+        _tKappa = false;
+      }
+      if (_toKappa.length < 1)
+        return;
+      let nK = getNextKappa(_toKappa[0]);
+      if (nK === false)
+        return;
+      if (!canShowKappa(nK)) {
+        _tKappa = window.setTimeout(showKappas, _dKappa);
+        return;
+      }
+      let e = null;
+      while ((e = _toKappa.shift()) !== undefined) {
+        nK = false;
+        const a = {};
+        a[e.style] = e.prefs;
+        display.kappa.run(e.list, a);
+        if (_toKappa.length < 1)
+          return;
+        nK = getNextKappa(_toKappa[0]);
+        if (nK === false)
+          return;
+        if (!canShowKappa(nK)) {
+          if (cfg.emote.queue > 0 && _toKappa.length > cfg.emote.queue)
+            _toKappa.splice(0, _toKappa.length - cfg.emote.queue);
+          _tKappa = window.setTimeout(showKappas, _dKappa);
+          return;
+        }
+      }
+    }
+
     function getKappaCountEstimate(k) {
       switch (k.style) {
         case 'Pyramid':
@@ -2017,16 +1886,6 @@ const display = function () {
       document.documentElement.style.setProperty('--height', sH + 'px');
       document.documentElement.style.setProperty('--width', sW + 'px');
       const waitFor = getKappaCountEstimate(options);
-
-      if (!canShowKappa(options)) {
-        _toKappa.push({ list: emotes, style: options.style, prefs: options.prefs });
-        if (_tKappa !== false) {
-          clearTimeout(_tKappa);
-          _tKappa = false;
-        }
-        _tKappa = setTimeout(_showKappas, _dKappa);
-        return;
-      }
 
       _eActive += waitFor;
       const lK = emotes.length;
@@ -2090,10 +1949,10 @@ const display = function () {
           if (options.prefs.hasOwnProperty('center'))
             sCC = options.prefs.center;
           let sCR = 5;
-          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('rotations'))
-            sCR = cfg.display.kappa.styles[options.style].rotations;
-          if (options.prefs.hasOwnProperty('rotations'))
-            sCR = options.prefs.rotations;
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('speed'))
+            sCR = cfg.display.kappa.styles[options.style].speed;
+          if (options.prefs.hasOwnProperty('speed'))
+            sCR = options.prefs.speed || 1;
           let bF = false;
           if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('faces'))
             bF = cfg.display.kappa.styles[options.style].faces;
@@ -2119,7 +1978,7 @@ const display = function () {
             if (emotes[rB].hasOwnProperty('width') && emotes[rB].hasOwnProperty('height'))
               eWb = emotes[rB].width / emotes[rB].height * eH;
             const sRb = sW - Math.ceil(eWb / 2);
-            display.emote.list.StraightLine(emotes[rB], sW, sH, eH, oH * sRb, oV, false, tInit);
+            display.emote.list.StraightLine(emotes[rB], sW, sH, eH, oH * sRb, oV, tInit);
             if (i % bA.ct === bA.ct - 1)
               await shared.framePause(bA.f);
           }
@@ -2133,7 +1992,7 @@ const display = function () {
               return;
             const rF = shared.random(lK);
             _eActive--;
-            display.emote.list.Fountain(emotes[rF], sW, sH, eH, fX, fY, false, tInit);
+            display.emote.list.Fountain(emotes[rF], sW, sH, eH, fX, fY, tInit);
             if (i % fA.ct === fA.ct - 1)
               await shared.framePause(fA.f);
           }
@@ -2145,7 +2004,7 @@ const display = function () {
               return;
             const rN = shared.random(lK);
             _eActive--;
-            display.emote.list.Confetti(emotes[rN], sW, sH, eHh, false, tInit);
+            display.emote.list.Confetti(emotes[rN], sW, sH, eHh, tInit);
             if (i % cA.ct === cA.ct - 1)
               await shared.framePause(cA.f);
           }
@@ -2168,15 +2027,13 @@ const display = function () {
     };
   }();
 
-  function addEmoteToDocument(tInit, uri, variationSize, attrs = {}, r = false, oGC = {}, oT = false) {
+  function addEmoteToDocument(tInit, uri, attrs = {}, r = false, oGC = {}, oT = false) {
     if (_iTitanic > tInit) return;
     const img = document.createElement('img');
     const c = [];
     c.push('emote');
     if (attrs.hasOwnProperty('classes'))
       c.push(...attrs.classes);
-    const rV = variationSize.toFixed(3).replace('.', '_');
-    c.push('eSize-' + rV);
     img.classList.add(...c);
     shared.setImgSrc(img, uri);
     if (attrs.hasOwnProperty('style'))
@@ -2245,17 +2102,29 @@ const display = function () {
 }();
 
 const props = defineProps({
-  rave: {
+  isRave: {
     type: Boolean,
     default: false
+  },
+  emoteConfig: {
+    type: Object,
+    required: false
   }
 })
 
 watchEffect(() => {
-  if (props.rave) {
+  if (props.isRave) {
     document.body.classList.add('rave')
   } else {
     document.body.classList.remove('rave')
+  }
+
+  if (props.emoteConfig) {
+    const mergedEmoteConfig = shared.deepMerge(
+      toRefs(cfg.emote),
+      toRefs(useVModel(props, 'emoteConfig'))
+    )
+    cfg.emote = mergedEmoteConfig
   }
 })
 
@@ -2274,8 +2143,6 @@ defineExpose({
   },
 });
 </script>
-
-<template></template>
 
 <style global>
 :root {
@@ -2602,21 +2469,6 @@ div.scene img.dancer {
   100% {
     offset-distance: 100%;
   }
-}
-
-.eSize-1_000 {
-  --zoom-height: var(--emote-height);
-  --zoom-width: var(--emote-width);
-}
-
-.eSize-0_500 {
-  --zoom-height: calc(var(--emote-height) / 2);
-  --zoom-width: calc(var(--emote-width) / 2);
-}
-
-.eSize-2_000 {
-  --zoom-height: calc(var(--emote-height) * 2);
-  --zoom-width: calc(var(--emote-width) * 2);
 }
 
 @keyframes fadeIn {
