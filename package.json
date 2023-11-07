@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "turbo run dev --filter=./packages/*",
     "build": "turbo run build --filter=./packages/*",
-    "playground": "turbo run dev --filter=./playground"
+    "playground": "turbo run dev --filter=./playground",
+    "build:playground": "turbo run build --filter=./playground"
   },
   "devDependencies": {
     "turbo": "^1.10.16"
