@@ -1,14 +1,13 @@
 {
   "name": "kappagen",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build"
+    "dev": "turbo run dev --filter=./packages/*",
+    "build": "turbo run build --filter=./packages/*",
+    "playground": "turbo run dev --filter=./playground"
   },
   "devDependencies": {
-    "typescript": "5.2.2",
-    "vite": "4.5.0"
+    "turbo": "^1.10.16"
   }
 }
