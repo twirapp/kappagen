@@ -5,6 +5,7 @@ import vue from "@vitejs/plugin-vue";
 const config = defineConfig({
   plugins: [vue()],
   build: {
+    sourcemap: true,
     lib: {
       entry: "./src/index.js",
       name: "kappagen",
