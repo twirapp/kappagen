@@ -1,2 +1,2 @@
 import Kappagen from './kappagen.vue';
-export default Kappagen
+export default Kappagen;

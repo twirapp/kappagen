@@ -2007,7 +2007,7 @@ const display = function () {
       return k.count;
     }
 
-    async function run(kList, kStyle) {
+    async function run(emotes, options) {
       const sW = window.innerWidth;
       const sH = window.innerHeight;
       const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
@@ -2015,10 +2015,10 @@ const display = function () {
       const sB = sH - eH;
       document.documentElement.style.setProperty('--height', sH + 'px');
       document.documentElement.style.setProperty('--width', sW + 'px');
-      const waitFor = getKappaCountEstimate(kStyle);
+      const waitFor = getKappaCountEstimate(options);
 
-      if (!canShowKappa(kStyle)) {
-        _toKappa.push({ list: kList, style: kStyle.style, prefs: kStyle.prefs, params: kParams });
+      if (!canShowKappa(options)) {
+        _toKappa.push({ list: emotes, style: options.style, prefs: options.prefs });
         if (_tKappa !== false) {
           window.clearTimeout(_tKappa);
           _tKappa = false;
@@ -2028,123 +2028,123 @@ const display = function () {
       }
 
       _eActive += waitFor;
-      const lK = kList.length;
+      const lK = emotes.length;
       const tInit = new Date().getTime();
       let estMS = Math.floor(cfg.emote.time * 1000);
-      if (timing.kappa.hasOwnProperty(kStyle.style) && timing.kappa[kStyle.style].hasOwnProperty('time'))
-        estMS = Math.floor(cfg.emote.time * 1000 * timing.kappa[kStyle.style].time);
-      else if (timing.display.hasOwnProperty(kStyle.style) && timing.display[kStyle.style].hasOwnProperty('time'))
-        estMS = Math.floor(cfg.emote.time * 1000 * timing.display[kStyle.style].time);
+      if (timing.kappa.hasOwnProperty(options.style) && timing.kappa[options.style].hasOwnProperty('time'))
+        estMS = Math.floor(cfg.emote.time * 1000 * timing.kappa[options.style].time);
+      else if (timing.display.hasOwnProperty(options.style) && timing.display[options.style].hasOwnProperty('time'))
+        estMS = Math.floor(cfg.emote.time * 1000 * timing.display[options.style].time);
 
-      switch (kStyle.style) {
+      switch (options.style) {
         case 'Stampede':
           _eActive -= waitFor;
-          await list.Stampede(kList, sW, sH, eH, kStyle.count);
+          await list.Stampede(emotes, sW, sH, eH, options.count);
           break;
         case 'Fireworks':
-          list.Fireworks(kList, sW, sH, eHh, kStyle.count);
+          list.Fireworks(emotes, sW, sH, eHh, options.count);
           break;
         case 'Spiral':
-          list.Spiral(kList, sW, sH, eHh, kStyle.count);
+          list.Spiral(emotes, sW, sH, eHh, options.count);
           break;
         case 'Pyramid':
-          list.Pyramid(kList, sW, sH);
+          list.Pyramid(emotes, sW, sH);
           break;
         case 'SmallPyramid':
-          list.SmallPyramid(kList, sW, sH);
+          list.SmallPyramid(emotes, sW, sH);
           break;
         case 'Conga':
           _eActive -= waitFor;
           let avoidMiddle = false;
           if (cfg.display.kappa.conga.hasOwnProperty('avoidMiddle') && cfg.display.kappa.conga.avoidMiddle === true)
             avoidMiddle = true;
-          if (kStyle.prefs.hasOwnProperty('avoidMiddle') && kStyle.prefs.avoidMiddle === true)
+          if (options.prefs.hasOwnProperty('avoidMiddle') && options.prefs.avoidMiddle === true)
             avoidMiddle = true;
-          list.Conga(kList, sW, sH, eH, avoidMiddle);
+          list.Conga(emotes, sW, sH, eH, avoidMiddle);
           break;
         case 'Text':
           _eActive -= waitFor;
           let sTM = 'HYPE!';
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('message'))
-            sTM = cfg.display.kappa.styles[kStyle.style].message[shared.random(cfg.display.kappa.styles[kStyle.style].message.length)];
-          if (kStyle.prefs.hasOwnProperty('message') && Array.isArray(kStyle.prefs.message) && kStyle.prefs.message.length > 0)
-            sTM = kStyle.prefs.message[shared.random(kStyle.prefs.message.length)];
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('message'))
+            sTM = cfg.display.kappa.styles[options.style].message[shared.random(cfg.display.kappa.styles[options.style].message.length)];
+          if (options.prefs.hasOwnProperty('message') && Array.isArray(options.prefs.message) && options.prefs.message.length > 0)
+            sTM = options.prefs.message[shared.random(options.prefs.message.length)];
           let sTT = cfg.emote.time;
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('time'))
-            sTT = cfg.display.kappa.styles[kStyle.style].time;
-          if (kStyle.prefs.hasOwnProperty('time') && kStyle.prefs.time > 0)
-            sTT = kStyle.prefs.time;
-          list.Text(kList, sW, sH, sTM, sTT);
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('time'))
+            sTT = cfg.display.kappa.styles[options.style].time;
+          if (options.prefs.hasOwnProperty('time') && options.prefs.time > 0)
+            sTT = options.prefs.time;
+          list.Text(emotes, sW, sH, sTM, sTT);
           break;
         case 'TheCube':
           const cS = Math.min(sW, sH);
           let sCS = 8 / 10;
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('size'))
-            sCS = cfg.display.kappa.styles[kStyle.style].size;
-          if (kStyle.prefs.hasOwnProperty('size'))
-            sCS = kStyle.prefs.size;
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('size'))
+            sCS = cfg.display.kappa.styles[options.style].size;
+          if (options.prefs.hasOwnProperty('size'))
+            sCS = options.prefs.size;
           let sCC = true;
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('center'))
-            sCC = cfg.display.kappa.styles[kStyle.style].center;
-          if (kStyle.prefs.hasOwnProperty('center'))
-            sCC = kStyle.prefs.center;
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('center'))
+            sCC = cfg.display.kappa.styles[options.style].center;
+          if (options.prefs.hasOwnProperty('center'))
+            sCC = options.prefs.center;
           let sCR = 5;
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('rotations'))
-            sCR = cfg.display.kappa.styles[kStyle.style].rotations;
-          if (kStyle.prefs.hasOwnProperty('rotations'))
-            sCR = kStyle.prefs.rotations;
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('rotations'))
+            sCR = cfg.display.kappa.styles[options.style].rotations;
+          if (options.prefs.hasOwnProperty('rotations'))
+            sCR = options.prefs.rotations;
           let bF = false;
-          if (cfg.display.kappa.styles.hasOwnProperty(kStyle.style) && cfg.display.kappa.styles[kStyle.style].hasOwnProperty('faces'))
-            bF = cfg.display.kappa.styles[kStyle.style].faces;
-          if (kStyle.prefs.hasOwnProperty('faces'))
-            bF = kStyle.prefs.faces === true;
+          if (cfg.display.kappa.styles.hasOwnProperty(options.style) && cfg.display.kappa.styles[options.style].hasOwnProperty('faces'))
+            bF = cfg.display.kappa.styles[options.style].faces;
+          if (options.prefs.hasOwnProperty('faces'))
+            bF = options.prefs.faces === true;
           let kUse = [];
           if (bF)
-            kUse = kList;
+            kUse = emotes;
           else
-            kUse.push(kList[shared.random(lK)]);
+            kUse.push(emotes[shared.random(lK)]);
           list.TheCube(kUse, sW, sH, Math.floor(cS * sCS), sCC, sCR);
           break;
         case 'Burst':
-          const oH = shared.randomFromRange(timing.kappa[kStyle.style].left);
-          const oV = shared.randomFromRange(timing.kappa[kStyle.style].top) * sB;
-          const bA = shared.countEstimatedTime(kStyle.count, estMS);
-          for (let i = 0; i < kStyle.count; i++) {
+          const oH = shared.randomFromRange(timing.kappa[options.style].left);
+          const oV = shared.randomFromRange(timing.kappa[options.style].top) * sB;
+          const bA = shared.countEstimatedTime(options.count, estMS);
+          for (let i = 0; i < options.count; i++) {
             if (_iTitanic > tInit)
               return;
             const rB = shared.random(lK);
             _eActive--;
             let eWb = eH;
-            if (kList[rB].hasOwnProperty('width') && kList[rB].hasOwnProperty('height'))
-              eWb = kList[rB].width / kList[rB].height * eH;
+            if (emotes[rB].hasOwnProperty('width') && emotes[rB].hasOwnProperty('height'))
+              eWb = emotes[rB].width / emotes[rB].height * eH;
             const sRb = sW - Math.ceil(eWb / 2);
-            display.emote.list.StraightLine(kList[rB], sW, sH, eH, oH * sRb, oV, false, tInit);
+            display.emote.list.StraightLine(emotes[rB], sW, sH, eH, oH * sRb, oV, false, tInit);
             if (i % bA.ct === bA.ct - 1)
               await shared.framePause(bA.f);
           }
           break;
         case 'Fountain':
-          const fX = shared.randomFromRange(timing.kappa[kStyle.style].left) * sW;
-          const fY = shared.randomFromRange(timing.kappa[kStyle.style].top);
-          const fA = shared.countEstimatedTime(kStyle.count, estMS);
-          for (let i = 0; i < kStyle.count; i++) {
+          const fX = shared.randomFromRange(timing.kappa[options.style].left) * sW;
+          const fY = shared.randomFromRange(timing.kappa[options.style].top);
+          const fA = shared.countEstimatedTime(options.count, estMS);
+          for (let i = 0; i < options.count; i++) {
             if (_iTitanic > tInit)
               return;
             const rF = shared.random(lK);
             _eActive--;
-            display.emote.list.Fountain(kList[rF], sW, sH, eH, fX, fY, false, tInit);
+            display.emote.list.Fountain(emotes[rF], sW, sH, eH, fX, fY, false, tInit);
             if (i % fA.ct === fA.ct - 1)
               await shared.framePause(fA.f);
           }
           break;
         case 'Confetti':
-          const cA = shared.countEstimatedTime(kStyle.count, estMS);
-          for (let i = 0; i < kStyle.count; i++) {
+          const cA = shared.countEstimatedTime(options.count, estMS);
+          for (let i = 0; i < options.count; i++) {
             if (_iTitanic > tInit)
               return;
             const rN = shared.random(lK);
             _eActive--;
-            display.emote.list.Confetti(kList[rN], sW, sH, eHh, false, tInit);
+            display.emote.list.Confetti(emotes[rN], sW, sH, eHh, false, tInit);
             if (i % cA.ct === cA.ct - 1)
               await shared.framePause(cA.f);
           }
@@ -2163,13 +2163,12 @@ const display = function () {
 
     return {
       run,
-      stop
+      stop,
     };
   }();
 
   function addEmoteToDocument(tInit, uri, variationSize, attrs = {}, r = false, oGC = {}, oT = false) {
-    if (_iTitanic > tInit)
-      return;
+    if (_iTitanic > tInit) return;
     const img = document.createElement('img');
     const c = [];
     c.push('emote');
@@ -2249,15 +2248,15 @@ defineExpose({
     shared.msPerFrame.init();
   },
   clear() {
-    display.eraseAll()
+    display.eraseAll();
   },
   get kappagen() {
     return display.kappa;
   },
   get emote() {
     return display.emote;
-  }
-})
+  },
+});
 </script>
 
 <template></template>
