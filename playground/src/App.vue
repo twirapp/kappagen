@@ -2,7 +2,7 @@
 import KappagenOverlay from 'kappagen'
 import type { Emote } from 'kappagen'
 import { ref, onMounted } from 'vue'
-import 'kappagen/style'
+import 'kappagen/style.css'
 
 const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
