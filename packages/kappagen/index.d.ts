@@ -42,7 +42,9 @@ export type KappagenAnimations =
   | { style: "Pyramid" }
   | { style: "SmallPyramid" };
 
-export type KappagenProps = {};
+export type KappagenProps = {
+  rave?: boolean
+};
 
 export type KappagenMethods = {
   init: () => void;

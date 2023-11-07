@@ -11,12 +11,12 @@ export const shared = (function () {
       function _next() {
         n++;
         if (n < frames) {
-          window.requestAnimationFrame(_next);
+          requestAnimationFrame(_next);
           return;
         }
         resolve(true);
       }
-      window.requestAnimationFrame(_next);
+      requestAnimationFrame(_next);
     });
   }
 
@@ -47,7 +47,7 @@ export const shared = (function () {
         }
         resolve(true);
       }
-      window.requestAnimationFrame(next);
+      requestAnimationFrame(next);
     });
   }
 
@@ -193,7 +193,7 @@ export const shared = (function () {
 
   function random(num) {
     const r = new Uint32Array(1);
-    window.crypto.getRandomValues(r);
+    crypto.getRandomValues(r);
     const f = r[0] / 4294967295;
     if (num === undefined) return f;
     if (num < 1) return f * num;
@@ -214,12 +214,12 @@ export const shared = (function () {
     function next() {
       if (n === false) {
         n = true;
-        window.requestAnimationFrame(next);
+        requestAnimationFrame(next);
         return;
       }
       callback(...a);
     }
-    window.requestAnimationFrame(next);
+    requestAnimationFrame(next);
   }
 
   const msPerFrame = (function () {
@@ -228,7 +228,7 @@ export const shared = (function () {
 
     function init() {
       if (msPerFrame.value !== 0) return;
-      window.requestAnimationFrame(test);
+      requestAnimationFrame(test);
     }
 
     function test(ms) {
@@ -240,7 +240,7 @@ export const shared = (function () {
         return;
       }
       _init = ms;
-      window.requestAnimationFrame(test);
+      requestAnimationFrame(test);
     }
 
     return {
@@ -256,6 +256,7 @@ export const shared = (function () {
     safePoints,
     setImgSrc,
     styleEmote,
+    styleEmoteString,
     random,
     randomFromRange,
     doNextFrame,

@@ -1,13 +1,14 @@
-export const kappagenAnimations = [
+import type { KappagenAnimations } from "kappagen";
+
+export const kappagenAnimations: KappagenAnimations[] = [
   {
     style: "TheCube",
     prefs: {
-      size: 0.2,
+      size: 0.1,
       center: false,
-      rotations: 6,
+      rotations: 2,
       faces: false,
     },
-    count: 150,
   },
   {
     style: "Text",
@@ -15,51 +16,41 @@ export const kappagenAnimations = [
       message: ["Twir"],
       time: 3,
     },
-    count: 150,
   },
   {
     style: "Confetti",
-    prefs: {},
     count: 150,
   },
   {
     style: "Spiral",
-    prefs: {},
     count: 150,
   },
   {
     style: "Stampede",
-    prefs: {},
     count: 150,
   },
   {
     style: "Burst",
-    prefs: {},
     count: 150,
   },
   {
     style: "Fountain",
-    prefs: {},
     count: 150,
   },
   {
     style: "SmallPyramid",
-    prefs: {},
-    count: 150,
   },
   {
     style: "Pyramid",
-    prefs: {},
-    count: 150,
   },
   {
     style: "Fireworks",
-    prefs: {},
     count: 150,
   },
   {
     style: "Conga",
-    prefs: {},
-    count: 150,
+    prefs: {
+      avoidMiddle: false,
+    },
   },
 ];

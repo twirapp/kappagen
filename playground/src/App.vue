@@ -2,8 +2,10 @@
 import KappagenOverlay from 'kappagen'
 import type { Emote } from 'kappagen'
 import { ref, onMounted } from 'vue'
+import { kappagenAnimations } from './animations.js'
 import 'kappagen/style.css'
 
+const rave = ref(false)
 const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
 const emotes: Emote[] = [
@@ -24,27 +26,32 @@ onMounted(() => {
 async function spawn() {
   await kappagen.value!.kappagen.run(
     emotes,
-    {
-      style: 'TheCube',
-      prefs: {
-        center: false,
-        faces: true,
-        rotations: 2,
-        size: 0.1
-      }
-    }
+    kappagenAnimations[Math.floor(Math.random() * kappagenAnimations.length)]
   )
 }
 </script>
 
 <template>
-  <button @click="spawn">spawn</button>
-  <button @click="kappagen?.clear()">clear</button>
-  <kappagen-overlay ref="kappagen" />
+  <div class="controls">
+    <button @click="spawn">spawn</button>
+    <button @click="kappagen?.clear()">clear</button>
+    <label>
+      Rave
+      <input type="checkbox" v-model="rave" />
+    </label>
+  </div>
+  <kappagen-overlay ref="kappagen" :rave="rave" />
 </template>
 
 <style global>
 body {
   background-color: #000;
+  user-select: none;
+}
+
+.controls {
+  color: #fff;
+  position: absolute;
+  z-index: 999999;
 }
 </style>

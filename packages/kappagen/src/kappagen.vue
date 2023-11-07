@@ -1,4 +1,5 @@
 <script setup>
+import { watchEffect } from 'vue';
 import { cfg, timing, letters, pyramidDistribution } from './config.js'
 import { shared } from './shared.js'
 
@@ -13,7 +14,7 @@ const display = function () {
 
     function doGC() {
       if (_tGC === false) return;
-      window.clearTimeout(_tGC);
+      clearTimeout(_tGC);
       _tGC = false;
       let done = true;
       const tNow = new Date().getTime();
@@ -29,8 +30,8 @@ const display = function () {
             t > tNow &&
             r.bottom > 0 &&
             r.right > 0 &&
-            r.top < window.innerHeight &&
-            r.left < window.innerWidth
+            r.top < innerHeight &&
+            r.left < innerWidth
           )
             continue;
         } else {
@@ -41,7 +42,7 @@ const display = function () {
         if (d === true) _eActive--;
         else if (d !== false && !isNaN(d)) _eActive -= d;
       }
-      if (!done) _tGC = window.setTimeout(doGC, 500);
+      if (!done) _tGC = setTimeout(doGC, 500);
     }
 
     function hook(img, space = true, decActive = true, t = false) {
@@ -56,7 +57,7 @@ const display = function () {
         dec: decActive,
         end: new Date().getTime() + t,
       };
-      if (_tGC === false) _tGC = window.setTimeout(doGC, 500);
+      if (_tGC === false) _tGC = setTimeout(doGC, 500);
     }
 
     return {
@@ -301,7 +302,7 @@ const display = function () {
               iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { time: tMS }));
             }
           }
-          window.requestAnimationFrame(function (ts) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, ts, ts); });
+          requestAnimationFrame(function (ts) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, ts, ts); });
         }
 
         function _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, myT, ts) {
@@ -330,7 +331,7 @@ const display = function () {
           for (let i = 0, l = iArr.length; i < l; i++) {
             iArr[i].style.transform = 'translate(' + bX + 'px, ' + bY + 'px)';
           }
-          window.requestAnimationFrame(function (fTS) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, myT, fTS); });
+          requestAnimationFrame(function (fTS) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, myT, fTS); });
         }
 
         return $c_Bounce;
@@ -585,7 +586,7 @@ const display = function () {
             iArr[i].style.transition = 'top ' + dests[d].t + 'ms linear, left ' + dests[d].t + 'ms linear, transform ' + squashT + 'ms linear';
           }
           d++;
-          window.setTimeout(_tSquash, dests[d - 1].t, tInit, lA, iArr, lD, dests, d);
+          setTimeout(_tSquash, dests[d - 1].t, tInit, lA, iArr, lD, dests, d);
         }
 
         function _tSquash(tInit, lA, iArr, lD, dests, d) {
@@ -612,7 +613,7 @@ const display = function () {
                 break;
             }
           }
-          window.setTimeout(_tUnsquash, squashT, tInit, lA, iArr, lD, dests, d);
+          setTimeout(_tUnsquash, squashT, tInit, lA, iArr, lD, dests, d);
         }
 
         function _tUnsquash(tInit, lA, iArr, lD, dests, d) {
@@ -622,7 +623,7 @@ const display = function () {
           for (let i = 0; i < lA; i++) {
             iArr[i].dataset.squash = 'no';
           }
-          window.setTimeout(_tLoop, squashT, tInit, lA, iArr, lD, dests, d);
+          setTimeout(_tLoop, squashT, tInit, lA, iArr, lD, dests, d);
         }
 
         return $c_Crazy;
@@ -786,7 +787,7 @@ const display = function () {
             }
           }
           shared.doNextFrame(_tMove, tInit, iArr, hD, vD);
-          window.setTimeout(_tDrop, t2, tInit, iArr, s2);
+          setTimeout(_tDrop, t2, tInit, iArr, s2);
         }
 
         function _tMove(tInit, iArr, hD, vD) {
@@ -1061,8 +1062,8 @@ const display = function () {
     }();
 
     function queueEmote(emote) {
-      const sW = window.innerWidth;
-      const sH = window.innerHeight;
+      const sW = innerWidth;
+      const sH = innerHeight;
       const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
       document.documentElement.style.setProperty('--height', sH + 'px');
       document.documentElement.style.setProperty('--width', sW + 'px');
@@ -1074,11 +1075,11 @@ const display = function () {
 
     function showEmotes() {
       if (_tEmote !== false) {
-        window.clearTimeout(_tEmote);
+        clearTimeout(_tEmote);
         _tEmote = false;
       }
       if (cfg.emote.max > 0 && _eActive >= cfg.emote.max) {
-        _tEmote = window.setTimeout(display.emote.showEmotes, 500);
+        _tEmote = setTimeout(display.emote.showEmotes, 500);
         return;
       }
       let e = null;
@@ -1087,7 +1088,7 @@ const display = function () {
         if (cfg.emote.max > 0 && _eActive > cfg.emote.max) {
           if (cfg.emote.queue > 0 && _toShow.length > cfg.emote.queue)
             _toShow.splice(0, _toShow.length - cfg.emote.queue);
-          _tEmote = window.setTimeout(display.emote.showEmotes, 500);
+          _tEmote = setTimeout(display.emote.showEmotes, 500);
           return;
         }
       }
@@ -1139,7 +1140,7 @@ const display = function () {
               iArr.push(addEmoteToDocument(tInit, oK.zwe[i].url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
             }
           }
-          window.setTimeout(_explode, sendUp, tInit, kList, iArr, cX, cY, eH, sW, sH, iKC);
+          setTimeout(_explode, sendUp, tInit, kList, iArr, cX, cY, eH, sW, sH, iKC);
         }
 
         async function _explode(tInit, kList, iArr, cX, cY, eH, sW, sH, iKC) {
@@ -1330,7 +1331,7 @@ const display = function () {
             let x;
             do {
               x = shared.random(lP);
-            } while (drawn[x] >= pyramidDist[x]);
+            } while (drawn[x] >= pyramidDistribution[x]);
             const oK = kList[shared.random(kList.length)];
             _block(tInit, oK.url, x, t, eH, sH, drawn[x] + 1, eT + dT);
             if (oK.hasOwnProperty('zwe')) {
@@ -1360,8 +1361,8 @@ const display = function () {
           s += ' transform: translateY(' + v + 'px);';
           img.setAttribute('style', s);
           document.body.appendChild(img);
-          window.setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH);
-          window.setTimeout(_tMove, t, tInit, img, vD);
+          setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH);
+          setTimeout(_tMove, t, tInit, img, vD);
         }
 
         function _tMove(tInit, img, vD) {
@@ -1439,8 +1440,8 @@ const display = function () {
           s += ' transform: translateY(' + v + 'px);';
           img.setAttribute('style', s);
           document.body.appendChild(img);
-          window.setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH);
-          window.setTimeout(_tMove, t, tInit, img, vD);
+          setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH);
+          setTimeout(_tMove, t, tInit, img, vD);
         }
 
         function _tMove(tInit, img, vD) {
@@ -1571,7 +1572,7 @@ const display = function () {
             img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: h, y: v });
           else
             img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: sW, y: v });
-          window.setTimeout(_tMark, tSpeed, tInit, img);
+          setTimeout(_tMark, tSpeed, tInit, img);
           return img;
         }
 
@@ -1935,8 +1936,8 @@ const display = function () {
           document.body.appendChild(img);
           _eActive++;
           const tMS = Math.floor(iTime * 1000 * timing.kappa.Text.time);
-          window.setTimeout(_tDrop, Math.floor(eT + tMS + t / 10), tInit, img, sH, tMS);
-          window.setTimeout(_tMove, t, tInit, img, vD);
+          setTimeout(_tDrop, Math.floor(eT + tMS + t / 10), tInit, img, sH, tMS);
+          setTimeout(_tMove, t, tInit, img, vD);
         }
 
         function _tMove(tInit, img, vD) {
@@ -1996,8 +1997,8 @@ const display = function () {
           const outer = Math.max(3, Math.floor(k.count * timing.kappa.Fireworks.quantity.large));
           return 1 + inner + core + outer;
         case 'Conga':
-          const sW = window.innerWidth;
-          const sH = window.innerHeight;
+          const sW = innerWidth;
+          const sH = innerHeight;
           const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
           const bS = Math.ceil(eH * timing.kappa.Conga.size);
           return Math.floor(sW / bS);
@@ -2008,8 +2009,8 @@ const display = function () {
     }
 
     async function run(emotes, options) {
-      const sW = window.innerWidth;
-      const sH = window.innerHeight;
+      const sW = innerWidth;
+      const sH = innerHeight;
       const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
       const eHh = Math.max(cfg.emote.size.min, Math.min(Math.floor(cfg.emote.size.max / 2), Math.floor(sW * cfg.emote.size.ratio.small), Math.floor(sH * cfg.emote.size.ratio.small)));
       const sB = sH - eH;
@@ -2020,10 +2021,10 @@ const display = function () {
       if (!canShowKappa(options)) {
         _toKappa.push({ list: emotes, style: options.style, prefs: options.prefs });
         if (_tKappa !== false) {
-          window.clearTimeout(_tKappa);
+          clearTimeout(_tKappa);
           _tKappa = false;
         }
-        _tKappa = window.setTimeout(_showKappas, _dKappa);
+        _tKappa = setTimeout(_showKappas, _dKappa);
         return;
       }
 
@@ -2154,7 +2155,7 @@ const display = function () {
 
     function stop() {
       if (_tKappa !== false) {
-        window.clearTimeout(_tKappa);
+        clearTimeout(_tKappa);
         _tKappa = false;
       }
       _toKappa.length = 0;
@@ -2242,6 +2243,21 @@ const display = function () {
     eraseAll,
   };
 }();
+
+const props = defineProps({
+  rave: {
+    type: Boolean,
+    default: false
+  }
+})
+
+watchEffect(() => {
+  if (props.rave) {
+    document.body.classList.add('rave')
+  } else {
+    document.body.classList.remove('rave')
+  }
+})
 
 defineExpose({
   init() {

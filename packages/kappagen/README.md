@@ -10,10 +10,12 @@ pnpm add kappagen
 
 ```vue
 <script setup lang="ts">
-import KappagenOverlay from 'kappagen'
-import type { Emote } from 'kappagen'
 import { ref, onMounted } from 'vue'
-import 'kappagen/style'
+
+import KappagenOverlay from 'kappagen'
+import 'kappagen/style.css'
+
+import type { Emote } from 'kappagen'
 
 const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
@@ -27,13 +29,11 @@ const emote: Emote = {
 };
 
 onMounted(() => {
-  if (!kappagen.value) return
-  kappagen.value.startup()
+  kappagen.value!.init()
 })
 
 async function fireworks() {
-  if (!kappagen.value) return
-  await kappagen.value.kappagen.show(
+  await kappagen.value.kappagen!.run(
     [emote],
     {
       style: 'Fireworks',
