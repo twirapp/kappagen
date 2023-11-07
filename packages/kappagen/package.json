@@ -1,6 +1,6 @@
 {
   "name": "kappagen",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "files": [
     "dist",
@@ -21,7 +21,8 @@
   },
   "scripts": {
     "dev": "vite build --watch",
-    "build": "vite build"
+    "build": "vite build",
+    "prepublishOnly": "vite build"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
