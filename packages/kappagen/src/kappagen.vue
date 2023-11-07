@@ -1,28 +1,17 @@
 <script setup>
-import { cfg, timing, alnumDist, pyramidDist, twirAppEmote } from './constants'
-import { shared } from './shared'
+import { cfg, timing, letters, pyramidDistribution } from './config.js'
+import { shared } from './shared.js'
 
 const display = function () {
   let _eActive = 0;
   let _iTitanic = 0;
-  const _cRadius = Math.PI * 2;
-  const _tAnim = {
-    fade: {
-      in: 8,
-      out: 8
-    },
-    zoom: {
-      in: 17,
-      out: 8
-    }
-  };
 
   const gc = (function () {
     const _toGC = {};
 
     let _tGC = false;
 
-    function _doGC() {
+    function doGC() {
       if (_tGC === false) return;
       window.clearTimeout(_tGC);
       _tGC = false;
@@ -52,7 +41,7 @@ const display = function () {
         if (d === true) _eActive--;
         else if (d !== false && !isNaN(d)) _eActive -= d;
       }
-      if (!done) _tGC = window.setTimeout(_doGC, 500);
+      if (!done) _tGC = window.setTimeout(doGC, 500);
     }
 
     function hook(img, space = true, decActive = true, t = false) {
@@ -67,7 +56,7 @@ const display = function () {
         dec: decActive,
         end: new Date().getTime() + t,
       };
-      if (_tGC === false) _tGC = window.setTimeout(_doGC, 500);
+      if (_tGC === false) _tGC = window.setTimeout(doGC, 500);
     }
 
     return {
@@ -80,7 +69,7 @@ const display = function () {
 
     let _tEmote = false;
 
-    const $list = function () {
+    const list = function () {
       function $Still(eInf, sW, sH, eH, canV = true, tInit = 0) {
         if (tInit === 0)
           tInit = new Date().getTime();
@@ -117,11 +106,11 @@ const display = function () {
         s += ' --emote-height: ' + eH + 'px;';
         s += ' --emote-width: ' + eW + 'px;';
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Still.time);
-        s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
@@ -164,12 +153,12 @@ const display = function () {
         if (v === false)
           v = shared.random(sH) - eHh;
         const r = Math.min(sW, sH) * (shared.random() + 1);
-        let th = shared.random() * _cRadius;
+        let th = shared.random() * cfg.radius;
         if (!x && !y) {
           const nH = eH * -1;
           const nW = eW * -1;
-          while (!_safePoints(h, v, th, r, nW, nH, sW, sH)) {
-            th = shared.random() * _cRadius;
+          while (!shared.safePoints(h, v, th, r, nW, nH, sW, sH)) {
+            th = shared.random() * cfg.radius;
           }
         }
         const hD = Math.floor(h + r * Math.cos(th));
@@ -178,11 +167,11 @@ const display = function () {
         s += ' --emote-width: ' + eW + 'px;';
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time);
         s += ' transform: translate(' + h + 'px, ' + v + 'px);';
-        s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
+        s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etStraightLine'] }, false, { time: tMS }, { x: hD, y: vD });
           }
         }
       }
@@ -218,7 +207,7 @@ const display = function () {
           eW = eInf.width / eInf.height * eH;
         const eWh = Math.ceil(eW / 2);
         const h = shared.random(sW) - eWh;
-        const v = Math.floor(sH * _randomFromRange(timing.display.Rise.origin));
+        const v = Math.floor(sH * shared.randomFromRange(timing.display.Rise.origin));
         let s = 'left: ' + h + 'px;';
         s += ' --emote-height: ' + eH + 'px;';
         s += ' --emote-width: ' + eW + 'px;';
@@ -237,9 +226,9 @@ const display = function () {
         else
           aNames.push('wiggleR');
         const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Rise.time);
-        const d = Math.floor(tMS * _randomFromRange(timing.display.Rise.wiggle.delay));
+        const d = Math.floor(tMS * shared.randomFromRange(timing.display.Rise.wiggle.delay));
         aDelays.push(d + 'ms');
-        const w = Math.floor(tMS * _randomFromRange(timing.display.Rise.wiggle));
+        const w = Math.floor(tMS * shared.randomFromRange(timing.display.Rise.wiggle));
         aDurs.push(w + 'ms');
         aTimings.push('ease-in-out');
         aFills.push('both');
@@ -250,11 +239,11 @@ const display = function () {
         aTimings.push('linear');
         aFills.push('forwards');
         aIters.push('1');
-        s += _styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
@@ -292,24 +281,24 @@ const display = function () {
           const eWh = Math.ceil(eW / 2);
           const sWm = Math.ceil(sW / 2);
           const h = Math.floor(shared.random(sW) - eWh);
-          const v = Math.floor(sH * _randomFromRange(timing.display.Bounce.origin));
+          const v = Math.floor(sH * shared.randomFromRange(timing.display.Bounce.origin));
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Bounce.time);
           const vMS = (tMS / 300 / (16 + 2 / 3));
-          let velH = _randomFromRange(timing.display.Bounce.velocity.h);
-          const velV = _randomFromRange(timing.display.Bounce.velocity.v);
+          let velH = shared.randomFromRange(timing.display.Bounce.velocity.h);
+          const velV = shared.randomFromRange(timing.display.Bounce.velocity.v);
           if (h + eWh > sWm)
             velH = -1 * velH;
           let s = '--emote-height: ' + eH + 'px;';
           s += ' --emote-width: ' + eW + 'px;';
-          s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+          s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
           s += ' transform: translate(' + h + 'px, ' + v + 'px);';
           const bX = h;
           const bY = v;
           const iArr = [];
-          iArr.push(_addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(_addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { time: tMS }));
             }
           }
           window.requestAnimationFrame(function (ts) { _tLoop(tInit, iArr, bX, bY, velH, velV, vMS, sH, eH, ts, ts); });
@@ -379,7 +368,7 @@ const display = function () {
         const eWh = Math.ceil(eW / 2);
         const sWm = Math.ceil(sW / 2);
         const h = shared.random(sW) - eWh;
-        const v = Math.floor(sH * _randomFromRange(timing.display.Speed.origin));
+        const v = Math.floor(sH * shared.randomFromRange(timing.display.Speed.origin));
         let s = 'top: ' + v + 'px;';
         s += ' left: ' + h + 'px;';
         s += ' --emote-height: ' + eH + 'px;';
@@ -406,11 +395,11 @@ const display = function () {
         aTimings.push('ease-in');
         aFills.push('forwards');
         aIters.push('1');
-        s += _styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
+        s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { time: tMS });
           }
         }
       }
@@ -470,11 +459,11 @@ const display = function () {
         aTimings.push('ease-in');
         aFills.push('forwards');
         aIters.push('1');
-        s += _styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
+        s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, dataset: dsO }, false, { space: false, time: tMS });
           }
         }
       }
@@ -568,12 +557,12 @@ const display = function () {
             }
           }
           dests.push({ x: pos.x, y: pos.y, t: pos.t - lastT, w: 0 });
-          s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
+          s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, cfg.emote.in.zoom, cfg.emote.out.fade, cfg.emote.out.zoom, tMS);
           const iArr = [];
-          iArr.push(_addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { space: false, time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, true, { space: false, time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(_addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { space: false, time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, true, { space: false, time: tMS }));
             }
           }
           const d = 0;
@@ -696,11 +685,11 @@ const display = function () {
         aTimings.push('linear');
         aFills.push('forwards');
         aIters.push('1');
-        s += _styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, false, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
+        s += shared.styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, false, false, cfg.emote.out.fade, false, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s }, false, { space: false, time: tMS });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s }, false, { space: false, time: tMS });
           }
         }
       }
@@ -739,8 +728,8 @@ const display = function () {
           const sB = sH - eH;
           const h = shared.random(2) === 0 ? eW * -1 : sW;
           const v = shared.random(sH + eH) - eH;
-          const hD = Math.floor(sR * _randomFromRange(timing.display.Throw.dest.h));
-          const vD = Math.floor(sB * _randomFromRange(timing.display.Throw.dest.v));
+          const hD = Math.floor(sR * shared.randomFromRange(timing.display.Throw.dest.h));
+          const vD = Math.floor(sB * shared.randomFromRange(timing.display.Throw.dest.v));
           const dH = shared.random() * eH;
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time);
           const t2 = Math.floor(tMS * timing.display.Throw.toss);
@@ -761,7 +750,7 @@ const display = function () {
           const aFills = [];
           const aIters = [];
           if (cfg.emote.out.fade) {
-            const fOut = _tAnim.fade.out / 100;
+            const fOut = cfg.emote.animation.fade.out / 100;
             const t3F = t3 * fOut;
             aNames.push('fadeOut');
             aDelays.push(Math.floor(t3 - t3F) + 'ms');
@@ -779,7 +768,7 @@ const display = function () {
             aIters.push('1');
           }
           if (cfg.emote.out.zoom) {
-            const zOut = _tAnim.zoom.out / 100;
+            const zOut = cfg.emote.animation.zoom.out / 100;
             const t3Z = t3 * zOut;
             aNames.push('zoomOut');
             aDelays.push(Math.floor(t3 - t3Z) + 'ms');
@@ -788,12 +777,12 @@ const display = function () {
             aFills.push('forwards');
             aIters.push('1');
           }
-          s2 += _styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
+          s2 += shared.styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
           const iArr = [];
-          iArr.push(_addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
+          iArr.push(addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
           if (eInf.hasOwnProperty('zwe')) {
             for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-              iArr.push(_addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
+              iArr.push(addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etThrowTwist'] }, true, { space: false, time: tMS }));
             }
           }
           shared.doNextFrame(_tMove, tInit, iArr, hD, vD);
@@ -857,27 +846,27 @@ const display = function () {
           cube.setAttribute('style', 'transform: translateZ(' + nHh + 'px);');
           if (!eInf.hasOwnProperty('zwe') || eInf.zwe.length === 0) {
             const cubeF = document.createElement('img');
-            _setImgSrc(cubeF, eInf.url);
+            shared.setImgSrc(cubeF, eInf.url);
             cubeF.dataset.face = 'front';
             cube.appendChild(cubeF);
             const cubeB = document.createElement('img');
-            _setImgSrc(cubeB, eInf.url);
+            shared.setImgSrc(cubeB, eInf.url);
             cubeB.dataset.face = 'back';
             cube.appendChild(cubeB);
             const cubeR = document.createElement('img');
-            _setImgSrc(cubeR, eInf.url);
+            shared.setImgSrc(cubeR, eInf.url);
             cubeR.dataset.face = 'right';
             cube.appendChild(cubeR);
             const cubeL = document.createElement('img');
-            _setImgSrc(cubeL, eInf.url);
+            shared.setImgSrc(cubeL, eInf.url);
             cubeL.dataset.face = 'left';
             cube.appendChild(cubeL);
             const cubeT = document.createElement('img');
-            _setImgSrc(cubeT, eInf.url);
+            shared.setImgSrc(cubeT, eInf.url);
             cubeT.dataset.face = 'top';
             cube.appendChild(cubeT);
             const cubeU = document.createElement('img');
-            _setImgSrc(cubeU, eInf.url);
+            shared.setImgSrc(cubeU, eInf.url);
             cubeU.dataset.face = 'bottom';
             cube.appendChild(cubeU);
           }
@@ -886,66 +875,66 @@ const display = function () {
             const cubeF = document.createElement('div');
             cubeF.dataset.face = 'front';
             const pctF = document.createElement('img');
-            _setImgSrc(pctF, eInf.url);
+            shared.setImgSrc(pctF, eInf.url);
             cubeF.appendChild(pctF);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeF.appendChild(pctZ);
             }
             cube.appendChild(cubeF);
             const cubeB = document.createElement('div');
             cubeB.dataset.face = 'back';
             const pctB = document.createElement('img');
-            _setImgSrc(pctB, eInf.url);
+            shared.setImgSrc(pctB, eInf.url);
             cubeB.appendChild(pctB);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeB.appendChild(pctZ);
             }
             cube.appendChild(cubeB);
             const cubeR = document.createElement('div');
             cubeR.dataset.face = 'right';
             const pctR = document.createElement('img');
-            _setImgSrc(pctR, eInf.url);
+            shared.setImgSrc(pctR, eInf.url);
             cubeR.appendChild(pctR);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeR.appendChild(pctZ);
             }
             cube.appendChild(cubeR);
             const cubeL = document.createElement('div');
             cubeL.dataset.face = 'left';
             const pctL = document.createElement('img');
-            _setImgSrc(pctL, eInf.url);
+            shared.setImgSrc(pctL, eInf.url);
             cubeL.appendChild(pctL);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeL.appendChild(pctZ);
             }
             cube.appendChild(cubeL);
             const cubeT = document.createElement('div');
             cubeT.dataset.face = 'top';
             const pctT = document.createElement('img');
-            _setImgSrc(pctT, eInf.url);
+            shared.setImgSrc(pctT, eInf.url);
             cubeT.appendChild(pctT);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeT.appendChild(pctZ);
             }
             cube.appendChild(cubeT);
             const cubeU = document.createElement('div');
             cubeU.dataset.face = 'bottom';
             const pctU = document.createElement('img');
-            _setImgSrc(pctU, eInf.url);
+            shared.setImgSrc(pctU, eInf.url);
             cubeU.appendChild(pctU);
             for (let i = 0; i < lZ; i++) {
               const pctZ = document.createElement('img');
-              _setImgSrc(pctZ, eInf.zwe[i].url);
+              shared.setImgSrc(pctZ, eInf.zwe[i].url);
               cubeU.appendChild(pctZ);
             }
             cube.appendChild(cubeU);
@@ -954,10 +943,10 @@ const display = function () {
           const h = shared.random(sW) - eHh;
           const v = shared.random(sH) - eHh;
           const r = Math.min(sW, sH) * (shared.random() + 1);
-          let th = shared.random() * _cRadius;
+          let th = shared.random() * cfg.radius;
           const nH = eH * -1;
-          while (!_safePoints(h, v, th, r, nH, nH, sW, sH)) {
-            th = shared.random() * _cRadius;
+          while (!shared.safePoints(h, v, th, r, nH, nH, sW, sH)) {
+            th = shared.random() * cfg.radius;
           }
           const hD = Math.floor(h + r * Math.cos(th));
           const vD = Math.floor(v + r * Math.sin(th));
@@ -966,7 +955,7 @@ const display = function () {
           s += ' --cube-depth: ' + eHh + 'px;';
           s += ' perspective: ' + eH * 3 + 'px;';
           s += ' transform: translate(' + h + 'px, ' + v + 'px);';
-          s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, false, cfg.emote.out.fade, false, tMS);
+          s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, false, cfg.emote.out.fade, false, tMS);
           scene.setAttribute('style', s);
           _eActive += 6;
           document.body.appendChild(scene);
@@ -1047,11 +1036,11 @@ const display = function () {
         aTimings.push('cubic-bezier(0, 0.9, 1, 0.15)');
         aFills.push('forwards');
         aIters.push('1');
-        s += _styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
-        _addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
+        s += shared.styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters, tMS);
+        addEmoteToDocument(tInit, eInf.url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
         if (eInf.hasOwnProperty('zwe')) {
           for (let i = 0, l = eInf.zwe.length; i < l; i++) {
-            _addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
+            addEmoteToDocument(tInit, eInf.zwe[i].url, variationSize, { style: s, classes: ['etFountain'] }, false, { time: tMS, space: false }, { x: hD });
           }
         }
       }
@@ -1071,7 +1060,7 @@ const display = function () {
       };
     }();
 
-    function _queueEmote(e) {
+    function queueEmote(emote) {
       const sW = window.innerWidth;
       const sH = window.innerHeight;
       const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
@@ -1080,10 +1069,10 @@ const display = function () {
       const style = cfg.display.styles[shared.random(cfg.display.styles.length)];
       if (style === undefined)
         return;
-      display.emote.list[style](e, sW, sH, eH);
+      display.emote.list[style](emote, sW, sH, eH);
     }
 
-    function $showEmotes() {
+    function showEmotes() {
       if (_tEmote !== false) {
         window.clearTimeout(_tEmote);
         _tEmote = false;
@@ -1094,7 +1083,7 @@ const display = function () {
       }
       let e = null;
       while ((e = _toShow.shift()) !== undefined) {
-        _queueEmote(e);
+        queueEmote(e);
         if (cfg.emote.max > 0 && _eActive > cfg.emote.max) {
           if (cfg.emote.queue > 0 && _toShow.length > cfg.emote.queue)
             _toShow.splice(0, _toShow.length - cfg.emote.queue);
@@ -1104,14 +1093,14 @@ const display = function () {
       }
     }
 
-    function $addToShowList(p) {
+    function addEmotes(p) {
       _toShow.push(...p);
     }
 
     return {
-      showEmotes: $showEmotes,
-      addToShowList: $addToShowList,
-      list: $list
+      showEmotes,
+      addEmotes,
+      list
     };
   }();
 
@@ -1122,7 +1111,7 @@ const display = function () {
 
     let _tKappa = false;
 
-    const _list = function () {
+    const list = function () {
       const $Fireworks = function () {
         function $c_Fireworks(kList, sW, sH, eH, iKC) {
           const tInit = new Date().getTime();
@@ -1144,10 +1133,10 @@ const display = function () {
           s += ' transform: translate(' + oX + 'px, ' + oY + 'px);';
           const iArr = [];
           _eActive--;
-          iArr.push(_addEmoteToDocument(tInit, oK.url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
+          iArr.push(addEmoteToDocument(tInit, oK.url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
           if (oK.hasOwnProperty('zwe')) {
             for (let i = 0, l = oK.zwe.length; i < l; i++) {
-              iArr.push(_addEmoteToDocument(tInit, oK.zwe[i].url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
+              iArr.push(addEmoteToDocument(tInit, oK.zwe[i].url, 1, { style: s, classes: ['ktFireworkRocket'] }, true, false, { x: cX - eWh, y: cY }));
             }
           }
           window.setTimeout(_explode, sendUp, tInit, kList, iArr, cX, cY, eH, sW, sH, iKC);
@@ -1162,7 +1151,7 @@ const display = function () {
           }
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time);
           const kTime = Math.floor(tMS * timing.kappa.Fireworks.speed.burst);
-          const fA = _kAcTime(iKC, kTime);
+          const fA = shared.countEstimatedTime(iKC, kTime);
           const r = Math.min(sW, sH) * timing.kappa.Fireworks.radius.base;
           const inner = Math.max(3, Math.floor(iKC * timing.kappa.Fireworks.quantity.small));
           const core = Math.floor(iKC * timing.kappa.Fireworks.quantity.medium);
@@ -1185,9 +1174,9 @@ const display = function () {
               }
             }
             if (v % fA.ct === fA.ct - 1)
-              await _fPause(fA.f);
+              await shared.framePause(fA.f);
           }
-          await _sleep(Math.floor(tMS * timing.kappa.Fireworks.delays.small));
+          await shared.sleep(Math.floor(tMS * timing.kappa.Fireworks.delays.small));
           const mR = r * timing.kappa.Fireworks.radius.medium;
           const dT = Math.ceil(fA.ct / timing.kappa.Fireworks.spread);
           for (let v = 0; v < core; v++) {
@@ -1206,9 +1195,9 @@ const display = function () {
               }
             }
             if (v % dT === dT - 1)
-              await _fPause();
+              await shared.framePause();
           }
-          await _sleep(Math.floor(tMS * timing.kappa.Fireworks.delays.large));
+          await shared.sleep(Math.floor(tMS * timing.kappa.Fireworks.delays.large));
           const lR = r * timing.kappa.Fireworks.radius.large;
           for (let v = 0; v < outer; v++) {
             if (_iTitanic > tInit)
@@ -1226,14 +1215,14 @@ const display = function () {
               }
             }
             if (v % fA.ct === fA.ct - 1)
-              await _fPause(fA.f);
+              await shared.framePause(fA.f);
           }
         }
 
         function _sparkler(tInit, url, cX, cY, eW, eH, r, a) {
           if (_iTitanic > tInit)
             return;
-          const th = a * _cRadius;
+          const th = a * cfg.radius;
           const eWh = Math.ceil(eW / 2);
           const eX = cX - eWh;
           const hD = Math.floor(eX + r * Math.cos(th));
@@ -1242,8 +1231,8 @@ const display = function () {
           let s = '--emote-height: ' + eH + 'px;';
           s += ' --emote-width: ' + eW + 'px;';
           s += ' transform: translate(' + eX + 'px, ' + cY + 'px);';
-          s += _styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
-          _addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktFireworkSparkler'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
+          s += shared.styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
+          addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktFireworkSparkler'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
         }
 
         return $c_Fireworks;
@@ -1263,11 +1252,11 @@ const display = function () {
         async function _init(tInit, kList, oX, oY, eH, r, iKC) {
           if (_iTitanic > tInit)
             return;
-          const c = _cRadius / (_randomFromRange(timing.kappa.Spiral.vectors) + (shared.random() * 2));
-          let th = shared.random() * _cRadius;
+          const c = cfg.radius / (shared.randomFromRange(timing.kappa.Spiral.vectors) + (shared.random() * 2));
+          let th = shared.random() * cfg.radius;
           const o = shared.random(2) === 0;
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time);
-          const sA = _kAcTime(iKC, tMS);
+          const sA = shared.countEstimatedTime(iKC, tMS);
           if (sA.ct > timing.kappa.Spiral.bulk)
             sA.ct = timing.kappa.Spiral.bulk;
           for (let i = 0; i < iKC; i++) {
@@ -1276,12 +1265,12 @@ const display = function () {
             if (o) {
               th -= c;
               if (th <= 0)
-                th += _cRadius;
+                th += cfg.radius;
             }
             else {
               th += c;
-              if (th >= _cRadius)
-                th -= _cRadius;
+              if (th >= cfg.radius)
+                th -= cfg.radius;
             }
             const oK = kList[shared.random(kList.length)];
             let eW = eH;
@@ -1296,7 +1285,7 @@ const display = function () {
               }
             }
             if (i % sA.ct === sA.ct - 1)
-              await _fPause(sA.f);
+              await shared.framePause(sA.f);
           }
         }
 
@@ -1309,8 +1298,8 @@ const display = function () {
           let s = '--emote-height: ' + eH + 'px;';
           s += ' --emote-width: ' + eW + 'px;';
           s += ' transform: translate(' + oX + 'px, ' + oY + 'px);';
-          s += _styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
-          _addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktSpiral'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
+          s += shared.styleEmote([], [], [], [], [], [], true, false, true, false, tMS);
+          addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktSpiral'] }, false, { space: false, time: tMS }, { x: hD, y: vD });
         }
 
         return $c_Spiral;
@@ -1323,11 +1312,11 @@ const display = function () {
             return;
           const drawn = [];
           let ct = 0;
-          const lP = pyramidDist.length;
+          const lP = pyramidDistribution.length;
           const eH = sW / lP;
           for (let i = 0; i < lP; i++) {
             drawn.push(0);
-            ct += pyramidDist[i];
+            ct += pyramidDistribution[i];
           }
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time);
           const sT = tMS * timing.kappa.Pyramid.show.total;
@@ -1360,7 +1349,7 @@ const display = function () {
             return;
           const img = document.createElement('img');
           img.setAttribute('class', 'emote fit ktPyramid');
-          _setImgSrc(img, url);
+          shared.setImgSrc(img, url);
           const h = Math.floor(eH * x);
           const v = -1 * eH;
           const vD = sH - eH * dX;
@@ -1401,11 +1390,11 @@ const display = function () {
             return;
           const drawn = [];
           let ct = 0;
-          const lP = pyramidDist.length;
+          const lP = pyramidDistribution.length;
           const eH = Math.min(sW / lP, Math.floor(sW * cfg.emote.size.ratio.small), Math.floor(sH * cfg.emote.size.ratio.small));
           for (let i = 0; i < lP; i++) {
             drawn.push(0);
-            ct += pyramidDist[i];
+            ct += pyramidDistribution[i];
           }
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time);
           const sT = tMS * timing.kappa.SmallPyramid.show.total;
@@ -1420,7 +1409,7 @@ const display = function () {
             let x;
             do {
               x = shared.random(lP);
-            } while (drawn[x] >= pyramidDist[x]);
+            } while (drawn[x] >= pyramidDistribution[x]);
             const oK = kList[shared.random(kList.length)];
             _block(tInit, oK.url, oX, x, t, eH, sH, drawn[x] + 1, eT + dT);
             if (oK.hasOwnProperty('zwe')) {
@@ -1439,7 +1428,7 @@ const display = function () {
             return;
           const img = document.createElement('img');
           img.setAttribute('class', 'emote fit ktSmallPyramid');
-          _setImgSrc(img, url);
+          shared.setImgSrc(img, url);
           const h = oX + eH * x;
           const v = -1 * eH;
           const vD = sH - eH * dX;
@@ -1481,9 +1470,9 @@ const display = function () {
           const bandHeight = eH * timing.kappa.Stampede.height;
           const d = shared.random(2) === 0;
           const bandTop = shared.random(sH - bandHeight + (eH * timing.kappa.Stampede.top.min) + (eH * timing.kappa.Stampede.top.max)) + (eH * (-1 * timing.kappa.Stampede.top.min));
-          const b1 = _randomFromRange(timing.kappa.Stampede.bunch[1]);
+          const b1 = shared.randomFromRange(timing.kappa.Stampede.bunch[1]);
           const b2 = shared.random(timing.kappa.Stampede.bunch[2] - b1) + b1;
-          const b4 = _randomFromRange(timing.kappa.Stampede.bunch[4]);
+          const b4 = shared.randomFromRange(timing.kappa.Stampede.bunch[4]);
           _eActive += b1 + b2 + iKC + b4;
           const hasB4 = b4 > 0;
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time);
@@ -1504,7 +1493,7 @@ const display = function () {
           await _stampede(tInit, kList, b2, t2, false, bandTop, bandHeight, d, sW, eH, maxW);
           if (_iTitanic > tInit)
             return;
-          const sA = _kAcTime(iKC, tMS);
+          const sA = shared.countEstimatedTime(iKC, tMS);
           if (sA.ct > timing.kappa.Stampede.maxdensity)
             sA.ct = timing.kappa.Stampede.maxdensity;
           await _stampede(tInit, kList, iKC, hasB4, sA, bandTop, bandHeight, d, sW, eH, maxW);
@@ -1534,7 +1523,7 @@ const display = function () {
               }
             }
             if (sA === false)
-              await _sleep(_randomFromRange(timing.kappa.Stampede.smallSleep));
+              await shared.sleep(shared.randomFromRange(timing.kappa.Stampede.smallSleep));
             else {
               if (i % sA.ct === sA.ct - 1) {
                 let wF = sA.f;
@@ -1543,20 +1532,20 @@ const display = function () {
                 else
                   wF *= (shared.random() * 3) / 2;
                 if (wF !== 0)
-                  await _fPause(wF);
+                  await shared.framePause(wF);
               }
             }
           }
           if (pause === false)
             return;
           if (pause !== true) {
-            await _sleep(pause);
+            await shared.sleep(pause);
             return;
           }
           do {
             if (_iTitanic > tInit)
               return;
-            await _sleep(100);
+            await shared.sleep(100);
             for (let i = imgs.length - 1; i >= 0; i--) {
               if (imgs[i] === null || imgs[i].hasAttribute('deleted'))
                 imgs.splice(i, 1);
@@ -1576,12 +1565,12 @@ const display = function () {
             s += ' transform: translate(' + sW + 'px, ' + v + 'px);';
           else
             s += ' transform: translate(' + h + 'px, ' + v + 'px);';
-          s += _styleEmoteString([], [], [], [], [], []);
+          s += shared.styleEmoteString([], [], [], [], [], []);
           let img;
           if (d)
-            img = _addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: h, y: v });
+            img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: h, y: v });
           else
-            img = _addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: sW, y: v });
+            img = addEmoteToDocument(tInit, url, 1, { style: s, classes: ['ktStampede'] }, true, { space: false, time: tSpeed }, { x: sW, y: v });
           window.setTimeout(_tMark, tSpeed, tInit, img);
           return img;
         }
@@ -1615,7 +1604,7 @@ const display = function () {
           while (_conga.length >= lns) {
             if (_iTitanic > tInit)
               return;
-            await _sleep(250);
+            await shared.sleep(250);
           }
           while (!unique) {
             v = shared.random(sht) * seg;
@@ -1664,11 +1653,11 @@ const display = function () {
             zimgs.push(oZ);
           }
           const tMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.show);
-          await _sleep(tMS);
+          await shared.sleep(tMS);
           let full = false;
           if (_conga.length === sht)
             full = true;
-          await _sleep(Math.floor(cfg.display.kappa.conga.time * 1000));
+          await shared.sleep(Math.floor(cfg.display.kappa.conga.time * 1000));
           if (cfg.display.kappa.conga.contagious) {
             let ex = false;
             let lC = _conga.length;
@@ -1696,7 +1685,7 @@ const display = function () {
               }
               if (notDone === false)
                 done = true;
-              await _sleep(100);
+              await shared.sleep(100);
             }
           }
           for (let i = 0, l = imgs.length; i < l; i++) {
@@ -1705,7 +1694,7 @@ const display = function () {
               _endDance(tInit, zimgs[i][j], i, sW, v, eH, bS, ct, d, xtra);
             }
           }
-          await _sleep(tMS);
+          await shared.sleep(tMS);
           for (let i = 0, l = _conga.length; i < l; i++) {
             if (_conga[i].row !== v)
               continue;
@@ -1721,7 +1710,7 @@ const display = function () {
           box.setAttribute('class', 'scene ktCongaIn');
           const img = document.createElement('img');
           img.setAttribute('class', 'dancer fit');
-          _setImgSrc(img, url);
+          shared.setImgSrc(img, url);
           let s = '--emote-height: ' + eH + 'px;';
           s += ' --emote-width: ' + eH + 'px;';
           img.setAttribute('style', s);
@@ -1792,7 +1781,7 @@ const display = function () {
           for (let i = 0; i < 6; i++) {
             if (!eFaces[i].hasOwnProperty('zwe') || eFaces[i].zwe.length === 0) {
               const iFace = document.createElement('img');
-              _setImgSrc(iFace, eFaces[i].url);
+              shared.setImgSrc(iFace, eFaces[i].url);
               iFace.dataset.face = sFaces[i];
               cube.appendChild(iFace);
             }
@@ -1800,11 +1789,11 @@ const display = function () {
               const dFace = document.createElement('div');
               dFace.dataset.face = sFaces[i];
               const pFace = document.createElement('img');
-              _setImgSrc(pFace, eFaces[i].url);
+              shared.setImgSrc(pFace, eFaces[i].url);
               dFace.appendChild(pFace);
               for (let j = 0, l = eFaces[i].zwe.length; j < l; j++) {
                 const pctZ = document.createElement('img');
-                _setImgSrc(pctZ, eFaces[i].zwe[j].url);
+                shared.setImgSrc(pctZ, eFaces[i].zwe[j].url);
                 dFace.appendChild(pctZ);
               }
               cube.appendChild(dFace);
@@ -1822,7 +1811,7 @@ const display = function () {
           s += ' --cube-depth: ' + eHh + 'px;';
           s += ' perspective: ' + eH * 3 + 'px;';
           s += ' transform: translate(' + h + 'px, ' + v + 'px);';
-          s += _styleEmote([], [], [], [], [], [], cfg.emote.in.fade, false, cfg.emote.out.fade, false, tMS);
+          s += shared.styleEmote([], [], [], [], [], [], cfg.emote.in.fade, false, cfg.emote.out.fade, false, tMS);
           scene.setAttribute('style', s);
           document.body.appendChild(scene);
           gc.hook(scene, false, 6, tMS);
@@ -1901,8 +1890,8 @@ const display = function () {
           const o = [];
           const spc = [];
           if (_mL === 0) {
-            for (let i = 0, k = Object.keys(alnumDist), l = k.length; i < l; i++) {
-              _mL = Math.max(_mL, alnumDist[k[i]][0].length);
+            for (let i = 0, k = Object.keys(letters), l = k.length; i < l; i++) {
+              _mL = Math.max(_mL, letters[k[i]][0].length);
             }
           }
           for (let y = 0; y < _mL; y++) {
@@ -1917,9 +1906,9 @@ const display = function () {
               continue;
             }
             const v = s[i];
-            if (!alnumDist.hasOwnProperty(v))
+            if (!letters.hasOwnProperty(v))
               continue;
-            const c = alnumDist[v];
+            const c = letters[v];
             for (let x = 0, m = c.length; x < m; x++) {
               o.push(c[x]);
             }
@@ -1932,7 +1921,7 @@ const display = function () {
             return;
           const img = document.createElement('img');
           img.setAttribute('class', 'emote fit');
-          _setImgSrc(img, url);
+          shared.setImgSrc(img, url);
           const h = oX + eH * x;
           const v = -1 * eH;
           const vD = vH - eH * dX;
@@ -1980,25 +1969,25 @@ const display = function () {
       };
     }();
 
-    function _canShowKappa(k) {
+    function canShowKappa(k) {
       if (cfg.emote.max < 1)
         return true;
       if (_eActive < 1)
         return true;
       let tC = cfg.display.kappa.count;
       if (k !== false)
-        tC = _getKappaCountEstimate(k);
+        tC = getKappaCountEstimate(k);
       const cM = Math.max(cfg.emote.max, tC);
       return _eActive + tC < cM;
     }
 
-    function _getKappaCountEstimate(k) {
+    function getKappaCountEstimate(k) {
       switch (k.style) {
         case 'Pyramid':
         case 'SmallPyramid':
           let c = 0;
-          for (let i = 0, l = pyramidDist.length; i < l; i++) {
-            c += pyramidDist[i];
+          for (let i = 0, l = pyramidDistribution.length; i < l; i++) {
+            c += pyramidDistribution[i];
           }
           return c;
         case 'Fireworks':
@@ -2018,7 +2007,7 @@ const display = function () {
       return k.count;
     }
 
-    async function $show(kList, kStyle) {
+    async function run(kList, kStyle) {
       const sW = window.innerWidth;
       const sH = window.innerHeight;
       const eH = Math.max(cfg.emote.size.min, Math.min(cfg.emote.size.max, Math.floor(sW * cfg.emote.size.ratio.normal), Math.floor(sH * cfg.emote.size.ratio.normal)));
@@ -2026,9 +2015,9 @@ const display = function () {
       const sB = sH - eH;
       document.documentElement.style.setProperty('--height', sH + 'px');
       document.documentElement.style.setProperty('--width', sW + 'px');
-      const waitFor = _getKappaCountEstimate(kStyle);
+      const waitFor = getKappaCountEstimate(kStyle);
 
-      if (!_canShowKappa(kStyle)) {
+      if (!canShowKappa(kStyle)) {
         _toKappa.push({ list: kList, style: kStyle.style, prefs: kStyle.prefs, params: kParams });
         if (_tKappa !== false) {
           window.clearTimeout(_tKappa);
@@ -2050,19 +2039,19 @@ const display = function () {
       switch (kStyle.style) {
         case 'Stampede':
           _eActive -= waitFor;
-          await _list.Stampede(kList, sW, sH, eH, kStyle.count);
+          await list.Stampede(kList, sW, sH, eH, kStyle.count);
           break;
         case 'Fireworks':
-          _list.Fireworks(kList, sW, sH, eHh, kStyle.count);
+          list.Fireworks(kList, sW, sH, eHh, kStyle.count);
           break;
         case 'Spiral':
-          _list.Spiral(kList, sW, sH, eHh, kStyle.count);
+          list.Spiral(kList, sW, sH, eHh, kStyle.count);
           break;
         case 'Pyramid':
-          _list.Pyramid(kList, sW, sH);
+          list.Pyramid(kList, sW, sH);
           break;
         case 'SmallPyramid':
-          _list.SmallPyramid(kList, sW, sH);
+          list.SmallPyramid(kList, sW, sH);
           break;
         case 'Conga':
           _eActive -= waitFor;
@@ -2071,7 +2060,7 @@ const display = function () {
             avoidMiddle = true;
           if (kStyle.prefs.hasOwnProperty('avoidMiddle') && kStyle.prefs.avoidMiddle === true)
             avoidMiddle = true;
-          _list.Conga(kList, sW, sH, eH, avoidMiddle);
+          list.Conga(kList, sW, sH, eH, avoidMiddle);
           break;
         case 'Text':
           _eActive -= waitFor;
@@ -2085,7 +2074,7 @@ const display = function () {
             sTT = cfg.display.kappa.styles[kStyle.style].time;
           if (kStyle.prefs.hasOwnProperty('time') && kStyle.prefs.time > 0)
             sTT = kStyle.prefs.time;
-          _list.Text(kList, sW, sH, sTM, sTT);
+          list.Text(kList, sW, sH, sTM, sTT);
           break;
         case 'TheCube':
           const cS = Math.min(sW, sH);
@@ -2114,12 +2103,12 @@ const display = function () {
             kUse = kList;
           else
             kUse.push(kList[shared.random(lK)]);
-          _list.TheCube(kUse, sW, sH, Math.floor(cS * sCS), sCC, sCR);
+          list.TheCube(kUse, sW, sH, Math.floor(cS * sCS), sCC, sCR);
           break;
         case 'Burst':
-          const oH = _randomFromRange(timing.kappa[kStyle.style].left);
-          const oV = _randomFromRange(timing.kappa[kStyle.style].top) * sB;
-          const bA = _kAcTime(kStyle.count, estMS);
+          const oH = shared.randomFromRange(timing.kappa[kStyle.style].left);
+          const oV = shared.randomFromRange(timing.kappa[kStyle.style].top) * sB;
+          const bA = shared.countEstimatedTime(kStyle.count, estMS);
           for (let i = 0; i < kStyle.count; i++) {
             if (_iTitanic > tInit)
               return;
@@ -2131,13 +2120,13 @@ const display = function () {
             const sRb = sW - Math.ceil(eWb / 2);
             display.emote.list.StraightLine(kList[rB], sW, sH, eH, oH * sRb, oV, false, tInit);
             if (i % bA.ct === bA.ct - 1)
-              await _fPause(bA.f);
+              await shared.framePause(bA.f);
           }
           break;
         case 'Fountain':
-          const fX = _randomFromRange(timing.kappa[kStyle.style].left) * sW;
-          const fY = _randomFromRange(timing.kappa[kStyle.style].top);
-          const fA = _kAcTime(kStyle.count, estMS);
+          const fX = shared.randomFromRange(timing.kappa[kStyle.style].left) * sW;
+          const fY = shared.randomFromRange(timing.kappa[kStyle.style].top);
+          const fA = shared.countEstimatedTime(kStyle.count, estMS);
           for (let i = 0; i < kStyle.count; i++) {
             if (_iTitanic > tInit)
               return;
@@ -2145,11 +2134,11 @@ const display = function () {
             _eActive--;
             display.emote.list.Fountain(kList[rF], sW, sH, eH, fX, fY, false, tInit);
             if (i % fA.ct === fA.ct - 1)
-              await _fPause(fA.f);
+              await shared.framePause(fA.f);
           }
           break;
         case 'Confetti':
-          const cA = _kAcTime(kStyle.count, estMS);
+          const cA = shared.countEstimatedTime(kStyle.count, estMS);
           for (let i = 0; i < kStyle.count; i++) {
             if (_iTitanic > tInit)
               return;
@@ -2157,13 +2146,13 @@ const display = function () {
             _eActive--;
             display.emote.list.Confetti(kList[rN], sW, sH, eHh, false, tInit);
             if (i % cA.ct === cA.ct - 1)
-              await _fPause(cA.f);
+              await shared.framePause(cA.f);
           }
           break;
       }
     }
 
-    function $hide() {
+    function stop() {
       if (_tKappa !== false) {
         window.clearTimeout(_tKappa);
         _tKappa = false;
@@ -2172,99 +2161,13 @@ const display = function () {
       _conga.length = 0;
     }
 
-    function _sleep(ms) {
-      if (ms < shared.msPerFrame.value)
-        return _fPause();
-      return new Promise(
-        function (resolve) {
-          let n = 0;
-          function _next(ts) {
-            if (n === 0) {
-              n = ts;
-              window.requestAnimationFrame(_next);
-              return;
-            }
-            else if (ts - n < ms) {
-              window.requestAnimationFrame(_next);
-              return;
-            }
-            resolve(true);
-          }
-          window.requestAnimationFrame(_next);
-        }
-      );
-    }
-
-    function _fPause(frames = 1) {
-      return new Promise(
-        function (resolve) {
-          if (frames < 1) {
-            resolve(false);
-            return;
-          }
-          let n = 0;
-          function _next() {
-            n++;
-            if (n < frames) {
-              window.requestAnimationFrame(_next);
-              return;
-            }
-            resolve(true);
-          }
-          window.requestAnimationFrame(_next);
-        }
-      );
-    }
-
-    function _kAcTime(ct, t = false) {
-      if (t === false)
-        t = Math.floor(cfg.emote.time * 1000);
-      const f = Math.floor(t / shared.msPerFrame.value);
-      const r = f / ct;
-      if (r > 1)
-        return { f: Math.ceil(r), ct: 1 };
-      return { f: 1, ct: Math.ceil(1 / r) };
-    }
-
     return {
-      show: $show,
-      hide: $hide
+      run,
+      stop
     };
   }();
 
-  function _randomFromRange(range) {
-    return shared.random(range.max - range.min) + range.min;
-  }
-
-  function _safePoints(h, v, th, r, fL, fT, fR, fB) {
-    const hD = Math.floor(h + r * Math.cos(th));
-    const vD = Math.floor(v + r * Math.sin(th));
-    const slope = Math.tan(th);
-    let hL = Number.MAX_SAFE_INTEGER;
-    let hU = 0;
-    let vL = Number.MAX_SAFE_INTEGER;
-    let vU = 0;
-    if (hD < fL)
-      hL = h - (hU = fL);
-    else if (hD > fR)
-      hL = (hU = fR) - h;
-    if (vD < fT)
-      vL = v - (vU = fT);
-    else if (vD > fB)
-      vL = (vU = fB) - v;
-    if (vU === 0 && hU === 0)
-      return true;
-    let vT = vU;
-    let hT = hU;
-    if (hL > vL)
-      hT = Math.floor((vT - v) / slope + h);
-    else
-      vT = Math.floor((hT - h) * slope + v);
-    const l = Math.sqrt(Math.abs(h - hT) ** 2 + Math.abs(v - vT) ** 2);
-    return (l > Math.ceil(r / 2));
-  }
-
-  function _addEmoteToDocument(tInit, uri, variationSize, attrs = {}, r = false, oGC = {}, oT = false) {
+  function addEmoteToDocument(tInit, uri, variationSize, attrs = {}, r = false, oGC = {}, oT = false) {
     if (_iTitanic > tInit)
       return;
     const img = document.createElement('img');
@@ -2275,7 +2178,7 @@ const display = function () {
     const rV = variationSize.toFixed(3).replace('.', '_');
     c.push('eSize-' + rV);
     img.classList.add(...c);
-    _setImgSrc(img, uri);
+    shared.setImgSrc(img, uri);
     if (attrs.hasOwnProperty('style'))
       img.setAttribute('style', attrs.style);
     if (attrs.hasOwnProperty('dataset')) {
@@ -2307,7 +2210,7 @@ const display = function () {
       else if (oT.hasOwnProperty('y'))
         sTF = 'translateY(' + oT.y + 'px)';
       if (sTF !== null)
-        shared.doNextFrame(_tMoveOnDock, tInit, img, sTF);
+        shared.doNextFrame(setEmoteTransition, tInit, img, sTF);
     }
 
     if (r) {
@@ -2315,94 +2218,14 @@ const display = function () {
     }
   }
 
-  function _tMoveOnDock(tInit, img, sTF) {
-    if (_iTitanic > tInit)
-      return;
+  function setEmoteTransition(tInit, img, sTF) {
+    if (_iTitanic > tInit) return;
     img.style.transform = sTF;
-  }
-
-  function _setImgSrc(img, url) {
-    img.alt = '';
-    img.onload = function () {
-      img.onerror = null;
-      img.onload = null;
-    };
-    img.onerror = function () {
-      img.onerror = null;
-      img.onload = null;
-      img.src = twirAppEmote.url;
-    };
-    img.src = url;
-  }
-
-  function _styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters) {
-    let s = '';
-    if (aNames.length > 0) {
-      s += ' animation-name: ' + aNames.join() + ';';
-      s += ' animation-delay: ' + aDelays.join() + ';';
-      s += ' animation-duration: ' + aDurs.join() + ';';
-      s += ' animation-timing-function: ' + aTimings.join() + ';';
-      s += ' animation-fill-mode: ' + aFills.join() + ';';
-      s += ' animation-iteration-count: ' + aIters.join() + ';';
-    }
-    if (aNames.includes('fadeIn'))
-      s += ' opacity: 0;';
-    return s;
-  }
-
-  function _styleEmote(aNames, aDelays, aDurs, aTimings, aFills, aIters, fadeIn = true, zoomIn = true, fadeOut = true, zoomOut = true, tMS = false) {
-    if (tMS === false)
-      tMS = Math.floor(cfg.emote.time * 1000);
-    const tFI = _tAnim.fade.in / 100;
-    const tFO = _tAnim.fade.out / 100;
-    const tZI = _tAnim.zoom.in / 100;
-    const tZO = _tAnim.zoom.out / 100;
-    if (fadeIn) {
-      aNames.push('fadeIn');
-      aDelays.push('0s');
-      aDurs.push(Math.floor(tMS * tFI) + 'ms');
-      aTimings.push('ease-in');
-      aFills.push('forwards');
-      aIters.push('1');
-    }
-    if (zoomIn) {
-      aNames.push('zoomIn');
-      aDelays.push('0s');
-      aDurs.push(Math.floor(tMS * tZI) + 'ms');
-      aTimings.push('linear');
-      aFills.push('forwards');
-      aIters.push('1');
-    }
-    if (fadeOut) {
-      aNames.push('fadeOut');
-      aDelays.push(Math.floor(tMS - tMS * tFO) + 'ms');
-      aDurs.push(Math.floor(tMS * tFO) + 'ms');
-      aTimings.push('ease-out');
-      aFills.push('forwards');
-      aIters.push('1');
-    }
-    else {
-      aNames.push('noFadeOut');
-      aDelays.push(tMS - 50 + 'ms');
-      aDurs.push('50ms');
-      aTimings.push('ease-out');
-      aFills.push('forwards');
-      aIters.push('1');
-    }
-    if (zoomOut) {
-      aNames.push('zoomOut');
-      aDelays.push(Math.floor(tMS - tMS * tZO) + 'ms');
-      aDurs.push(Math.floor(tMS * tZO) + 'ms');
-      aTimings.push('linear');
-      aFills.push('forwards');
-      aIters.push('1');
-    }
-    return _styleEmoteString(aNames, aDelays, aDurs, aTimings, aFills, aIters);
   }
 
   function eraseAll() {
     _iTitanic = new Date().getTime();
-    display.kappa.hide();
+    display.kappa.stop();
     const cubes = document.getElementsByClassName('scene');
     while (cubes.length) {
       cubes[0].parentElement.removeChild(cubes[0]);
@@ -2421,31 +2244,19 @@ const display = function () {
   };
 }();
 
-function enableRave() {
-  document.body.classList.add('rave')
-}
-
-function disableRave() {
-  document.body.classList.remove('rave')
-}
-
 defineExpose({
-  startup() {
+  init() {
     shared.msPerFrame.init();
+  },
+  clear() {
+    display.eraseAll()
   },
   get kappagen() {
     return display.kappa;
   },
   get emote() {
     return display.emote;
-  },
-  get rave() {
-    return {
-      isEnabled: document.body.classList.contains('rave'),
-      enable: enableRave,
-      disable: disableRave,
-    }
-  },
+  }
 })
 </script>
 

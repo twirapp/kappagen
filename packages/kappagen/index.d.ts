@@ -45,20 +45,17 @@ export type KappagenAnimations =
 export type KappagenProps = {};
 
 export type KappagenMethods = {
-  startup: () => void;
+  init: () => void;
+  clear: () => void;
   kappagen: {
-    show: (emotes: Emote[], animation: KappagenAnimations) => Promise<void>;
+    run: (emotes: Emote[], animation: KappagenAnimations) => Promise<void>;
+    stop: () => void;
   };
   emote: {
-    addToShowList: (emote: Emote[]) => void;
+    addEmotes: (emote: Emote[]) => void;
     showEmotes: () => void;
   };
-  rave: {
-    isEnabled: boolean;
-    enable: () => void;
-    disable: () => void;
-  };
-}
+};
 
 declare const _default: import("vue").DefineComponent<
   KappagenProps,

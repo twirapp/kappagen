@@ -1,4 +1,7 @@
-export const cfg = {
+import { reactive } from "vue";
+
+export const cfg = reactive({
+  radius: Math.PI * 2,
   display: {
     styles: [
       "Still", // No movement
@@ -31,8 +34,8 @@ export const cfg = {
           rotations: 5,
           faces: false,
         },
+        // Show a message (no fade/zoom; specific-size emotes)
         Text: {
-          // Show a message         (no fade/zoom; specific-size emotes)
           message: ["HYPE!"],
           time: 3,
         },
@@ -42,14 +45,6 @@ export const cfg = {
         time: 5,
         avoidMiddle: false,
       },
-    },
-    statuses: true,
-    extended: {
-      useFFZ: true,
-      useBTTV: true,
-      use7TV: true,
-      useZWE: true,
-      fillZWE: false,
     },
   },
   emote: {
@@ -68,6 +63,16 @@ export const cfg = {
     cube: {
       rotations: 5,
     },
+    animation: {
+      fade: {
+        in: 8,
+        out: 8,
+      },
+      zoom: {
+        in: 17,
+        out: 8,
+      },
+    },
     in: {
       fade: true,
       zoom: true /* Layout Shifts - Requires independent scale directive */,
@@ -77,9 +82,9 @@ export const cfg = {
       zoom: true /* Layout Shifts - Requires independent scale directive */,
     },
   },
-};
+});
 
-/* fractions (or decimal percentages) of the emote time configuration value */
+// fractions (or decimal percentages) of the emote time configuration value
 export const timing = {
   display: {
     Still: {
@@ -271,19 +276,19 @@ export const timing = {
       },
       height: 3 /* height of stampede in emote heights */,
       bunch: {
-        "1": {
+        1: {
           min: 1,
           max: 5,
         },
-        "2": 8 /* this number minus the value of 1 */,
-        "4": {
+        2: 8 /* this number minus the value of 1 */,
+        4: {
           min: 0,
           max: 3,
         },
       },
       pause: {
-        "1": 4 / 5,
-        "2": 2 / 5,
+        1: 4 / 5,
+        2: 2 / 5,
       },
       smallSleep: {
         min: 90,
@@ -317,18 +322,18 @@ export const timing = {
   },
 };
 
-// list of default images to use if your channel has no emotes
+// default image to use if your channel has no emotes
 export const twirAppEmote = {
   url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
 };
 
 // distribution of emotes for Pyramid and SmallPyramid kappagen
-export const pyramidDist = [
+export const pyramidDistribution = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 ];
 
 // distribution of emotes for letters in message kappagens
-export const alnumDist = {
+export const letters = {
   A: [
     [0, 1, 1, 1, 1, 1, 0, 0, 0],
     [0, 0, 0, 0, 1, 0, 1, 0, 0],
@@ -672,66 +677,66 @@ export const alnumDist = {
     [0, 1, 0, 0, 1, 1, 0, 0, 0],
     [0, 1, 0, 0, 0, 1, 0, 0, 0],
   ],
-  "1": [
+  1: [
     [0, 1, 0, 0, 0, 0, 1, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 0, 0, 0, 0],
   ],
-  "2": [
+  2: [
     [0, 1, 1, 0, 0, 0, 1, 0, 0],
     [0, 1, 0, 1, 0, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 1, 0, 0, 0, 1, 0, 1, 0],
     [0, 1, 0, 0, 0, 0, 1, 0, 0],
   ],
-  "3": [
+  3: [
     [0, 0, 1, 0, 0, 0, 1, 0, 0],
     [0, 1, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 0, 1, 1, 0, 1, 1, 0, 0],
   ],
-  "4": [
+  4: [
     [0, 0, 0, 1, 1, 0, 0, 0, 0],
     [0, 0, 0, 1, 0, 1, 1, 1, 0],
     [0, 0, 0, 1, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 0],
     [0, 0, 0, 1, 0, 0, 0, 0, 0],
   ],
-  "5": [
+  5: [
     [0, 0, 1, 0, 0, 1, 1, 1, 0],
     [0, 1, 0, 0, 0, 1, 0, 1, 0],
     [0, 1, 0, 0, 0, 1, 0, 1, 0],
     [0, 0, 1, 1, 1, 0, 0, 1, 0],
   ],
-  "6": [
+  6: [
     [0, 0, 1, 1, 1, 1, 0, 0, 0],
     [0, 1, 0, 0, 1, 0, 1, 0, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 0, 1, 1, 0, 0, 0, 0, 0],
   ],
-  "7": [
+  7: [
     [0, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 0, 0, 0, 0, 0, 0, 1, 0],
     [0, 1, 1, 1, 0, 0, 0, 1, 0],
     [0, 0, 0, 0, 1, 1, 0, 1, 0],
     [0, 0, 0, 0, 0, 0, 1, 1, 0],
   ],
-  "8": [
+  8: [
     [0, 0, 1, 1, 0, 1, 1, 0, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 0, 1, 1, 0, 1, 1, 0, 0],
   ],
-  "9": [
+  9: [
     [0, 0, 0, 0, 0, 1, 1, 0, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 1, 0, 0, 1, 0, 0, 1, 0],
     [0, 0, 1, 0, 1, 0, 0, 1, 0],
     [0, 0, 0, 1, 1, 1, 1, 0, 0],
   ],
-  "0": [
+  0: [
     [0, 0, 1, 1, 1, 1, 1, 0, 0],
     [0, 1, 1, 0, 0, 0, 0, 1, 0],
     [0, 1, 0, 1, 1, 1, 0, 1, 0],
