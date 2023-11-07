@@ -5,6 +5,9 @@
   --emote-width: 0px;
   --zoom-height: var(--emote-height);
   --zoom-width: var(--emote-width);
+
+  --timing-display-crazy-squash-width: 2;
+  --timing-display-crazy-squash-height: 0.7;
 }
 
 body {

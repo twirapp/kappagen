@@ -7,6 +7,14 @@
   <link rel="stylesheet" type="text/css" href="src/style.css" />
   <style>
     /* TODO: put it in the css file */
+    [data-squash="vertical"] {
+      transform: scale(var(--timing-display-crazy-squash-width), var(--timing-display-crazy-squash-height));
+    }
+
+    [data-squash="horizontal"] {
+      transform: scale(var(--timing-display-crazy-squash-height), var(--timing-display-crazy-squash-width));
+    }
+
     [data-squash="no"] {
       transform: scale(1, 1);
     }
@@ -3405,170 +3413,101 @@
       }
 
       function _css() {
-        const css = document.getElementsByTagName('STYLE')[0];
-        let h = css.innerHTML;
-        if (cfg.display.hasOwnProperty('hue') && cfg.display.hue !== false) {
-          if (cfg.display.hue === 'rave') {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'src/style_hue_rave.css';
-            document.head.appendChild(link);
-          }
-          else if (!isNaN(cfg.display.hue)) {
-            const hueValue = parseInt(cfg.display.hue, 10);
-            if (hueValue > 0 && hueValue < 360)
-              h = `html { filter: hue-rotate(${hueValue}deg); }` + h;
-          }
+        let style = "";
+
+        if (cfg.display.hue === 'rave') {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'src/style_hue_rave.css';
+          document.head.appendChild(link);
+        }
+        else if (cfg.display.hue) {
+          const hueValue = parseInt(cfg.display.hue, 10);
+          if (hueValue > 0 && hueValue < 360)
+            style += `html { filter: hue-rotate(${hueValue}deg); }`;
         }
 
-        // TODO: put it in the css file
-        let a = '   [data-squash="vertical"]';
-        a += '   {\n';
-        a += '    transform: scale(' + timing.display.Crazy.squash.width + ', ' + timing.display.Crazy.squash.height + ');\n';
-        a += '   }\n';
-        a += '   [data-squash="horizontal"]';
-        a += '   {\n';
-        a += '    transform: scale(' + timing.display.Crazy.squash.height + ', ' + timing.display.Crazy.squash.width + ');\n';
-        a += '   }\n';
-        h = h.replace('   [data-squash="no"]', a + '   [data-squash="no"]');
-        if (cfg.display.extended.useZWE && cfg.display.extended.hasOwnProperty('fillZWE') && cfg.display.extended.fillZWE) {
-          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
-          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.8)) / 2);');
-          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.95)) / 2);');
-          h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
-          let z = '   img.fit,\n';
-          z += '   .fit img\n';
-          z += '   {\n';
-          z += '    object-fit: contain;\n';
-          z += '    object-position: 50% 50%;\n';
-          z += '   }\n';
-          h = h.replace('   img\n   {\n', z + '   img\n   {\n');
-        }
-        else {
-          let z = '   img\n';
-          z += '   {\n';
-          z += '    object-fit: contain;\n';
-          z += '    object-position: 50% 50%;\n';
-          h = h.replace('   img\n   {\n', z);
-        }
-        let t = '   .etStraightLine\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time) + 'ms;\n';
-        t += '   }\n';
-        t += '   .etThrowTwist\n';
-        t += '   {\n';
-        t += '    transition: transform cubic-bezier(0.32, 0, 0.67, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.twist) + 'ms;\n';
-        t += '   }\n';
-        t += '   .etThrowDrop\n';
-        t += '   {\n';
-        t += '    transition: transform cubic-bezier(0.5, 0, 0.75, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.drop) + 'ms;\n';
-        t += '   }\n';
-        t += '   .etFountain\n';
-        t += '   {\n';
-        t += '    transition: transform cubic-bezier(0, 0, 0.58, 1) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time) + 'ms;\n';
-        t += '   }\n';
-        t += '   div.scene.cube:not(.kappa),\n';
-        t += '   div.scene.cube:not(.kappa) div.cube\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktFireworkRocket\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time * timing.kappa.Fireworks.speed.rocket) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktFireworkSparkler\n';
-        t += '   {\n';
-        t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktSpiral\n';
-        t += '   {\n';
-        t += '    transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktPyramid\n';
-        t += '   {\n';
+        document.documentElement.style.setProperty('--timing-display-crazy-squash-width', timing.display.Crazy.squash.width);
+        document.documentElement.style.setProperty('--timing-display-crazy-squash-height', timing.display.Crazy.squash.height);
+
+        // It does nothing since the styles are in a separate file!
+        // if (cfg.display.extended.useZWE && cfg.display.extended.hasOwnProperty('fillZWE') && cfg.display.extended.fillZWE) {
+        //   h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+        //   h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.8)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.8)) / 2);');
+        //   h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.95)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.95)) / 2);');
+        //   h = h.replace('padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;', 'padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) calc((var(--zoom-width) - (var(--zoom-width) * 0.1)) / 2);');
+        //   let z = 'img.fit, .fit img';
+        //   z += '{\n';
+        //   z += ' object-fit: contain;\n';
+        //   z += ' object-position: 50% 50%;\n';
+        //   z += '}\n';
+        //   h = h.replace('img\n   {\n', z + 'img\n   {\n');
+        // }
+        // else {
+        //   let z = 'img\n';
+        //   z += '{\n';
+        //   z += ' object-fit: contain;\n';
+        //   z += ' object-position: 50% 50%;\n';
+        //   h = h.replace('img\n   {\n', z);
+        // }
+
+        style += '.etStraightLine { transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.StraightLine.time) + 'ms; }\n';
+        style += '.etThrowTwist { transition: transform cubic-bezier(0.32, 0, 0.67, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.twist) + 'ms; }';
+        style += '.etThrowDrop { transition: transform cubic-bezier(0.5, 0, 0.75, 0) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Throw.time * timing.display.Throw.drop) + 'ms; }';
+        style += '.etFountain { transition: transform cubic-bezier(0, 0, 0.58, 1) ' + Math.floor(cfg.emote.time * 1000 * timing.display.Fountain.time) + 'ms; }';
+        style += 'div.scene.cube:not(.kappa), div.scene.cube:not(.kappa) div.cube { ';
+        style += 'transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.display.TheCube.time) + 'ms; }';
+        style += '.ktFireworkRocket { transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time * timing.kappa.Fireworks.speed.rocket) + 'ms; }';
+        style += '.ktFireworkSparkler { transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Fireworks.time) + 'ms; }';
+        style += '.ktSpiral { transition: transform ease-out ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Spiral.time) + 'ms; }';
+
         let ctP = 0;
-        const lP = pyramidDist.length;
-        for (let i = 0; i < lP; i++) {
+        for (let i = 0; i < pyramidDist.length; i++) {
           ctP += pyramidDist[i];
         }
         const tP = Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.show.total);
         const tPerB = Math.max(Math.floor(tP / ctP), timing.kappa.Pyramid.show.min);
-        t += '    transition: transform ease-in ' + tPerB + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktPyramidDrop\n';
-        t += '   {\n';
-        t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.hide) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktSmallPyramid\n';
-        t += '   {\n';
+
+        style += '.ktPyramid { transition: transform ease-in ' + tPerB + 'ms; }';
+        style += '.ktPyramidDrop { transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Pyramid.time * timing.kappa.Pyramid.hide) + 'ms; }';
+
         const tSP = Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.show.total);
         const tPerSB = Math.max(Math.floor(tSP / ctP), timing.kappa.SmallPyramid.show.min);
-        t += '    transition: transform ease-in ' + tPerSB + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktSmallPyramidDrop\n';
-        t += '   {\n';
-        t += '    transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.hide) + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktStampede\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time * timing.kappa.Stampede.speed) + 'ms;\n';
-        t += '   }\n';
+
+        style += '.ktSmallPyramid { transition: transform ease-in ' + tPerSB + 'ms; }';
+        style += '.ktSmallPyramidDrop { transition: transform ease-in ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.SmallPyramid.time * timing.kappa.SmallPyramid.hide) + 'ms; }';
+        style += '.ktStampede { transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.Stampede.time * timing.kappa.Stampede.speed) + 'ms; }';
+
         const congaShowMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.show);
         const congaHideMS = Math.floor(cfg.emote.time * 1000 * timing.kappa.Conga.time.hide);
-        t += '   .ktCongaIn\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + congaShowMS + 'ms;\n';
-        t += '   }\n';
-        t += '   .ktCongaOut\n';
-        t += '   {\n';
-        t += '    transition: transform ease-in ' + congaHideMS + 'ms;\n';
-        t += '   }\n';
-        t += '   div.scene.cube.kappa,\n';
-        t += '   div.scene.cube.kappa div.cube\n';
-        t += '   {\n';
-        t += '    transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.TheCube.time) + 'ms;\n';
-        t += '   }\n';
-        h = h.replace('   [data-squash="vertical"]', t + '\n   [data-squash="vertical"]');
-        if (cfg.display.hasOwnProperty('statuses') && cfg.display.statuses === false)
-          h = h.replace('#notices\n   {\n', '#notices\n   {\n    display: none;\n');
-        if (cfg.hasOwnProperty('twitch') && cfg.twitch.hasOwnProperty('oauth_refresh') && cfg.twitch.oauth_refresh === null)
-          h = h.replace('button.twitch\n   {\n', 'button.twitch\n   {\n    display: none;\n');
-        if (cfg.hasOwnProperty('youtube') && cfg.youtube.hasOwnProperty('oauth_refresh') && cfg.youtube.oauth_refresh === null)
-          h = h.replace('button.youtube\n   {\n', 'button.youtube\n   {\n    display: none;\n');
-        if (cfg.hasOwnProperty('kick') && cfg.kick.hasOwnProperty('channel') && cfg.kick.channel === null)
-          h = h.replace('button.kick\n   {\n', 'button.kick\n   {\n    display: none;\n');
-        if (cfg.emote.size.variation !== false && typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
-          let v = '   .eSize-1_000\n';
-          v += '   {\n';
-          v += '    --zoom-height: var(--emote-height);\n';
-          v += '    --zoom-width: var(--emote-width);\n';
-          v += '   }\n';
-          v += '   .eSize-0_500\n';
-          v += '   {\n';
-          v += '    --zoom-height: calc(var(--emote-height) / 2);\n';
-          v += '    --zoom-width: calc(var(--emote-width) / 2);\n';
-          v += '   }\n';
-          v += '   .eSize-2_000\n';
-          v += '   {\n';
-          v += '    --zoom-height: calc(var(--emote-height) * 2);\n';
-          v += '    --zoom-width: calc(var(--emote-width) * 2);\n';
-          v += '   }\n';
-          let v2 = '   .eSize-1_000\n';
-          v2 += '   {\n';
-          v2 += '    --zoom-height: var(--emote-height);\n';
-          v2 += '    --zoom-width: var(--emote-width);\n';
-          v2 += '   }\n';
-          for (let i = 0, l = cfg.emote.size.variation.range.length; i < l; i++) {
-            const rV = cfg.emote.size.variation.range[i].toFixed(3);
-            v2 += '   .eSize-' + rV.replace('.', '_') + '\n';
-            v2 += '   {\n';
-            v2 += '    --zoom-height: calc(var(--emote-height) * ' + rV + ');\n';
-            v2 += '    --zoom-width: calc(var(--emote-width) * ' + rV + ');\n';
-            v2 += '   }\n';
-          }
-          h = h.replace(v, v2);
-        }
-        css.innerHTML = h;
+
+        style += '.ktCongaIn { transition: transform linear ' + congaShowMS + 'ms; }';
+        style += '.ktCongaOut { transition: transform ease-in ' + congaHideMS + 'ms; }';
+        style += 'div.scene.cube.kappa, div.scene.cube.kappa div.cube { ';
+        style += 'transition: transform linear ' + Math.floor(cfg.emote.time * 1000 * timing.kappa.TheCube.time) + 'ms; }';
+
+        // It does nothing since the styles are in a separate file!
+        // if (cfg.emote.size.variation !== false && typeof cfg.emote.size.variation === 'object' && cfg.emote.size.variation.hasOwnProperty('range') && Array.isArray(cfg.emote.size.variation.range)) {
+        //   let searchValue = '.eSize-1_000 { --zoom-height: var(--emote-height); --zoom-width: var(--emote-width); }';
+        //   searchValue += '.eSize-0_500 { --zoom-height: calc(var(--emote-height) / 2); --zoom-width: calc(var(--emote-width) / 2); }';
+        //   searchValue += '.eSize-2_000 { --zoom-height: calc(var(--emote-height) * 2); --zoom-width: calc(var(--emote-width) * 2); }';
+
+        //   let replaceValue = '.eSize-1_000 { --zoom-height: var(--emote-height); --zoom-width: var(--emote-width); }';
+        //   for (let i = 0, length = cfg.emote.size.variation.range.length; i < length; i++) {
+        //     const rV = cfg.emote.size.variation.range[i].toFixed(3);
+        //     replaceValue += '.eSize-' + rV.replace('.', '_') + '\n { ';
+        //     replaceValue += '--zoom-height: calc(var(--emote-height) * ' + rV + ');\n';
+        //     replaceValue += '--zoom-width: calc(var(--emote-width) * ' + rV + ');\n';
+        //     replaceValue += '}\n';
+        //   }
+        //   h = h.replace(searchValue, replaceValue);
+        // }
+        // css.innerHTML = h;
+
+        
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = style;
+        document.head.appendChild(styleElement);
       }
 
       return $c_startup;
