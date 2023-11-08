@@ -9,6 +9,6 @@
     "build:playground": "turbo run build --filter=./playground"
   },
   "devDependencies": {
-    "turbo": "^1.10.16"
+    "turbo": "1.10.16"
   }
 }
