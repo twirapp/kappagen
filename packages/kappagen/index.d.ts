@@ -66,16 +66,16 @@ export interface KappagenEmoteConfig {
    */
   queue?: number;
   size?: {
-    ratio: {
+    ratio?: {
       /** @default 1/12 */
-      normal: number;
+      normal?: number;
       /** @default 1/24 */
-      small: number;
+      small?: number;
     };
     /** @default 1 */
-    min: number;
+    min?: number;
     /** @default 256 */
-    max: number;
+    max?: number;
   };
   cube?: {
     /**

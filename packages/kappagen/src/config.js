@@ -1,6 +1,4 @@
-import { reactive } from "vue";
-
-export const cfg = reactive({
+export const cfg = {
   radius: Math.PI * 2,
   display: {
     styles: [
@@ -81,7 +79,7 @@ export const cfg = reactive({
       zoom: true,
     },
   },
-});
+};
 
 // fractions (or decimal percentages) of the emote time configuration value
 export const timing = {

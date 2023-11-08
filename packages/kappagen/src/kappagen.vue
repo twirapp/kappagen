@@ -1,8 +1,7 @@
 <script setup>
-import { watchEffect } from 'vue';
+import { watchEffect, unref } from 'vue';
 import { cfg, timing, letters, pyramidDistribution } from './config.js'
 import { shared } from './shared.js'
-import { toRefs, useVModel } from '@vueuse/core'
 
 const display = function () {
   let _eActive = 0;
@@ -2121,8 +2120,8 @@ watchEffect(() => {
 
   if (props.emoteConfig) {
     const mergedEmoteConfig = shared.deepMerge(
-      toRefs(cfg.emote),
-      toRefs(useVModel(props, 'emoteConfig'))
+      cfg.emote,
+      unref(props.emoteConfig)
     )
     cfg.emote = mergedEmoteConfig
   }
