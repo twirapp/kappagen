@@ -7,7 +7,9 @@ import 'kappagen/style.css'
 
 const rave = ref(false)
 const emoteConfig = reactive<KappagenEmoteConfig>({
-  max: 100,
+  max: 10,
+  time: 10,
+  queue: 100,
   cube: {
     speed: 10
   }
