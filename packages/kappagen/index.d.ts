@@ -1,5 +1,7 @@
 export interface Emote {
   url: string;
+  width?: number;
+  height?: number;
   zwe?: Omit<Emote, "zwe">[];
 }
 
