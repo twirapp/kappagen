@@ -82,7 +82,7 @@ export interface KappagenEmoteConfig {
   cube?: {
     /**
      * Cube rotation speed.
-     * @default 6
+     * @default 5
      **/
     speed?: number;
   };
