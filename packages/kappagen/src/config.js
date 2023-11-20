@@ -321,9 +321,7 @@ export const timing = {
 };
 
 // default image to use if your channel has no emotes
-export const twirAppEmote = {
-  url: "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp",
-};
+export const twirAppEmote = "https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp"
 
 // distribution of emotes for Pyramid and SmallPyramid kappagen
 export const pyramidDistribution = [

@@ -1,4 +1,4 @@
-import { cfg } from "./config.js";
+import { cfg, twirAppEmote } from "./config.js";
 
 export const shared = (function () {
   const PROTECTED_KEYS = ["__proto__", "constructor", "prototype"];
@@ -135,7 +135,7 @@ export const shared = (function () {
     img.onerror = function () {
       img.onerror = null;
       img.onload = null;
-      img.src = twirAppEmote.url;
+      img.src = twirAppEmote;
     };
 
     img.src = url;
