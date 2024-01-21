@@ -1,6 +1,6 @@
 {
-  "name": "kappagen",
-  "version": "0.3.5",
+  "name": "@twirapp/kappagen",
+  "version": "0.0.0",
   "type": "module",
   "files": [
     "dist",

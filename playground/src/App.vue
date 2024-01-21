@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import KappagenOverlay from 'kappagen'
-import type { Emote, KappagenEmoteConfig } from 'kappagen'
+import KappagenOverlay from '@twirapp/kappagen'
+import type { Emote, KappagenEmoteConfig } from '@twirapp/kappagen'
 import { ref, onMounted, reactive } from 'vue'
 import { kappagenAnimations } from './animations.js'
-import 'kappagen/style.css'
+import '@twirapp/kappagen/style.css'
 
 const rave = ref(false)
 const emoteConfig = reactive<KappagenEmoteConfig>({

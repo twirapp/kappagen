@@ -11,7 +11,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "kappagen": "workspace:^",
+    "@twirapp/kappagen": "workspace:^",
     "vue": "^3.3.8"
   },
   "devDependencies": {

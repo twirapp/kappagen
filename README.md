@@ -3,15 +3,15 @@
 ## Install
 
 ```sh
-pnpm add kappagen
+pnpm add @twirapp/kappagen
 ```
 
 ## Usage
 
 ```vue
 <script setup lang="ts">
-import KappagenOverlay from 'kappagen'
-import type { Emote, KappagenEmoteConfig } from 'kappagen'
+import KappagenOverlay from '@twirapp/kappagen'
+import type { Emote, KappagenEmoteConfig } from '@twirapp/kappagen'
 import { ref, onMounted, reactive } from 'vue'
 import 'kappagen/style.css'
 

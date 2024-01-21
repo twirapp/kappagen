@@ -1,5 +1,5 @@
 {
-  "name": "kappagen",
+  "name": "kappagen-monorepo",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

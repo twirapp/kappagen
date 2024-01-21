@@ -26,7 +26,7 @@ importers:
 
   playground:
     dependencies:
-      kappagen:
+      '@twirapp/kappagen':
         specifier: workspace:^
         version: link:../packages/kappagen
       vue:
