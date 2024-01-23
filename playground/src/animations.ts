@@ -1,8 +1,24 @@
 import type { KappagenAnimations } from "@twirapp/kappagen";
 
+export const kappagenAnimationStyles = {
+  TheCube: 'TheCube',
+  Text: 'Text',
+  Confetti: 'Confetti',
+  Spiral: 'Spiral',
+  Stampede: 'Stampede',
+  Burst: 'Burst',
+  Fountain: 'Fountain',
+  SmallPyramid: 'SmallPyramid',
+  Pyramid: 'Pyramid',
+  Fireworks: 'Fireworks',
+  Conga: 'Conga',
+} as const
+
+export type KappagenAnimationStyle = typeof kappagenAnimationStyles[keyof typeof kappagenAnimationStyles];
+
 export const kappagenAnimations: KappagenAnimations[] = [
   {
-    style: "TheCube",
+    style: kappagenAnimationStyles.TheCube,
     prefs: {
       size: 0.1,
       center: false,
@@ -11,44 +27,44 @@ export const kappagenAnimations: KappagenAnimations[] = [
     },
   },
   {
-    style: "Text",
+    style: kappagenAnimationStyles.Text,
     prefs: {
       message: ["Twir"],
       time: 3,
     },
   },
   {
-    style: "Confetti",
+    style: kappagenAnimationStyles.Confetti,
     count: 150,
   },
   {
-    style: "Spiral",
+    style: kappagenAnimationStyles.Spiral,
     count: 150,
   },
   {
-    style: "Stampede",
+    style: kappagenAnimationStyles.Stampede,
     count: 150,
   },
   {
-    style: "Burst",
+    style: kappagenAnimationStyles.Burst,
     count: 150,
   },
   {
-    style: "Fountain",
+    style: kappagenAnimationStyles.Fountain,
     count: 150,
   },
   {
-    style: "SmallPyramid",
+    style: kappagenAnimationStyles.SmallPyramid,
   },
   {
-    style: "Pyramid",
+    style: kappagenAnimationStyles.Pyramid,
   },
   {
-    style: "Fireworks",
+    style: kappagenAnimationStyles.Fireworks,
     count: 150,
   },
   {
-    style: "Conga",
+    style: kappagenAnimationStyles.Conga,
     prefs: {
       avoidMiddle: false,
     },

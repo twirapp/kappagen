@@ -9,6 +9,11 @@
     "build:playground": "turbo run build --filter=./playground"
   },
   "devDependencies": {
-    "turbo": "1.10.16"
+    "turbo": "1.11.3"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "v-tweakpane@0.2.0": "patches/v-tweakpane@0.2.0.patch"
+    }
   }
 }
