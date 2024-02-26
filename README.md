@@ -13,7 +13,6 @@ pnpm add @twirapp/kappagen
 import { ref, reactive } from 'vue'
 import KappagenOverlay from '@twirapp/kappagen'
 import type { Emote, KappagenConfig, KappagenMethods } from '@twirapp/kappagen/types'
-import '@twirapp/kappagen/style.css'
 
 const isRave = ref(false)
 
