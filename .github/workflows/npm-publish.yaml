@@ -44,11 +44,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build packages
+      - name: Build
         run: pnpm build
 
-      - name: Publish packages
+      - name: Publish
         shell: bash
         run: |
           echo "//registry.npmjs.org/:_authToken="${{ secrets.NPM_TOKEN }}"" > ~/.npmrc
-          pnpm -r --filter='./packages/*' publish --access public --provenance
+          pnpm -r --filter='./apps/*' publish --access public --provenance
