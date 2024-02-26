@@ -2,13 +2,14 @@
   "name": "kappagen-monorepo",
   "version": "0.0.0",
   "type": "module",
+  "private": true,
   "scripts": {
-    "dev": "turbo run dev --filter=./packages/*",
-    "build": "turbo run build --filter=./packages/*",
-    "playground": "turbo run dev --filter=./playground",
-    "build:playground": "turbo run build --filter=./playground"
+    "dev": "turbo run dev --filter=./apps/*",
+    "build": "turbo run build --filter=./apps/*",
+    "format": "prettier --write \"**/*.{js,ts,tsx,json}\""
   },
   "devDependencies": {
+    "@crashmax/prettier-config": "5.0.2",
     "turbo": "1.11.3"
   },
   "pnpm": {

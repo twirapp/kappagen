@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { VTweakpane } from 'v-tweakpane'
 import KappagenOverlay from '@twirapp/kappagen'
-import type { Emote, KappagenEmoteConfig } from '@twirapp/kappagen'
-import { ref, onMounted, reactive } from 'vue'
+import type { Emote, KappagenConfig } from '@twirapp/kappagen/types'
+import { ref, reactive } from 'vue'
 import { kappagenAnimations, type KappagenAnimationStyle } from './animations.js'
 import type { Pane } from 'tweakpane'
-import '@twirapp/kappagen/style.css'
 
 const playgroundParams = reactive({
   isRave: false,
@@ -13,7 +12,7 @@ const playgroundParams = reactive({
   emoteZWEUrl: 'https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp'
 })
 
-const emoteConfig = reactive<KappagenEmoteConfig>({
+const config = reactive<KappagenConfig>({
   max: 10,
   time: 10,
   queue: 100,
@@ -29,11 +28,8 @@ const emoteConfig = reactive<KappagenEmoteConfig>({
     }
   }
 })
-const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
-onMounted(() => {
-  kappagen.value!.init()
-})
+const kappagen = ref<InstanceType<typeof KappagenOverlay>>()
 
 function getEmote(): Emote[] {
   return [
@@ -44,24 +40,25 @@ function getEmote(): Emote[] {
           url: playgroundParams.emoteZWEUrl
         }
       ]
-    }]
+    }
+  ]
 }
 
 async function runKappagenWithAnimation(style: KappagenAnimationStyle) {
   if (!kappagen.value) return
   const animation = kappagenAnimations.find(animation => animation.style === style)
   if (!animation) return
-  await kappagen.value.kappagen.run(getEmote(), animation)
+  await kappagen.value.playAnimation(getEmote(), animation)
 }
 
-function spawnEmotes() {
+function showEmotes() {
   if (!kappagen.value) return
   const countEmotes = Math.floor(Math.random() * 20)
-  const randomEmotes = Array.from({ length: countEmotes }).map(() => {
-    return { url: playgroundParams.emoteUrl }
-  })
-  kappagen.value.emote.addEmotes(randomEmotes)
-  kappagen.value.emote.showEmotes()
+  const randomEmotes = Array.from({ length: countEmotes }).map(() => ({
+    url: playgroundParams.emoteUrl
+  }))
+  console.log(randomEmotes)
+  kappagen.value.showEmotes(randomEmotes)
 }
 
 function clearEmotes() {
@@ -74,19 +71,19 @@ function onPaneCreated(pane: Pane) {
   emoteConfigFolder.addBinding(playgroundParams, 'isRave', {
     label: 'Rave',
   })
-  emoteConfigFolder.addBinding(emoteConfig, 'max', {
+  emoteConfigFolder.addBinding(config, 'max', {
     label: 'Max',
     min: 1,
     max: 100,
     step: 1
   })
-  emoteConfigFolder.addBinding(emoteConfig, 'time', {
+  emoteConfigFolder.addBinding(config, 'time', {
     label: 'Time',
     min: 1,
     max: 1000,
     step: 1
   })
-  emoteConfigFolder.addBinding(emoteConfig, 'queue', {
+  emoteConfigFolder.addBinding(config, 'queue', {
     label: 'Queue',
     min: 1,
     max: 1000,
@@ -100,25 +97,25 @@ function onPaneCreated(pane: Pane) {
   })
 
   const sizesFolder = pane.addFolder({ title: 'Size' })
-  sizesFolder.addBinding(emoteConfig.size!, 'min', {
+  sizesFolder.addBinding(config.size!, 'min', {
     label: 'Min',
     min: 1,
     max: 256,
     step: 1
   })
-  sizesFolder.addBinding(emoteConfig.size!, 'max', {
+  sizesFolder.addBinding(config.size!, 'max', {
     label: 'Max',
     min: 1,
     max: 256,
     step: 1
   })
-  sizesFolder.addBinding(emoteConfig.size!.ratio!, 'normal', {
+  sizesFolder.addBinding(config.size!.ratio!, 'normal', {
     label: 'Ratio (normal)',
     min: 0.01,
     max: 1,
     step: 0.01
   })
-  sizesFolder.addBinding(emoteConfig.size!.ratio!, 'small', {
+  sizesFolder.addBinding(config.size!.ratio!, 'small', {
     label: 'Ratio (small)',
     min: 0.01,
     max: 1,
@@ -134,12 +131,19 @@ function onPaneCreated(pane: Pane) {
 
   pane.addBlade({ view: 'separator' })
 
-  pane.addButton({ title: 'Spawn' }).on('click', spawnEmotes)
+  pane.addButton({ title: 'Show random emotes' }).on('click', showEmotes)
   pane.addButton({ title: 'Clear' }).on('click', clearEmotes)
 }
 </script>
 
 <template>
-  <v-tweakpane :pane="{ title: 'Kappagen Playground' }" @on-pane-created="onPaneCreated" />
-  <kappagen-overlay ref="kappagen" :is-rave="playgroundParams.isRave" :emote-config="emoteConfig" />
+  <v-tweakpane
+    :pane="{ title: 'Kappagen Playground' }"
+    @on-pane-created="onPaneCreated"
+  />
+  <kappagen-overlay
+    ref="kappagen"
+    :is-rave="playgroundParams.isRave"
+    :config="config"
+  />
 </template>
