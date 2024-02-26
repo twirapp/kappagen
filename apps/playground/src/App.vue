@@ -57,7 +57,6 @@ function showEmotes() {
   const randomEmotes = Array.from({ length: countEmotes }).map(() => ({
     url: playgroundParams.emoteUrl
   }))
-  console.log(randomEmotes)
   kappagen.value.showEmotes(randomEmotes)
 }
 
