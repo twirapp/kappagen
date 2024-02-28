@@ -13,6 +13,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     minify: false,
+    emptyOutDir: false,
     target: 'esnext',
     lib: {
       entry: './src/index.ts',
