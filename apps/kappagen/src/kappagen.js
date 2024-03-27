@@ -73,8 +73,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const h = shared.random(sW - eW)
         const v = shared.random(sH - eH)
         let s = 'top: ' + v + 'px;'
@@ -123,8 +124,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const eHh = Math.ceil(eH / 2)
         const eWh = Math.ceil(eW / 2)
         let h = x
@@ -187,8 +189,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const eWh = Math.ceil(eW / 2)
         const h = shared.random(sW) - eWh
         const v = Math.floor(
@@ -263,8 +266,9 @@ export const kappagen = (function () {
           if (tInit === 0) tInit = new Date().getTime()
           if (_iTitanic > tInit) return
           let eW = eH
-          if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+          if (eInf.width !== undefined && eInf.height !== undefined) {
             eW = (eInf.width / eInf.height) * eH
+          }
           const eWh = Math.ceil(eW / 2)
           const sWm = Math.ceil(sW / 2)
           const h = Math.floor(shared.random(sW) - eWh)
@@ -351,8 +355,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const eWh = Math.ceil(eW / 2)
         const sWm = Math.ceil(sW / 2)
         const h = shared.random(sW) - eWh
@@ -419,8 +424,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const eWh = Math.ceil(eW / 2)
         const h = shared.random(sW) - eWh
         let s = 'left: ' + h + 'px;'
@@ -488,8 +494,9 @@ export const kappagen = (function () {
           if (tInit === 0) tInit = new Date().getTime()
           if (_iTitanic > tInit) return
           let eW = eH
-          if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+          if (eInf.width !== undefined && eInf.height !== undefined) {
             eW = (eInf.width / eInf.height) * eH
+          }
           const sR = sW - eW
           const sB = sH - eH
           const h = shared.random(sR - 5) + 10
@@ -662,8 +669,9 @@ export const kappagen = (function () {
         if (tInit === 0) tInit = new Date().getTime()
         if (_iTitanic > tInit) return
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const eWh = Math.ceil(eW / 2)
         const h = shared.random(sW) - eWh
         let s = 'left: ' + h + 'px;'
@@ -726,8 +734,9 @@ export const kappagen = (function () {
           if (tInit === 0) tInit = new Date().getTime()
           if (_iTitanic > tInit) return
           let eW = eH
-          if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+          if (eInf.width !== undefined && eInf.height !== undefined) {
             eW = (eInf.width / eInf.height) * eH
+          }
           const sR = sW - eW
           const sB = sH - eH
           const h = shared.random(2) === 0 ? eW * -1 : sW
@@ -1021,8 +1030,9 @@ export const kappagen = (function () {
           cfg.emote.time * 1000 * timing.display.Fountain.time
         )
         let eW = eH
-        if (eInf.hasOwnProperty('width') && eInf.hasOwnProperty('height'))
+        if (eInf.width !== undefined && eInf.height !== undefined) {
           eW = (eInf.width / eInf.height) * eH
+        }
         const sR = sW - eW
         const sB = sH - eH
         let h = fX
@@ -1167,8 +1177,9 @@ export const kappagen = (function () {
           if (_iTitanic > tInit) return
           const oK = kList[shared.random(kList.length)]
           let eW = eH
-          if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
+          if (oK.width !== undefined && oK.height !== undefined) {
             eW = (oK.width / oK.height) * eH
+          }
           const eWh = Math.ceil(eW / 2)
           const oX =
             sW *
@@ -1266,8 +1277,9 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const sK = kList[shared.random(lK)]
             let eW = eH
-            if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
+            if (sK.width !== undefined && sK.height !== undefined) {
               eW = (sK.width / sK.height) * eH
+            }
             const sA = shared.random()
             _eActive--
             _sparkler(tInit, sK.url, cX, cY, eW, eH, sR, sA)
@@ -1287,8 +1299,9 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const sK = kList[shared.random(lK)]
             let eW = eH
-            if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
+            if (sK.width !== undefined && sK.height !== undefined) {
               eW = (sK.width / sK.height) * eH
+            }
             const sA = shared.random()
             _eActive--
             _sparkler(tInit, sK.url, cX, cY, eW, eH, mR, sA)
@@ -1307,8 +1320,9 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const sK = kList[shared.random(lK)]
             let eW = eH
-            if (sK.hasOwnProperty('width') && sK.hasOwnProperty('height'))
+            if (sK.width !== undefined && sK.height !== undefined) {
               eW = (sK.width / sK.height) * eH
+            }
             const sA = shared.random()
             _eActive--
             _sparkler(tInit, sK.url, cX, cY, eW, eH, lR, sA)
@@ -1394,8 +1408,9 @@ export const kappagen = (function () {
             }
             const oK = kList[shared.random(kList.length)]
             let eW = eH
-            if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
+            if (oK.width !== undefined && oK.height !== undefined) {
               eW = (oK.width / oK.height) * eH
+            }
             const eWh = Math.ceil(eW / 2)
             _eActive--
             _sparkler(tInit, oK.url, oX - eWh, oY, eW, eH, r, th)
@@ -1656,8 +1671,8 @@ export const kappagen = (function () {
           for (let i = 0, l = kList.length; i < l; i++) {
             let eW = eH
             if (
-              kList[i].hasOwnProperty('width') &&
-              kList[i].hasOwnProperty('height')
+              kList[i].width !== undefined &&
+              kList[i].height !== undefined
             )
               eW = (kList[i].width / kList[i].height) * eH
             if (eW > maxW) maxW = eW
@@ -1743,8 +1758,9 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const oK = kList[shared.random(kList.length)]
             let eW = eH
-            if (oK.hasOwnProperty('width') && oK.hasOwnProperty('height'))
+            if (oK.width !== undefined && oK.height !== undefined) {
               eW = (oK.width / oK.height) * eH
+            }
             const y = bandTop + shared.random(bandHeight)
             _eActive--
             imgs.push(_run(tInit, oK.url, y, d, sW, eW, eH, maxW))
@@ -2560,8 +2576,8 @@ export const kappagen = (function () {
             _eActive--
             let eWb = eH
             if (
-              emotes[rB].hasOwnProperty('width') &&
-              emotes[rB].hasOwnProperty('height')
+              emotes[rB].width !== undefined &&
+              emotes[rB].height !== undefined
             )
               eWb = (emotes[rB].width / emotes[rB].height) * eH
             const sRb = sW - Math.ceil(eWb / 2)
