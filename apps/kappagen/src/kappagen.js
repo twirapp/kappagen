@@ -1,7 +1,7 @@
 import { cfg, letters, pyramidDistribution, timing } from './config.ts'
 import { shared } from './shared.js'
 
-export const kappagen = (function () {
+export function createKappagen(target) {
   let _eActive = 0
   let _iTitanic = 0
 
@@ -36,7 +36,7 @@ export const kappagen = (function () {
           if (t > tNow) continue
         }
         delete _toGC[idx]
-        if (i.parentNode !== null) document.body.removeChild(i)
+        if (i.parentNode !== null) target.removeChild(i)
         if (d === true) _eActive--
         else if (d !== false && !isNaN(d)) _eActive -= d
       }
@@ -995,7 +995,7 @@ export const kappagen = (function () {
           )
           scene.setAttribute('style', s)
           _eActive += 6
-          document.body.appendChild(scene)
+          target.appendChild(scene)
           gc.hook(scene, true, 6, tMS)
           shared.doNextFrame(_tMove, tInit, cube, scene, hD, vD, eH)
         }
@@ -1110,7 +1110,7 @@ export const kappagen = (function () {
       }
     })()
 
-    function queueEmote(emote) {
+    function queueEmote(emoteItem) {
       const sW = innerWidth
       const sH = innerHeight
       const eH = Math.max(
@@ -1125,7 +1125,7 @@ export const kappagen = (function () {
       document.documentElement.style.setProperty('--width', sW + 'px')
       const style = cfg.display.styles[shared.random(cfg.display.styles.length)]
       if (style === undefined) return
-      kappagen.emote.list[style](emote, sW, sH, eH)
+      emote.list[style](emoteItem, sW, sH, eH)
     }
 
     function showEmotes(emotes) {
@@ -1138,7 +1138,7 @@ export const kappagen = (function () {
 
       const startShowEmotes = () =>
         (_tEmote = setTimeout(() => {
-          kappagen.emote.showEmotes([])
+          emote.showEmotes([])
         }, 500))
 
       if (cfg.emote.max > 0 && _eActive >= cfg.emote.max) {
@@ -1253,7 +1253,7 @@ export const kappagen = (function () {
         async function _explode(tInit, kList, iArr, cX, cY, eH, sW, sH, iKC) {
           if (_iTitanic > tInit) return
           for (let i = 0, l = iArr.length; i < l; i++) {
-            document.body.removeChild(iArr[i])
+            target.removeChild(iArr[i])
             _eActive--
           }
           const tMS = Math.floor(
@@ -1524,7 +1524,7 @@ export const kappagen = (function () {
           s += ' --emote-width: ' + eH + 'px;'
           s += ' transform: translateY(' + v + 'px);'
           img.setAttribute('style', s)
-          document.body.appendChild(img)
+          target.appendChild(img)
           setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH)
           setTimeout(_tMove, t, tInit, img, vD)
         }
@@ -1619,7 +1619,7 @@ export const kappagen = (function () {
           s += ' --emote-width: ' + eH + 'px;'
           s += ' transform: translateY(' + v + 'px);'
           img.setAttribute('style', s)
-          document.body.appendChild(img)
+          target.appendChild(img)
           setTimeout(_tDrop, Math.floor(t / 10 + aT), tInit, img, sH)
           setTimeout(_tMove, t, tInit, img, vD)
         }
@@ -1670,10 +1670,7 @@ export const kappagen = (function () {
           let maxW = 0
           for (let i = 0, l = kList.length; i < l; i++) {
             let eW = eH
-            if (
-              kList[i].width !== undefined &&
-              kList[i].height !== undefined
-            )
+            if (kList[i].width !== undefined && kList[i].height !== undefined)
               eW = (kList[i].width / kList[i].height) * eH
             if (eW > maxW) maxW = eW
           }
@@ -1835,7 +1832,7 @@ export const kappagen = (function () {
         function _tMark(tInit, img) {
           if (_iTitanic > tInit) return
           if (img === null) return
-          if (img.parentNode !== null) document.body.removeChild(img)
+          if (img.parentNode !== null) target.removeChild(img)
           img.setAttribute('deleted', true)
         }
 
@@ -1972,7 +1969,7 @@ export const kappagen = (function () {
           box.setAttribute('style', s)
           _eActive++
           box.appendChild(img)
-          document.body.appendChild(box)
+          target.appendChild(box)
           shared.doNextFrame(_tMove, tInit, box, sE)
           return box
         }
@@ -2078,7 +2075,7 @@ export const kappagen = (function () {
             tMS
           )
           scene.setAttribute('style', s)
-          document.body.appendChild(scene)
+          target.appendChild(scene)
           gc.hook(scene, false, 6, tMS)
           shared.doNextFrame(_tMove, tInit, cube, iR, eH)
         }
@@ -2247,7 +2244,7 @@ export const kappagen = (function () {
           s += ' transition: transform ' + tPerB + 'ms ease-in;'
           s += ' transform: translateY(' + v + 'px);'
           img.setAttribute('style', s)
-          document.body.appendChild(img)
+          target.appendChild(img)
           _eActive++
           const tMS = Math.floor(iTime * 1000 * timing.kappa.Text.time)
           setTimeout(_tDrop, Math.floor(eT + tMS + t / 10), tInit, img, sH, tMS)
@@ -2369,7 +2366,7 @@ export const kappagen = (function () {
         nK = false
         const a = {}
         a[e.style] = e.prefs
-        kappagen.kappa.run(e.list, a)
+        kappa.run(e.list, a)
         if (_toKappa.length < 1) return
         nK = getNextKappa(_toKappa[0])
         if (nK === false) return
@@ -2581,15 +2578,7 @@ export const kappagen = (function () {
             )
               eWb = (emotes[rB].width / emotes[rB].height) * eH
             const sRb = sW - Math.ceil(eWb / 2)
-            kappagen.emote.list.StraightLine(
-              emotes[rB],
-              sW,
-              sH,
-              eH,
-              oH * sRb,
-              oV,
-              tInit
-            )
+            emote.list.StraightLine(emotes[rB], sW, sH, eH, oH * sRb, oV, tInit)
             if (i % bA.ct === bA.ct - 1) await shared.framePause(bA.f)
           }
           break
@@ -2602,7 +2591,7 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const rF = shared.random(lK)
             _eActive--
-            kappagen.emote.list.Fountain(emotes[rF], sW, sH, eH, fX, fY, tInit)
+            emote.list.Fountain(emotes[rF], sW, sH, eH, fX, fY, tInit)
             if (i % fA.ct === fA.ct - 1) await shared.framePause(fA.f)
           }
           break
@@ -2612,7 +2601,7 @@ export const kappagen = (function () {
             if (_iTitanic > tInit) return
             const rN = shared.random(lK)
             _eActive--
-            kappagen.emote.list.Confetti(emotes[rN], sW, sH, eHh, tInit)
+            emote.list.Confetti(emotes[rN], sW, sH, eHh, tInit)
             if (i % cA.ct === cA.ct - 1) await shared.framePause(cA.f)
           }
           break
@@ -2660,7 +2649,7 @@ export const kappagen = (function () {
       }
     }
     _eActive++
-    document.body.appendChild(img)
+    target.appendChild(img)
     let space = true
     let decActive = true
     let t = false
@@ -2692,7 +2681,7 @@ export const kappagen = (function () {
 
   function clear() {
     _iTitanic = new Date().getTime()
-    kappagen.kappa.stop()
+    kappa.stop()
     const cubes = document.getElementsByClassName('scene')
     while (cubes.length) {
       cubes[0].parentElement.removeChild(cubes[0])
@@ -2709,4 +2698,4 @@ export const kappagen = (function () {
     kappa,
     clear
   }
-})()
+}
