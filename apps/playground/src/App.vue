@@ -8,7 +8,7 @@ import type { Pane } from 'tweakpane'
 
 const playgroundParams = reactive({
   isRave: false,
-  emoteUrl: 'https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp',
+  emoteUrl: 'https://cdn.7tv.app/emote/01G9CSQH88000CPDMWJK87X8GR/1x.avif',
   emoteZWEUrl: 'https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp'
 })
 
@@ -35,11 +35,11 @@ function getEmote(): Emote[] {
   return [
     {
       url: playgroundParams.emoteUrl,
-      zwe: [
-        {
-          url: playgroundParams.emoteZWEUrl
-        }
-      ]
+      // zwe: [
+      //   {
+      //     url: playgroundParams.emoteZWEUrl
+      //   }
+      // ]
     }
   ]
 }
@@ -140,9 +140,13 @@ function onPaneCreated(pane: Pane) {
     :pane="{ title: 'Kappagen Playground' }"
     @on-pane-created="onPaneCreated"
   />
-  <kappagen-overlay
-    ref="kappagen"
-    :is-rave="playgroundParams.isRave"
-    :config="config"
-  />
+
+  <div style="overflow: hidden;">
+    <kappagen-overlay
+      style="height: 200px; width: 400px"
+      ref="kappagen"
+      :is-rave="playgroundParams.isRave"
+      :config="config"
+    />
+  </div>
 </template>
