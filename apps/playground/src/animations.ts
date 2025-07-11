@@ -19,19 +19,19 @@ export type KappagenAnimationStyle =
 
 export const kappagenAnimations: KappagenAnimations[] = [
   {
+    style: kappagenAnimationStyles.Text,
+    prefs: {
+      message: [],
+      time: 3
+    }
+  },
+  {
     style: kappagenAnimationStyles.TheCube,
     prefs: {
       size: 0.1,
       center: false,
       speed: 6,
       faces: false
-    }
-  },
-  {
-    style: kappagenAnimationStyles.Text,
-    prefs: {
-      message: ['Twir'],
-      time: 3
     }
   },
   {

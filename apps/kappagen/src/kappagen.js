@@ -5,6 +5,16 @@ export function createKappagen(target) {
   let _eActive = 0
   let _iTitanic = 0
 
+  function getTargetSize() {
+    const bounding = target.getBoundingClientRect()
+    return {
+      height: bounding.height,
+      width: bounding.width
+    }
+  }
+
+  let sizes = getTargetSize()
+
   const gc = (function () {
     const _toGC = {}
 
@@ -28,8 +38,8 @@ export function createKappagen(target) {
             t > tNow &&
             r.bottom > 0 &&
             r.right > 0 &&
-            r.top < innerHeight &&
-            r.left < innerWidth
+            r.top < sizes.height &&
+            r.left < sizes.width
           )
             continue
         } else {
@@ -860,7 +870,7 @@ export function createKappagen(target) {
           if (tInit === 0) tInit = new Date().getTime()
           if (_iTitanic > tInit) return
           const scene = document.createElement('div')
-          scene.setAttribute('class', 'scene fit cube')
+          scene.setAttribute('class', 'scene cube')
 
           const eHh = Math.ceil(eH / 2)
           const nHh = eHh * -1
@@ -1111,8 +1121,8 @@ export function createKappagen(target) {
     })()
 
     function queueEmote(emoteItem) {
-      const sW = innerWidth
-      const sH = innerHeight
+      const sW = sizes.width
+      const sH = sizes.height
       const eH = Math.max(
         cfg.emote.size.min,
         Math.min(
@@ -1121,8 +1131,8 @@ export function createKappagen(target) {
           Math.floor(sH * cfg.emote.size.ratio.normal)
         )
       )
-      document.documentElement.style.setProperty('--height', sH + 'px')
-      document.documentElement.style.setProperty('--width', sW + 'px')
+      target.style.setProperty('--height', sH + 'px')
+      target.style.setProperty('--width', sW + 'px')
       const style = cfg.display.styles[shared.random(cfg.display.styles.length)]
       if (style === undefined) return
       emote.list[style](emoteItem, sW, sH, eH)
@@ -1513,7 +1523,7 @@ export function createKappagen(target) {
         function _block(tInit, url, x, t, eH, sH, dX, aT) {
           if (_iTitanic > tInit) return
           const img = document.createElement('img')
-          img.setAttribute('class', 'emote fit ktPyramid')
+          img.setAttribute('class', 'emote ktPyramid')
           shared.setImgSrc(img, url)
           const h = Math.floor(eH * x)
           const v = -1 * eH
@@ -1608,7 +1618,7 @@ export function createKappagen(target) {
         function _block(tInit, url, oX, x, t, eH, sH, dX, aT) {
           if (_iTitanic > tInit) return
           const img = document.createElement('img')
-          img.setAttribute('class', 'emote fit ktSmallPyramid')
+          img.setAttribute('class', 'emote ktSmallPyramid')
           shared.setImgSrc(img, url)
           const h = oX + eH * x
           const v = -1 * eH
@@ -2007,7 +2017,7 @@ export function createKappagen(target) {
           const sWm = Math.ceil(sW / 2)
           const sHm = Math.ceil(sH / 2)
           const scene = document.createElement('div')
-          scene.setAttribute('class', 'scene fit cube kappa')
+          scene.setAttribute('class', 'scene cube kappa')
           const tMS = Math.floor(
             cfg.emote.time * 1000 * timing.kappa.TheCube.time
           )
@@ -2349,36 +2359,6 @@ export function createKappagen(target) {
       return { style: s, prefs: p, count: iKC }
     }
 
-    function showKappas() {
-      if (_tKappa !== false) {
-        window.clearTimeout(_tKappa)
-        _tKappa = false
-      }
-      if (_toKappa.length < 1) return
-      let nK = getNextKappa(_toKappa[0])
-      if (nK === false) return
-      if (!canShowKappa(nK)) {
-        _tKappa = window.setTimeout(showKappas, _dKappa)
-        return
-      }
-      let e = null
-      while ((e = _toKappa.shift()) !== undefined) {
-        nK = false
-        const a = {}
-        a[e.style] = e.prefs
-        kappa.run(e.list, a)
-        if (_toKappa.length < 1) return
-        nK = getNextKappa(_toKappa[0])
-        if (nK === false) return
-        if (!canShowKappa(nK)) {
-          if (cfg.emote.queue > 0 && _toKappa.length > cfg.emote.queue)
-            _toKappa.splice(0, _toKappa.length - cfg.emote.queue)
-          _tKappa = window.setTimeout(showKappas, _dKappa)
-          return
-        }
-      }
-    }
-
     function getKappaCountEstimate(k) {
       switch (k.style) {
         case 'Pyramid':
@@ -2402,8 +2382,8 @@ export function createKappagen(target) {
           )
           return 1 + inner + core + outer
         case 'Conga':
-          const sW = innerWidth
-          const sH = innerHeight
+          const sW = sizes.width
+          const sH = sizes.height
           const eH = Math.max(
             cfg.emote.size.min,
             Math.min(
@@ -2421,8 +2401,9 @@ export function createKappagen(target) {
     }
 
     async function run(emotes, options) {
-      const sW = innerWidth
-      const sH = innerHeight
+      sizes = getTargetSize()
+      const sW = sizes.width
+      const sH = sizes.height
       const eH = Math.max(
         cfg.emote.size.min,
         Math.min(
@@ -2440,8 +2421,8 @@ export function createKappagen(target) {
         )
       )
       const sB = sH - eH
-      document.documentElement.style.setProperty('--height', sH + 'px')
-      document.documentElement.style.setProperty('--width', sW + 'px')
+      target.style.setProperty('--height', sH + 'px')
+      target.style.setProperty('--width', sW + 'px')
       const waitFor = getKappaCountEstimate(options)
 
       _eActive += waitFor
@@ -2682,11 +2663,11 @@ export function createKappagen(target) {
   function clear() {
     _iTitanic = new Date().getTime()
     kappa.stop()
-    const cubes = document.getElementsByClassName('scene')
+    const cubes = target.getElementsByClassName('scene')
     while (cubes.length) {
       cubes[0].parentElement.removeChild(cubes[0])
     }
-    const imgs = document.getElementsByTagName('img')
+    const imgs = target.getElementsByTagName('img')
     while (imgs.length) {
       imgs[0].parentElement.removeChild(imgs[0])
     }

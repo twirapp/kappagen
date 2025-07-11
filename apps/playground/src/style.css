@@ -35,6 +35,10 @@ body {
   color: #fff;
 }
 
+#app {
+  height: 100dvh;
+}
+
 main {
   position: absolute;
   top: 16px;

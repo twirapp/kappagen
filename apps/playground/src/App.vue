@@ -2,14 +2,18 @@
 import { VTweakpane } from 'v-tweakpane'
 import KappagenOverlay from '@twirapp/kappagen'
 import type { Emote, KappagenConfig } from '@twirapp/kappagen/types'
-import { ref, reactive } from 'vue'
-import { kappagenAnimations, type KappagenAnimationStyle } from './animations.js'
+import { ref, reactive, shallowRef } from 'vue'
+import { kappagenAnimations, kappagenAnimationStyles, type KappagenAnimationStyle } from './animations.js'
+import { useResizeObserver } from '@vueuse/core'
 import type { Pane } from 'tweakpane'
 
 const playgroundParams = reactive({
+  isFrame: false,
   isRave: false,
-  emoteUrl: 'https://cdn.7tv.app/emote/6548b7074789656a7be787e1/4x.webp',
-  emoteZWEUrl: 'https://cdn.7tv.app/emote/6128ed55a50c52b1429e09dc/4x.webp'
+  isZWE: true,
+  text: 'Twir',
+  emoteUrl: 'https://cdn.7tv.app/emote/01HEJ0NWTR0004F2B5D9XYF1Z1/4x.avif',
+  emoteZWEUrl: 'https://cdn.7tv.app/emote/01FE3XY508000AA32JP519W2EW/4x.avif'
 })
 
 const config = reactive<KappagenConfig>({
@@ -35,11 +39,11 @@ function getEmote(): Emote[] {
   return [
     {
       url: playgroundParams.emoteUrl,
-      zwe: [
+      zwe: playgroundParams.isZWE ? [
         {
           url: playgroundParams.emoteZWEUrl
         }
-      ]
+      ] : []
     }
   ]
 }
@@ -66,6 +70,10 @@ function clearEmotes() {
 }
 
 function onPaneCreated(pane: Pane) {
+  pane.addBinding(playgroundParams, 'isFrame', {
+    label: 'Enable frame'
+  })
+
   const emoteConfigFolder = pane.addFolder({ title: 'Emotes' })
   emoteConfigFolder.addBinding(playgroundParams, 'isRave', {
     label: 'Rave',
@@ -91,7 +99,14 @@ function onPaneCreated(pane: Pane) {
   emoteConfigFolder.addBinding(playgroundParams, 'emoteUrl', {
     label: 'Emote'
   })
-  emoteConfigFolder.addBinding(playgroundParams, 'emoteZWEUrl', {
+
+  emoteConfigFolder.addBinding(playgroundParams, 'isZWE', {
+    label: 'Enable Zero Width',
+  }).on('change', ({ value }) => {
+    emoteZWEUrl.disabled = !value
+  })
+
+  const emoteZWEUrl = emoteConfigFolder.addBinding(playgroundParams, 'emoteZWEUrl', {
     label: 'Emote Zero Width'
   })
 
@@ -122,7 +137,17 @@ function onPaneCreated(pane: Pane) {
   })
 
   const animationsFolder = pane.addFolder({ title: 'Animations' })
-  for (const animation of kappagenAnimations) {
+  const textAnimation = kappagenAnimations
+    .find((animation) => animation.style === kappagenAnimationStyles.Text)!
+  animationsFolder.addButton({ title: textAnimation.style }).on('click', () => {
+    textAnimation.prefs.message = [playgroundParams.text]
+    runKappagenWithAnimation(textAnimation.style)
+  })
+  animationsFolder.addBinding(playgroundParams, 'text', {
+    label: 'Text',
+  })
+
+  for (const animation of kappagenAnimations.slice(1)) {
     animationsFolder.addButton({ title: animation.style }).on('click', () => {
       runKappagenWithAnimation(animation.style)
     })
@@ -133,6 +158,17 @@ function onPaneCreated(pane: Pane) {
   pane.addButton({ title: 'Show random emotes' }).on('click', showEmotes)
   pane.addButton({ title: 'Clear' }).on('click', clearEmotes)
 }
+
+const kappagenSizes = shallowRef({
+  width: 0,
+  height: 0
+})
+
+useResizeObserver(document.body, (entries) => {
+  const entry = entries[0]
+  const { width, height } = entry.contentRect
+  kappagenSizes.value = { width, height }
+})
 </script>
 
 <template>
@@ -140,9 +176,28 @@ function onPaneCreated(pane: Pane) {
     :pane="{ title: 'Kappagen Playground' }"
     @on-pane-created="onPaneCreated"
   />
+
+  <div v-if="playgroundParams.isFrame" class="kappagen-frame">
+    <kappagen-overlay
+      ref="kappagen"
+      :is-rave="playgroundParams.isRave"
+      :config="config"
+    />
+  </div>
   <kappagen-overlay
+    v-else
     ref="kappagen"
     :is-rave="playgroundParams.isRave"
     :config="config"
+    :style="{ height: `${kappagenSizes.height}px`, width: `${kappagenSizes.width}px` }"
   />
 </template>
+
+<style scoped>
+.kappagen-frame {
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  background-color: #333;
+}
+</style>
