@@ -1148,7 +1148,7 @@ export function createKappagen(target) {
 
       const startShowEmotes = () =>
         (_tEmote = setTimeout(() => {
-          emote.showEmotes([])
+          showEmotes([])
         }, 500))
 
       if (cfg.emote.max > 0 && _eActive >= cfg.emote.max) {

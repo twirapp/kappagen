@@ -137,6 +137,7 @@ function onPaneCreated(pane: Pane) {
   })
 
   const animationsFolder = pane.addFolder({ title: 'Animations' })
+
   const textAnimation = kappagenAnimations
     .find((animation) => animation.style === kappagenAnimationStyles.Text)!
   animationsFolder.addButton({ title: textAnimation.style }).on('click', () => {
@@ -146,6 +147,7 @@ function onPaneCreated(pane: Pane) {
   animationsFolder.addBinding(playgroundParams, 'text', {
     label: 'Text',
   })
+  animationsFolder.addBlade({ view: 'separator' })
 
   for (const animation of kappagenAnimations.slice(1)) {
     animationsFolder.addButton({ title: animation.style }).on('click', () => {
