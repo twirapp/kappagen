@@ -1,21 +1,28 @@
-:root {
-  --height: 0px;
-  --width: 0px;
+.kappagen {
+  --height: 100%;
+  --width: 100%;
   --emote-height: 0px;
   --emote-width: 0px;
   --zoom-height: var(--emote-height);
   --zoom-width: var(--emote-width);
-}
 
-.kappagen {
+  height: var(--height);
+  width: var(--width);
   position: relative;
   overflow: hidden;
 }
 
-img.emote {
+.kappagen.rave {
+  animation: rave 3s linear infinite;
+}
+
+img {
   box-sizing: border-box;
   height: var(--emote-height);
   width: var(--emote-width);
+}
+
+img.emote {
   position: absolute;
   border: 0;
   margin: 0;
@@ -385,10 +392,6 @@ div.scene img.dancer {
   100% {
     padding: calc((var(--zoom-height) - (var(--zoom-height) * 0.1)) / 2) 0;
   }
-}
-
-body.rave {
-  animation: rave 3s linear infinite;
 }
 
 @keyframes rave {

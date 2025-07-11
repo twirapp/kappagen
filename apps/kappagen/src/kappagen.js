@@ -6,11 +6,10 @@ export function createKappagen(target) {
   let _iTitanic = 0
 
   function getTargetSize() {
-    const width = target.style.width
-    const height = target.style.height
+    const bounding = target.getBoundingClientRect()
     return {
-      height: Number(height.replace('px', '')),
-      width: Number(width.replace('px', ''))
+      height: bounding.height,
+      width: bounding.width
     }
   }
 
@@ -871,7 +870,7 @@ export function createKappagen(target) {
           if (tInit === 0) tInit = new Date().getTime()
           if (_iTitanic > tInit) return
           const scene = document.createElement('div')
-          scene.setAttribute('class', 'scene fit cube')
+          scene.setAttribute('class', 'scene cube')
 
           const eHh = Math.ceil(eH / 2)
           const nHh = eHh * -1
@@ -1524,7 +1523,7 @@ export function createKappagen(target) {
         function _block(tInit, url, x, t, eH, sH, dX, aT) {
           if (_iTitanic > tInit) return
           const img = document.createElement('img')
-          img.setAttribute('class', 'emote fit ktPyramid')
+          img.setAttribute('class', 'emote ktPyramid')
           shared.setImgSrc(img, url)
           const h = Math.floor(eH * x)
           const v = -1 * eH
@@ -1619,7 +1618,7 @@ export function createKappagen(target) {
         function _block(tInit, url, oX, x, t, eH, sH, dX, aT) {
           if (_iTitanic > tInit) return
           const img = document.createElement('img')
-          img.setAttribute('class', 'emote fit ktSmallPyramid')
+          img.setAttribute('class', 'emote ktSmallPyramid')
           shared.setImgSrc(img, url)
           const h = oX + eH * x
           const v = -1 * eH
@@ -2018,7 +2017,7 @@ export function createKappagen(target) {
           const sWm = Math.ceil(sW / 2)
           const sHm = Math.ceil(sH / 2)
           const scene = document.createElement('div')
-          scene.setAttribute('class', 'scene fit cube kappa')
+          scene.setAttribute('class', 'scene cube kappa')
           const tMS = Math.floor(
             cfg.emote.time * 1000 * timing.kappa.TheCube.time
           )

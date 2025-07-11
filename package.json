@@ -2,6 +2,7 @@
   "name": "kappagen-monorepo",
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@9.15.9",
   "private": true,
   "scripts": {
     "dev": "turbo run dev --filter=./apps/*",
@@ -10,9 +11,9 @@
     "changeset": "changeset"
   },
   "devDependencies": {
-    "@changesets/cli": "2.27.1",
+    "@changesets/cli": "2.29.5",
     "@crashmax/prettier-config": "5.0.2",
-    "turbo": "1.13.0"
+    "turbo": "2.5.4"
   },
   "pnpm": {
     "patchedDependencies": {
