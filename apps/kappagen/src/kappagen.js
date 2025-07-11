@@ -13,7 +13,7 @@ export function createKappagen(target) {
     }
   }
 
-  const sizes = getTargetSize()
+  let sizes = getTargetSize()
 
   const gc = (function () {
     const _toGC = {}
@@ -2401,6 +2401,7 @@ export function createKappagen(target) {
     }
 
     async function run(emotes, options) {
+      sizes = getTargetSize()
       const sW = sizes.width
       const sH = sizes.height
       const eH = Math.max(

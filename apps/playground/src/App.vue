@@ -2,8 +2,9 @@
 import { VTweakpane } from 'v-tweakpane'
 import KappagenOverlay from '@twirapp/kappagen'
 import type { Emote, KappagenConfig } from '@twirapp/kappagen/types'
-import { ref, reactive } from 'vue'
+import { ref, reactive, shallowRef } from 'vue'
 import { kappagenAnimations, kappagenAnimationStyles, type KappagenAnimationStyle } from './animations.js'
+import { useResizeObserver } from '@vueuse/core'
 import type { Pane } from 'tweakpane'
 
 const playgroundParams = reactive({
@@ -157,6 +158,17 @@ function onPaneCreated(pane: Pane) {
   pane.addButton({ title: 'Show random emotes' }).on('click', showEmotes)
   pane.addButton({ title: 'Clear' }).on('click', clearEmotes)
 }
+
+const kappagenSizes = shallowRef({
+  width: 0,
+  height: 0
+})
+
+useResizeObserver(document.body, (entries) => {
+  const entry = entries[0]
+  const { width, height } = entry.contentRect
+  kappagenSizes.value = { width, height }
+})
 </script>
 
 <template>
@@ -177,6 +189,7 @@ function onPaneCreated(pane: Pane) {
     ref="kappagen"
     :is-rave="playgroundParams.isRave"
     :config="config"
+    :style="{ height: `${kappagenSizes.height}px`, width: `${kappagenSizes.width}px` }"
   />
 </template>
 

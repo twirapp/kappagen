@@ -11,6 +11,7 @@
     "@tweakpane/core": "2.0.5",
     "@tweakpane/plugin-essentials": "0.2.1",
     "@twirapp/kappagen": "workspace:^",
+    "@vueuse/core": "^13.5.0",
     "tweakpane": "4.0.5",
     "v-tweakpane": "0.3.2",
     "vue": "3.5.17"
