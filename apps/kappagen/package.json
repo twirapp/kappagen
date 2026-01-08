@@ -13,7 +13,8 @@
     },
     "./types": {
       "types": "./dist/types.d.ts"
-    }
+    },
+    "./styles": "./dist/kappagen.css"
   },
   "scripts": {
     "dev": "pnpm run \"/^watch:.*/\"",
@@ -23,10 +24,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "6.0.0",
+    "sass-embedded": "^1.97.2",
     "typescript": "5.8.3",
     "vite": "7.0.4",
     "vite-plugin-dts": "4.5.4",
-    "vite-plugin-lib-inject-css": "2.2.2",
     "vue": "3.5.17",
     "vue-tsc": "3.0.1"
   },

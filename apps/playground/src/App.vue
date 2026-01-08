@@ -3,9 +3,14 @@ import { VTweakpane } from 'v-tweakpane'
 import KappagenOverlay from '@twirapp/kappagen'
 import type { Emote, KappagenConfig } from '@twirapp/kappagen/types'
 import { ref, reactive, shallowRef } from 'vue'
-import { kappagenAnimations, kappagenAnimationStyles, type KappagenAnimationStyle } from './animations.js'
+import {
+  kappagenAnimations,
+  kappagenAnimationStyles,
+  type KappagenAnimationStyle,
+} from './animations.js'
 import { useResizeObserver } from '@vueuse/core'
 import type { Pane } from 'tweakpane'
+import '@twirapp/kappagen/styles'
 
 const playgroundParams = reactive({
   isFrame: false,
@@ -71,7 +76,7 @@ function clearEmotes() {
 
 function onPaneCreated(pane: Pane) {
   pane.addBinding(playgroundParams, 'isFrame', {
-    label: 'Enable frame'
+    label: 'With frame'
   })
 
   const emoteConfigFolder = pane.addFolder({ title: 'Emotes' })
